@@ -19,11 +19,26 @@ export interface AuthInfo {
   userInfo: UserInfo;
 }
 
-export interface LoginParams {
+export interface LoginByPassParams {
   username: string;
   pass: string;
 }
 
-export function login(params: LoginParams) {
+export interface LoginByCodeParams {
+  phone: string;
+  code: string;
+}
+
+export type LoginHandler = typeof login;
+
+// 发送手机验证码
+export function sendSms(params: { phone: string }) {
+  return request.post('/fc/login/sendSms', params);
+}
+
+export function login(params: LoginByPassParams | LoginByCodeParams) {
+  if (Object.prototype.hasOwnProperty.call(params, 'phone')) {
+    return request.post<any, AuthInfo>('/fc/login/sms', params);
+  }
   return request.post<any, AuthInfo>('/fc/login/username', params);
 }

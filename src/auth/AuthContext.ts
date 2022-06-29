@@ -1,9 +1,9 @@
 import React from 'react';
-import { LoginParams, UserInfo } from 'src/api/auth';
+import { LoginHandler, UserInfo } from 'src/api/auth';
 
 interface AuthContextType {
   user?: UserInfo;
-  signin: (values: LoginParams) => Promise<void>;
+  signin: LoginHandler;
   signout: () => void;
 }
 

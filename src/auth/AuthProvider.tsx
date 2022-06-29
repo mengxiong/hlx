@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { UserInfo, login, LoginParams, AuthInfo } from 'src/api/auth';
+import { UserInfo, login, AuthInfo, LoginHandler } from 'src/api/auth';
 import { authManager } from './auth';
 import { AuthContext } from './AuthContext';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserInfo | undefined>(() => authManager.getUser());
 
-  const signin = async (values: LoginParams) => {
+  const signin: LoginHandler = async (values) => {
     const data = await login(values);
     authManager.set(data);
+    return data;
   };
 
   const signout = () => {
