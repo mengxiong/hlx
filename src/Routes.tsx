@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from 'src/auth/AuthProvider';
-import { TextbookType } from './api/textbook';
 import { AuthRequired } from './auth/AuthRequired';
 import { LoginPage } from './auth/Login';
 import { Layout } from './page/layout/Layout';
@@ -17,10 +16,9 @@ export interface RouteConfig {
   auth?: boolean;
 }
 
-export const getTextbooksPath = (type: string) => `/textbooks/${type}`;
-export const getUnitListPath = (type: string, id: string) => `/textbook/${type}/${id}`;
-export const getStepListPath = (type: string, bookId: string, unitId: string) =>
-  `/textbook/${type}/${bookId}/unit/${unitId}`;
+export const getUnitListPath = (id: string) => `/textbook/${id}`;
+export const getStepListPath = (bookId: string, unitId: string) =>
+  `/textbook/${bookId}/unit/${unitId}`;
 
 export const getStudyPath = (
   textbookId: string,
@@ -41,10 +39,10 @@ const routes: RouteConfig[] = [
     element: <Layout />,
     auth: true,
     children: [
-      { index: true, element: <Navigate to={`/textbooks/${TextbookType.English}`} replace /> },
-      { path: 'textbooks/:type', element: <Textbooks /> },
-      { path: getUnitListPath(':type', ':textbookId'), element: <UnitList /> },
-      { path: getStepListPath(':type', ':textbookId', ':unitId'), element: <StepList /> },
+      { index: true, element: <Navigate to="textbooks" replace /> },
+      { path: 'textbooks', element: <Textbooks /> },
+      { path: getUnitListPath(':textbookId'), element: <UnitList /> },
+      { path: getStepListPath(':textbookId', ':unitId'), element: <StepList /> },
     ],
   },
 ];

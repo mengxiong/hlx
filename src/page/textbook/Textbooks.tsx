@@ -1,14 +1,15 @@
 import { Grid } from '@mui/material';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
-import { getTextbooks } from 'src/api/textbook';
+import { useSearchParams } from 'react-router-dom';
+import { getTextbooks, TextbookType } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';
 import { getUnitListPath } from 'src/Routes';
 import { ImageLink } from './ComponentImageLink';
 
 export function Textbooks() {
-  const params = useParams();
-  const { type } = params;
+  const [searchParams] = useSearchParams();
+
+  const type = (searchParams.get('type') as TextbookType) || TextbookType.English;
 
   const result = useQuery(['textbooks', type], () => getTextbooks(type));
 
@@ -19,7 +20,7 @@ export function Textbooks() {
           <Grid item key={item.id} xs={12} sm={6} md={4} lg={3}>
             <ImageLink
               key={item.id}
-              to={getUnitListPath(type!, item.id)}
+              to={getUnitListPath(item.id)}
               title={item.label}
               desc={`共 ${item.totalUnit} 课`}
             />

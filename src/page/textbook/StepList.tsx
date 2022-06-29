@@ -10,8 +10,7 @@ import { getStudyPath, getUnitListPath } from 'src/Routes';
 import { ImageLink } from './ComponentImageLink';
 
 export function StepList() {
-  const { type, textbookId, unitId } = useParams() as {
-    type: string;
+  const { textbookId, unitId } = useParams() as {
     textbookId: string;
     unitId: string;
   };
@@ -25,7 +24,7 @@ export function StepList() {
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Typography variant="h6">ff</Typography>
         <Button
-          href={getUnitListPath(type, textbookId)}
+          href={getUnitListPath(textbookId)}
           variant="contained"
           startIcon={<ArrowBackIosNewIcon />}
         >

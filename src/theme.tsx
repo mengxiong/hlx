@@ -2,6 +2,42 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React from 'react';
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 import { LinkProps } from '@mui/material/Link';
+import { deepOrange } from '@mui/material/colors';
+
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    study: React.CSSProperties;
+  }
+  interface TypographyVariantsOptions {
+    study?: React.CSSProperties;
+  }
+}
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    study: true;
+  }
+}
+
+declare module '@mui/material/styles/createPalette' {
+  interface ColorRange {
+    50: string;
+    100: string;
+    200: string;
+    300: string;
+    400: string;
+    500: string;
+    600: string;
+    700: string;
+    800: string;
+    900: string;
+  }
+
+  interface PaletteColor extends ColorRange {}
+
+  interface Palette {
+    primaryDark: PaletteColor;
+  }
+}
 
 const LinkBehavior = React.forwardRef<
   any,
@@ -15,6 +51,7 @@ const LinkBehavior = React.forwardRef<
 const theme = createTheme({
   palette: {
     primary: {
+      ...deepOrange,
       // light: will be calculated from palette.primary.main,
       main: '#ff630f',
       dark: '#ff870f',

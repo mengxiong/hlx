@@ -42,7 +42,7 @@ export const enum TextbookType {
  * 获取课程
  * @param type '001001' 是汉语 '001002' 是英语
  */
-export function getTextbooks(subType = '001002') {
+export function getTextbooks(subType = TextbookType.English) {
   return request.post<any, TextBooks>('/fc/study/authtextbook', { subType });
 }
 
