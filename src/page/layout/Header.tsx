@@ -1,20 +1,19 @@
-import { Link } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
-  Box,
   IconButton,
   Badge,
   Menu,
   MenuItem,
   Avatar,
   Divider,
+  Link,
 } from '@mui/material';
 import logo from 'src/image/logo.png';
 import { Notifications } from '@mui/icons-material';
 import { useState } from 'react';
 
-export function Header() {
+export function Header({ children }: { children?: React.ReactNode }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -35,10 +34,18 @@ export function Header() {
       }}
     >
       <Toolbar>
-        <Link to="/">
-          <img style={{ height: 60, verticalAlign: 'middle' }} src={logo} alt="" />
-        </Link>
-        <Box sx={{ flexGrow: 1 }} />
+        {children}
+        <Link
+          href="/"
+          sx={{
+            flex: 1,
+            height: '80%',
+            backgroundImage: `url("${logo}")`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'left center',
+          }}
+        ></Link>
         <IconButton size="large" color="inherit">
           <Badge badgeContent={7} color="error">
             <Notifications />

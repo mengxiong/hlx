@@ -28,25 +28,23 @@ const items: Item[] = [
   },
 ];
 
-export function Slider() {
+export function Slider({ onClick }: { onClick?: VoidFunction }) {
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleClick = (item: Item) => {
     navigate(item.key);
+    onClick?.();
   };
 
   const selectedKey = location.pathname;
 
   return (
     <List
-      sx={(theme) => ({
+      sx={{
         width: 240,
         px: 2,
-        bgcolor: 'background.paper',
-        borderRadius: 1,
-        borderRight: `1px solid ${theme.palette.divider}`,
-      })}
+      }}
       component="nav"
     >
       {items.map((item) => (
