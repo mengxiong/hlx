@@ -48,9 +48,8 @@ export function Slider({ onClick }: { onClick?: VoidFunction }) {
       component="nav"
     >
       {items.map((item) => (
-        <ListItem disablePadding>
+        <ListItem key={item.key} disablePadding>
           <ListItemButton
-            key={item.key}
             selected={selectedKey === item.key}
             onClick={() => handleClick(item)}
             sx={(theme) => ({

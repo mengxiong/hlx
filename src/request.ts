@@ -1,6 +1,7 @@
 import axios from 'axios';
 import md5 from 'md5';
 import dayjs from 'dayjs';
+import { toast } from 'react-hot-toast';
 import { authManager } from './auth/auth';
 
 export const request = axios.create({
@@ -33,7 +34,7 @@ request.interceptors.response.use(
     if (err.response?.status === 401) {
       authManager.set(undefined);
     }
-    console.log(msg);
+    toast.error(msg);
     return Promise.reject(err);
   }
 );
