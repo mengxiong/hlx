@@ -1,4 +1,5 @@
 import { request } from 'src/request';
+import { delay } from 'src/util';
 
 export interface TextBooks {
   textBooks: TextBook[];

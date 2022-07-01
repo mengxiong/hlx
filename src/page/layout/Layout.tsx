@@ -44,11 +44,10 @@ export function Layout() {
         )}
         <Box
           sx={{
+            display: 'flex',
+            flexDirection: 'column',
             flex: 1,
-            overflow: 'auto',
-            backgroundColor: '#fff',
-            p: 2,
-            borderRadius: 1,
+            overflow: 'hidden',
           }}
         >
           <Outlet />

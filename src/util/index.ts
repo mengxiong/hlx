@@ -14,3 +14,9 @@ export function pick<T extends object>(obj: T, props: Array<keyof T>): Partial<T
   });
   return result;
 }
+
+export function delay(wait = 1000) {
+  return new Promise<void>((res) => {
+    window.setTimeout(res, wait);
+  });
+}

@@ -50,7 +50,6 @@ export function QueryContainer<T>(props: QueryContainerProps<T> & UseQueryResult
         position: 'relative',
         minHeight: 100,
         ...sx,
-        ...(loadingVisible ? { opacity: 0.5 } : {}),
       }}
     >
       {error ? (
@@ -60,7 +59,7 @@ export function QueryContainer<T>(props: QueryContainerProps<T> & UseQueryResult
           </Typography>
         </Center>
       ) : (
-        content
+        <Box sx={{ opacity: loadingVisible ? 0.5 : undefined }}>{content}</Box>
       )}
       <Fade in={loadingVisible} unmountOnExit>
         <Center

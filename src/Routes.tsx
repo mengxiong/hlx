@@ -3,7 +3,7 @@ import { AuthProvider } from 'src/auth/AuthProvider';
 import { AuthRequired } from './auth/AuthRequired';
 import { LoginPage } from './auth/Login';
 import { Layout } from './page/layout/Layout';
-import { Textbooks } from './page/textbook/Textbooks';
+import { TextbookList } from './page/textbook/TextbookList';
 import { UnitList } from './page/textbook/UnitList';
 import { StepList } from './page/textbook/StepList';
 import { Study } from './page/study';
@@ -40,7 +40,7 @@ const routes: RouteConfig[] = [
     auth: true,
     children: [
       { index: true, element: <Navigate to="textbooks" replace /> },
-      { path: 'textbooks', element: <Textbooks /> },
+      { path: 'textbooks', element: <TextbookList /> },
       { path: getUnitListPath(':textbookId'), element: <UnitList /> },
       { path: getStepListPath(':textbookId', ':unitId'), element: <StepList /> },
     ],
