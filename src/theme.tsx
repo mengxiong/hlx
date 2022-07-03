@@ -12,6 +12,7 @@ declare module '@mui/material/styles' {
     study?: React.CSSProperties;
   }
 }
+
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     study: true;

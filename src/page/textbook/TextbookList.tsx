@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Divider,
   List,
   ListItem,
   ListItemAvatar,
@@ -11,10 +10,9 @@ import {
   Tabs,
 } from '@mui/material';
 import { useQuery } from 'react-query';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { getTextbooks, TextbookType } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';
-import { getUnitListPath } from 'src/Routes';
 
 export function TextbookList() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,29 +35,25 @@ export function TextbookList() {
           <Tab label="汉语课程" value={TextbookType.Chinese} />
         </Tabs>
       </Box>
-      <QueryContainer
-        sx={{ flex: 1, overflow: 'audo' }}
-        isEmpty={(data) => data.textBooks.length === 0}
-        {...result}
-      >
+      <QueryContainer sx={{ flex: 1, overflow: 'auto' }} isEmpty={items.length === 0} {...result}>
         <List>
-          {items.flatMap((value, index) => {
-            const item = (
-              <ListItem disablePadding key={value.id}>
-                <ListItemButton href={getUnitListPath(value.id)}>
-                  <ListItemAvatar>
-                    <Avatar variant="square" src={value.imageUrl}></Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={value.label}
-                    secondary={`共 ${value.totalUnit} 课`}
-                  ></ListItemText>
-                </ListItemButton>
-              </ListItem>
-            );
-            const divider = <Divider key={`divider-${index}`} variant="inset" component="li" />;
-            return index === 0 ? item : [item, divider];
-          })}
+          {items.map((value, index) => (
+            <ListItem divider={index !== items.length - 1} disablePadding key={value.id}>
+              <ListItemButton
+                component={Link}
+                to={`/textbook/${value.id}`}
+                state={{ title: value.label }}
+              >
+                <ListItemAvatar>
+                  <Avatar variant="square" src={value.imageUrl}></Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={value.label}
+                  secondary={`共 ${value.totalUnit} 课`}
+                ></ListItemText>
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </QueryContainer>
     </>

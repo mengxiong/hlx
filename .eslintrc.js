@@ -22,6 +22,7 @@ module.exports = {
     'react/self-closing-comp': 'off', // 自关闭 html 标签
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',
+    'react/destructuring-assignment': 'off',
     'no-plusplus': 'off',
     'no-param-reassign': 'off',
     'react/no-array-index-key': 'off',

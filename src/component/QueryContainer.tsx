@@ -3,9 +3,10 @@ import { UseQueryResult } from 'react-query';
 import { Box, CircularProgress, Fade, SxProps, Theme, Typography } from '@mui/material';
 import { Center } from './Center';
 
-export interface QueryContainerProps<T> {
+export interface QueryContainerProps {
   children: React.ReactNode;
-  isEmpty?: (value: T) => boolean;
+  isEmpty?: boolean;
+  loading?: React.ReactNode;
   sx?: SxProps<Theme>;
 }
 
@@ -13,8 +14,26 @@ const isDefaultEmpty = (value: unknown) => {
   return value === undefined || (Array.isArray(value) && value.length === 0);
 };
 
-export function QueryContainer<T>(props: QueryContainerProps<T> & UseQueryResult<T>) {
-  const { error, isLoading, isSuccess, children, isEmpty = isDefaultEmpty, data, sx } = props;
+function DefaultLoading() {
+  return (
+    <Fade in>
+      <Center
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <CircularProgress />
+      </Center>
+    </Fade>
+  );
+}
+
+export function QueryContainer(props: QueryContainerProps & UseQueryResult) {
+  const { error, isLoading, isSuccess, children, data, sx, loading = <DefaultLoading /> } = props;
   const timeoutRef = useRef<number>();
 
   const [loadingVisible, setLoadingVisible] = useState(false);
@@ -33,16 +52,7 @@ export function QueryContainer<T>(props: QueryContainerProps<T> & UseQueryResult
     };
   }, [isLoading]);
 
-  const content =
-    isSuccess && isEmpty(data) ? (
-      <Center sx={{ height: '100%' }}>
-        <Typography variant="body1" color="InfoText">
-          空....
-        </Typography>
-      </Center>
-    ) : (
-      children
-    );
+  const isEmpty = props.isEmpty === undefined ? isDefaultEmpty(data) : props.isEmpty;
 
   return (
     <Box
@@ -59,21 +69,19 @@ export function QueryContainer<T>(props: QueryContainerProps<T> & UseQueryResult
           </Typography>
         </Center>
       ) : (
-        <Box sx={{ opacity: loadingVisible ? 0.5 : undefined }}>{content}</Box>
+        <Box sx={{ opacity: loadingVisible ? 0.5 : undefined }}>
+          {isSuccess && isEmpty ? (
+            <Center sx={{ height: '100%' }}>
+              <Typography variant="body1" color="InfoText">
+                空....
+              </Typography>
+            </Center>
+          ) : (
+            children
+          )}
+        </Box>
       )}
-      <Fade in={loadingVisible} unmountOnExit>
-        <Center
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-          }}
-        >
-          <CircularProgress />
-        </Center>
-      </Fade>
+      {loadingVisible && loading}
     </Box>
   );
 }

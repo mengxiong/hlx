@@ -4,8 +4,7 @@ import { AuthRequired } from './auth/AuthRequired';
 import { LoginPage } from './auth/Login';
 import { Layout } from './page/layout/Layout';
 import { TextbookList } from './page/textbook/TextbookList';
-import { UnitList } from './page/textbook/UnitList';
-import { StepList } from './page/textbook/StepList';
+import { Textbook } from './page/textbook/Textbook';
 import { Study } from './page/study';
 
 export interface RouteConfig {
@@ -15,10 +14,6 @@ export interface RouteConfig {
   index?: boolean;
   auth?: boolean;
 }
-
-export const getUnitListPath = (id: string) => `/textbook/${id}`;
-export const getStepListPath = (bookId: string, unitId: string) =>
-  `/textbook/${bookId}/unit/${unitId}`;
 
 export const getStudyPath = (
   textbookId: string,
@@ -41,8 +36,7 @@ const routes: RouteConfig[] = [
     children: [
       { index: true, element: <Navigate to="textbooks" replace /> },
       { path: 'textbooks', element: <TextbookList /> },
-      { path: getUnitListPath(':textbookId'), element: <UnitList /> },
-      { path: getStepListPath(':textbookId', ':unitId'), element: <StepList /> },
+      { path: 'textbook/:textbookId', element: <Textbook /> },
     ],
   },
 ];
