@@ -1,43 +1,29 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Skeleton,
-  Tab,
-  Tabs,
-  Typography,
-} from '@mui/material';
-import { useState } from 'react';
+import { Box, Skeleton, Tab, Tabs, Typography } from '@mui/material';
+import { useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { useLocation, useParams } from 'react-router-dom';
-import { getTextbookUnit, getTextbookUnitStep } from 'src/api/textbook';
-import { QueryContainer } from 'src/component/QueryContainer';
-import { getStudyPath } from 'src/Routes';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { getTextbookUnit } from 'src/api/textbook';
 
 export function Textbook() {
   const location = useLocation();
-  const params = useParams();
-  const textbookId = params.textbookId!;
-  const [unitId, setUnitId] = useState<string>('');
+  const navigate = useNavigate();
 
-  const textbook = useQuery(['textbook', textbookId], () => getTextbookUnit(textbookId));
+  const { textbookId, unitId } = useParams();
+
+  const textbook = useQuery(['textbook', textbookId], () => getTextbookUnit(textbookId!));
 
   const units = textbook.data || [];
 
-  if (!unitId && units.length) {
-    const active = units.find((item) => item.selected === '1') || units[0];
-    setUnitId(active.id);
-  }
+  const setUnitId = useCallback((id: string, replace = false) => {
+    navigate(`unit/${id}`, { replace, state: location.state });
+  }, []);
 
-  const unit = useQuery(
-    ['unit', textbookId, unitId],
-    () => getTextbookUnitStep({ textbookId, unitId }),
-    { enabled: !!unitId }
-  );
-
-  const unitList = unit.data || [];
+  useEffect(() => {
+    if (!unitId && units.length) {
+      const active = units.find((item) => item.selected === '1') || units[0];
+      setUnitId(active.id, true);
+    }
+  }, [unitId, units]);
 
   return (
     <>
@@ -48,31 +34,14 @@ export function Textbook() {
         {textbook.isLoading ? (
           <Skeleton />
         ) : (
-          <Tabs value={unitId} onChange={(evt, value) => setUnitId(value)}>
+          <Tabs value={unitId || false} onChange={(evt, value) => setUnitId(value)}>
             {units.map((item) => (
               <Tab key={item.id} label={item.title} value={item.id} />
             ))}
           </Tabs>
         )}
       </Box>
-      <QueryContainer sx={{ flex: 1, overflow: 'auto' }} {...unit}>
-        <List>
-          {unitList.map((value, index) => (
-            <ListItem
-              key={value.stepNum + value.stepValue}
-              divider={index !== unitList.length - 1}
-              disablePadding
-            >
-              <ListItemButton
-                href={getStudyPath(textbookId, unitId, value.stepNum, value.stepValue)}
-                disabled={value.finished === '0'}
-              >
-                <ListItemText primary={value.title} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </QueryContainer>
+      <Outlet />
     </>
   );
 }

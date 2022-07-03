@@ -6,6 +6,7 @@ import { Layout } from './page/layout/Layout';
 import { TextbookList } from './page/textbook/TextbookList';
 import { Textbook } from './page/textbook/Textbook';
 import { Study } from './page/study';
+import { Unit } from './page/textbook/Unit';
 
 export interface RouteConfig {
   path?: string;
@@ -36,7 +37,11 @@ const routes: RouteConfig[] = [
     children: [
       { index: true, element: <Navigate to="textbooks" replace /> },
       { path: 'textbooks', element: <TextbookList /> },
-      { path: 'textbook/:textbookId', element: <Textbook /> },
+      {
+        path: 'textbook/:textbookId',
+        element: <Textbook />,
+        children: [{ path: 'unit/:unitId', element: <Unit /> }],
+      },
     ],
   },
 ];
