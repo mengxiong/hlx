@@ -78,7 +78,7 @@ const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         variantMapping: {
-          study: 'p',
+          study: 'div',
         },
       },
     },
@@ -91,7 +91,7 @@ theme.typography.study = {
     fontSize: '1.5rem',
   },
   [theme.breakpoints.up('lg')]: {
-    fontSize: '2.4rem',
+    fontSize: '2.0rem',
   },
 };
 

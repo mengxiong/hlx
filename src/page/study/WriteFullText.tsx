@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { Box, Button, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { useState } from 'react';
 import { WriteFullTextInfo } from 'src/api/study';
 import { TextareaAutoHeight } from 'src/component/TextareaAutoHeight';

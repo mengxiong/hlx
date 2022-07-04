@@ -72,7 +72,7 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
               variant="outlined"
               ref={setNodeRef}
               style={style}
-              sx={vertical ? { p: 2, my: 2 } : { p: 2, mx: 0.5 }}
+              sx={vertical ? { p: '0.5em', my: 1 } : { p: '0.5em', mx: 0.5 }}
               {...listeners}
               {...attributes}
             >

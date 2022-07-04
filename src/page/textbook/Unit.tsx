@@ -1,7 +1,6 @@
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getTextbookUnitStep } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';
 import { getStudyPath } from 'src/Routes';
@@ -27,7 +26,8 @@ export function Unit() {
             disablePadding
           >
             <ListItemButton
-              href={getStudyPath(textbookId, unitId, value.stepNum, value.stepValue)}
+              component={Link}
+              to={getStudyPath(textbookId, unitId, value.stepNum, value.stepValue)}
               disabled={value.finished === '0'}
             >
               <ListItemText primary={value.title} />

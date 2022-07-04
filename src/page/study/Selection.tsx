@@ -42,7 +42,9 @@ export function Selection({ data, title }: { data: SelectionInfo[]; title: strin
       }
     >
       {current.content ? (
-        <Typography mb={1}>{current.content}</Typography>
+        <Typography variant="study" mb={1}>
+          {current.content}
+        </Typography>
       ) : (
         <MediaList audioAttach={current.audioAttach} />
       )}

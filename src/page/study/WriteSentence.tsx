@@ -35,7 +35,11 @@ export function WriteSentence({ data, title, baseKey }: WriteSentenceProps) {
   if (baseKey === 'audioAttach') {
     header = <MediaList audioAttach={current.audioAttach}></MediaList>;
   } else if (baseKey) {
-    header = <Typography>{current[baseKey] as string}</Typography>;
+    header = (
+      <Typography variant="study" mb={2}>
+        {current[baseKey] as string}
+      </Typography>
+    );
   }
 
   return (
