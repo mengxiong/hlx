@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from 'src/auth/AuthProvider';
 import { AuthRequired } from './auth/AuthRequired';
-import { LoginPage } from './auth/Login';
+import { LoginPage } from './page/login/Login';
 import { Layout } from './page/layout/Layout';
 import { TextbookList } from './page/textbook/TextbookList';
 import { Textbook } from './page/textbook/Textbook';
