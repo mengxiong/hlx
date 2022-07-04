@@ -32,7 +32,7 @@ export function Textbook() {
       </Box>
       <Box sx={{ height: 48, borderBottom: 1, borderColor: 'divider' }}>
         {textbook.isLoading ? (
-          <Skeleton />
+          <Skeleton height={48} width={200} />
         ) : (
           <Tabs value={unitId || false} onChange={(evt, value) => setUnitId(value)}>
             {units.map((item) => (
