@@ -40,14 +40,15 @@ export function Header({ children }: { children?: React.ReactNode }) {
         <Link
           href="/"
           sx={{
-            flex: 1,
-            height: '80%',
+            flex: '0 1 198px',
+            height: '45px',
             backgroundImage: `url("${logo}")`,
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'left center',
           }}
         ></Link>
+        <span style={{ flex: '1 1 0%' }}></span>
         <IconButton size="large" color="inherit">
           <Badge badgeContent={7} color="error">
             <Notifications />

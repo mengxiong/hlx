@@ -28,7 +28,7 @@ export function Textbook() {
   return (
     <>
       <Box sx={{ px: 2, py: 1, borderBottom: 1, borderColor: 'divider' }}>
-        <Typography variant="h5">{(location.state as any)?.title}</Typography>
+        <Typography variant="h6">{(location.state as any)?.title}</Typography>
       </Box>
       <Box sx={{ height: 48, borderBottom: 1, borderColor: 'divider' }}>
         {textbook.isLoading ? (

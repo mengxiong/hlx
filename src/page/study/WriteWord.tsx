@@ -1,3 +1,5 @@
+import { Box } from '@mui/material';
+import reactStringReplace from 'react-string-replace';
 import { useEffect, useState } from 'react';
 import { WriteWordInfo } from 'src/api/study';
 import { InputAutoWidth } from 'src/component/InputAutoWidth';
@@ -32,14 +34,18 @@ export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: strin
     return values.map((v) => v.trim()).join('|') === current?.answer;
   };
 
-  const items = current?.content.split('#').reduce((previousValue, currentValue, i, array) => {
-    return previousValue.concat([
-      currentValue,
-      i !== array.length - 1 ? (
-        <InputAutoWidth key={`${index}-${i}`} value={values[i]} onChange={handleInput(i)} />
-      ) : null,
-    ]);
-  }, [] as React.ReactNode[]);
+  let i = -1;
+  const items = current?.content.split(/\n/g).map((item, row) => {
+    const children = reactStringReplace(item, '#', () => {
+      i += 1;
+      return <InputAutoWidth key={`${index}-${i}`} value={values[i]} onChange={handleInput(i)} />;
+    });
+    return (
+      <Box key={row} marginBottom={1}>
+        {children}
+      </Box>
+    );
+  });
 
   return (
     <StudyContainer
