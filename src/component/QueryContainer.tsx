@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { UseQueryResult } from 'react-query';
 import { Box, CircularProgress, Fade, SxProps, Theme, Typography } from '@mui/material';
-import emptyUrl from 'src/image/empty.svg';
 import { Center } from './Center';
 
 export interface QueryContainerProps {
