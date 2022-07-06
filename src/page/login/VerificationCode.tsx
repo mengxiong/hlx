@@ -2,10 +2,8 @@ import { LoadingButton } from '@mui/lab';
 import { Box, TextField, InputAdornment, Button } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { LoginByCodeParams, sendSms } from 'src/api/auth';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../auth/AuthContext';
 
 function CountDown({ onEnd }: { onEnd: VoidFunction }) {
   const [time, setTime] = useState(60);
@@ -28,8 +26,12 @@ function CountDown({ onEnd }: { onEnd: VoidFunction }) {
   return <span>{`${time}秒后可重发`}</span>;
 }
 
-export function VerificationCode({ onSuccess }: { onSuccess: VoidFunction }) {
-  const auth = useAuth();
+export interface VerificationCodeProps {
+  login: (values: LoginByCodeParams) => void;
+  isLoading: boolean;
+}
+
+export function VerificationCode({ login, isLoading }: VerificationCodeProps) {
   const [smsState, setSmsState] = useState(0); // 0 是未发送 1 是已发送 2 是已发送且可以重新发送
 
   const {
@@ -40,14 +42,6 @@ export function VerificationCode({ onSuccess }: { onSuccess: VoidFunction }) {
     formState: { errors },
   } = useForm<LoginByCodeParams>({ mode: 'onChange' });
 
-  const loginMutation = useMutation(auth.signin, {
-    onSuccess,
-  });
-
-  const onFinish = (values: LoginByCodeParams) => {
-    loginMutation.mutate(values);
-  };
-
   const onSendSms = async () => {
     const success = await trigger('phone', { shouldFocus: true });
     if (success) {
@@ -57,7 +51,7 @@ export function VerificationCode({ onSuccess }: { onSuccess: VoidFunction }) {
   };
 
   return (
-    <Box component="form" noValidate onSubmit={handleSubmit(onFinish)}>
+    <Box component="form" noValidate onSubmit={handleSubmit(login)}>
       <TextField
         margin="normal"
         variant="standard"
@@ -101,7 +95,7 @@ export function VerificationCode({ onSuccess }: { onSuccess: VoidFunction }) {
         type="submit"
         loadingPosition="start"
         startIcon={<SaveIcon />}
-        loading={loginMutation.isLoading}
+        loading={isLoading}
       >
         登录
       </LoadingButton>

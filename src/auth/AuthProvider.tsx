@@ -1,31 +1,18 @@
 import { useEffect, useState } from 'react';
-import { UserInfo, login, AuthInfo, LoginHandler } from 'src/api/auth';
-import { authManager } from './auth';
+import { UserInfo, AuthInfo } from 'src/api/auth';
+import { auth } from './auth';
 import { AuthContext } from './AuthContext';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<UserInfo | undefined>(() => authManager.getUser());
-
-  const signin: LoginHandler = async (values) => {
-    const data = await login(values);
-    authManager.set(data);
-    return data;
-  };
-
-  const signout = () => {
-    authManager.set(undefined);
-  };
+  const [user, setUser] = useState<UserInfo | undefined>(() => auth.getUser());
 
   useEffect(() => {
     const cb = (data?: AuthInfo) => setUser(data?.userInfo);
-    authManager.bind(cb);
+    auth.bind(cb);
     return () => {
-      authManager.unbind(cb);
+      auth.unbind(cb);
     };
   }, []);
 
-  // eslint-disable-next-line react/jsx-no-constructed-context-values
-  const value = { user, signin, signout };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 }

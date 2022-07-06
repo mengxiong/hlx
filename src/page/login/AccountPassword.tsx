@@ -2,13 +2,14 @@ import { LoadingButton } from '@mui/lab';
 import { Box, TextField } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { LoginByPassParams } from 'src/api/auth';
-import { useAuth } from '../../auth/AuthContext';
 
-export function AccountPassword({ onSuccess }: { onSuccess: VoidFunction }) {
-  const auth = useAuth();
+export interface AccountPasswordProps {
+  login: (values: LoginByPassParams) => void;
+  isLoading: boolean;
+}
 
+export function AccountPassword({ login, isLoading }: AccountPasswordProps) {
   const {
     register,
     handleSubmit,
@@ -20,16 +21,8 @@ export function AccountPassword({ onSuccess }: { onSuccess: VoidFunction }) {
     },
   });
 
-  const loginMutation = useMutation(auth.signin, {
-    onSuccess,
-  });
-
-  const onFinish = (values: LoginByPassParams) => {
-    loginMutation.mutate(values);
-  };
-
   return (
-    <Box component="form" noValidate onSubmit={handleSubmit(onFinish)}>
+    <Box component="form" noValidate onSubmit={handleSubmit(login)}>
       <TextField
         margin="normal"
         variant="standard"
@@ -61,7 +54,7 @@ export function AccountPassword({ onSuccess }: { onSuccess: VoidFunction }) {
         type="submit"
         loadingPosition="start"
         startIcon={<SaveIcon />}
-        loading={loginMutation.isLoading}
+        loading={isLoading}
       >
         登录
       </LoadingButton>

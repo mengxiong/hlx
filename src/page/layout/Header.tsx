@@ -12,10 +12,9 @@ import {
 import logo from 'src/image/logo.png';
 import { Notifications } from '@mui/icons-material';
 import { useState } from 'react';
-import { useAuth } from 'src/auth/AuthContext';
+import { auth } from 'src/auth/auth';
 
 export function Header({ children }: { children?: React.ReactNode }) {
-  const auth = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -78,7 +77,7 @@ export function Header({ children }: { children?: React.ReactNode }) {
         >
           <MenuItem>15623530290</MenuItem>
           <Divider />
-          <MenuItem onClick={() => auth.signout()}>退出</MenuItem>
+          <MenuItem onClick={() => auth.clear()}>退出</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

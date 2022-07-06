@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import bg from 'src/image/login-bg.png';
 import logo from 'src/image/login-logo.png';
+import { login } from 'src/api/auth';
+import { useMutation } from 'react-query';
+import { auth } from 'src/auth/auth';
 import { AccountPassword } from './AccountPassword';
 import { VerificationCode } from './VerificationCode';
 
@@ -12,10 +15,13 @@ export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const onSuccess = () => {
-    const from = (location.state as any)?.from || '/';
-    navigate(from, { replace: true });
-  };
+  const loginMutation = useMutation(login, {
+    onSuccess(data) {
+      auth.set(data);
+      const from = (location.state as any)?.from || '/';
+      navigate(from, { replace: true });
+    },
+  });
 
   return (
     <Box
@@ -48,8 +54,12 @@ export function LoginPage() {
           <Tab label="密码登录" value={0}></Tab>
           <Tab label="手机登录" value={1}></Tab>
         </Tabs>
-        {tab === 0 && <AccountPassword onSuccess={onSuccess} />}
-        {tab === 1 && <VerificationCode onSuccess={onSuccess} />}
+        {tab === 0 && (
+          <AccountPassword login={loginMutation.mutate} isLoading={loginMutation.isLoading} />
+        )}
+        {tab === 1 && (
+          <VerificationCode login={loginMutation.mutate} isLoading={loginMutation.isLoading} />
+        )}
       </Container>
     </Box>
   );

@@ -30,19 +30,16 @@ class Auth {
     return this.data?.userInfo;
   }
 
-  public set(data: AuthInfo | undefined) {
-    this.data = data;
-    this.store(data);
-    this.callbacks.forEach((cb) => cb(data));
+  public clear() {
+    this.data = undefined;
+    localStorage.removeItem(this.key);
+    this.callbacks.forEach((cb) => cb(this.data));
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private store(data?: AuthInfo) {
-    if (data) {
-      localStorage.setItem(this.key, JSON.stringify(data));
-    } else {
-      localStorage.removeItem(this.key);
-    }
+  public set(data: AuthInfo) {
+    this.data = data;
+    localStorage.setItem(this.key, JSON.stringify(data));
+    this.callbacks.forEach((cb) => cb(data));
   }
 
   private getDataFromStore(): AuthInfo {
@@ -60,4 +57,4 @@ class Auth {
   }
 }
 
-export const authManager = new Auth();
+export const auth = new Auth();
