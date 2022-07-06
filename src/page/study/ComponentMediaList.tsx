@@ -18,21 +18,18 @@ export function MediaList({ imageAttach, audioAttach, videoAttach }: MediaListPr
   const audioRef = useRef<HTMLAudioElement>(null); // TODO: 逗号分隔多个视频
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const handleClickImage = () => {
-    setType('image');
-    if (screenfull.isEnabled) {
-      screenfull.request(imageRef.current!);
+  const handleClick = (value: string) => {
+    if (value === type) {
+      setType('');
+      return;
     }
-  };
-
-  const handleClickAudio = () => {
-    setType('audio');
-  };
-
-  const handleClickVideo = () => {
-    setType('video');
-    if (screenfull.isEnabled) {
-      screenfull.request(videoRef.current!);
+    setType(value);
+    if ((value === 'image' || value === 'video') && screenfull.isEnabled) {
+      if (value === 'image') {
+        screenfull.request(imageRef.current!);
+      } else {
+        screenfull.request(videoRef.current!);
+      }
     }
   };
 
@@ -54,7 +51,7 @@ export function MediaList({ imageAttach, audioAttach, videoAttach }: MediaListPr
           <IconButton
             size="large"
             color={type === 'image' ? 'primary' : 'default'}
-            onClick={handleClickImage}
+            onClick={() => handleClick('image')}
           >
             <ImageIcon fontSize="inherit" />
           </IconButton>
@@ -63,7 +60,7 @@ export function MediaList({ imageAttach, audioAttach, videoAttach }: MediaListPr
           <IconButton
             size="large"
             color={type === 'audio' ? 'primary' : 'default'}
-            onClick={handleClickAudio}
+            onClick={() => handleClick('audio')}
           >
             <AudiotrackIcon fontSize="inherit" />
           </IconButton>
@@ -72,7 +69,7 @@ export function MediaList({ imageAttach, audioAttach, videoAttach }: MediaListPr
           <IconButton
             size="large"
             color={type === 'video' ? 'primary' : 'default'}
-            onClick={handleClickVideo}
+            onClick={() => handleClick('video')}
           >
             <OndemandVideoIcon fontSize="inherit" />
           </IconButton>
