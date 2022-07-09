@@ -34,13 +34,12 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
   if (baseKey === 'attach') {
     header = (
       <MediaList
-        audioAttach={current.audioAttach}
-        videoAttach={current.videoAttach}
-        imageAttach={current.imageAttach}
+        key={current.id}
+        attach={[current.audioAttach, current.videoAttach, current.imageAttach]}
       ></MediaList>
     );
   } else if (baseKey === 'audioAttach') {
-    header = <MediaList audioAttach={current.audioAttach}></MediaList>;
+    header = <MediaList key={current.id} attach={current.audioAttach}></MediaList>;
   } else if (baseKey) {
     header = (
       <Typography variant="study" my={4}>

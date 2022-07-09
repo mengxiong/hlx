@@ -1,5 +1,11 @@
 import { request } from 'src/request';
 
+export const enum AttachType {
+  Audio = '002001',
+  Video = '002002',
+  Image = '002003',
+}
+
 export interface Tips {
   type: string;
   attach?: Attach;
@@ -7,7 +13,7 @@ export interface Tips {
 }
 
 export interface Attach {
-  attachType: string;
+  attachType: AttachType;
   attachUrl: string;
 }
 

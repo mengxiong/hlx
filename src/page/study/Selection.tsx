@@ -46,7 +46,7 @@ export function Selection({ data, title }: { data: SelectionInfo[]; title: strin
           {current.content}
         </Typography>
       ) : (
-        <MediaList audioAttach={current.audioAttach} />
+        <MediaList key={current.id} attach={current.audioAttach} />
       )}
       {multiSelect ? (
         <CheckboxGroup

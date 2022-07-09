@@ -29,9 +29,8 @@ export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
       footer={<ComponentStepFooter index={index} setIndex={setIndex} length={data.length} />}
     >
       <MediaList
-        imageAttach={current.imageAttach}
-        audioAttach={current.audioAttach}
-        videoAttach={current.videoAttach}
+        key={current.id}
+        attach={[current.imageAttach, current.audioAttach, current.videoAttach]}
       ></MediaList>
       <List>
         {content.map((item) => (

@@ -1,22 +1,26 @@
 import { Box, IconButton, Stack } from '@mui/material';
-import { Attach } from 'src/api/study';
+import { Attach, AttachType } from 'src/api/study';
 import ImageIcon from '@mui/icons-material/Image';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import screenfull from 'screenfull';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 export interface MediaListProps {
-  imageAttach?: Attach;
-  audioAttach?: Attach;
-  videoAttach?: Attach;
+  attach: Attach | undefined | Array<Attach | undefined>;
 }
 
-export function MediaList({ imageAttach, audioAttach, videoAttach }: MediaListProps) {
+export function MediaList({ attach }: MediaListProps) {
   const [type, setType] = useState('');
   const imageRef = useRef<HTMLImageElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null); // TODO: 逗号分隔多个视频
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const filterAttachs = (Array.isArray(attach) ? attach : [attach]).filter(Boolean) as Attach[];
+
+  const imageAttach = filterAttachs.find((v) => v.attachType === AttachType.Image);
+  const audioAttach = filterAttachs.find((v) => v.attachType === AttachType.Audio);
+  const videoAttach = filterAttachs.find((v) => v.attachType === AttachType.Video);
 
   const handleClick = (value: string) => {
     if (value === type) {
@@ -39,10 +43,6 @@ export function MediaList({ imageAttach, audioAttach, videoAttach }: MediaListPr
       screenfull.toggle(target as HTMLImageElement);
     }
   };
-
-  useEffect(() => {
-    setType('');
-  }, [imageAttach, audioAttach, videoAttach]);
 
   return (
     <Box>

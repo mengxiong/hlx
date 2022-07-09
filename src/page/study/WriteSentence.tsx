@@ -33,7 +33,7 @@ export function WriteSentence({ data, title, baseKey }: WriteSentenceProps) {
 
   let header: React.ReactNode;
   if (baseKey === 'audioAttach') {
-    header = <MediaList audioAttach={current.audioAttach}></MediaList>;
+    header = <MediaList key={current.id} attach={current.audioAttach}></MediaList>;
   } else if (baseKey) {
     header = (
       <Typography variant="study" mb={2}>

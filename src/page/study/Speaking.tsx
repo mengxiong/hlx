@@ -25,7 +25,7 @@ export function Speaking({ data, title, baseKey }: SpeakingProps) {
 
   let header: React.ReactNode;
   if (baseKey === 'imageAttach') {
-    header = <MediaList imageAttach={current.imageAttach}></MediaList>;
+    header = <MediaList key={current.id} attach={current.imageAttach}></MediaList>;
   } else if (baseKey) {
     header = <Typography variant="study">{current[baseKey] as string}</Typography>;
   }
