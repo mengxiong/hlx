@@ -1,10 +1,10 @@
 import { Box, SxProps, TextareaAutosize, TextareaAutosizeProps, Theme } from '@mui/material';
 
-export interface TextareaAutoHeightProps extends TextareaAutosizeProps {
+export interface InputAutoHeightProps extends TextareaAutosizeProps {
   sx?: SxProps<Theme>;
 }
 
-export function TextareaAutoHeight({ sx, ...restProps }: TextareaAutoHeightProps) {
+export function InputAutoHeight({ sx, ...restProps }: InputAutoHeightProps) {
   return (
     <Box sx={{ ...sx, display: 'flex' }}>
       <TextareaAutosize

@@ -5,6 +5,7 @@ import { WriteWordInfo } from 'src/api/study';
 import { InputAutoWidth } from 'src/component/InputAutoWidth';
 import { ComponentStepFooter } from './ComponentStepFooter';
 import { StudyContainer } from './ComponentStudyContainer';
+import { Tips } from './Tips';
 
 export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: string }) {
   const [index, setIndex] = useState(0);
@@ -56,6 +57,7 @@ export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: strin
           setIndex={setIndex}
           length={data.length}
           isCorrect={isCorrect}
+          tips={<Tips {...current.tips} />}
         />
       }
     >

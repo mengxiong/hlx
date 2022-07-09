@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { UseQueryResult } from 'react-query';
 import { Box, CircularProgress, Fade, SxProps, Theme, Typography } from '@mui/material';
-import { Center } from './Center';
 
 export interface QueryContainerProps {
   children: React.ReactNode;
@@ -17,8 +16,11 @@ const isDefaultEmpty = (value: unknown) => {
 function DefaultLoading() {
   return (
     <Fade in>
-      <Center
+      <Box
         sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           position: 'absolute',
           top: 0,
           left: 0,
@@ -27,7 +29,7 @@ function DefaultLoading() {
         }}
       >
         <CircularProgress />
-      </Center>
+      </Box>
     </Fade>
   );
 }
@@ -118,11 +120,11 @@ export function QueryContainer(props: QueryContainerProps & UseQueryResult) {
   let content: React.ReactNode = children;
   if (error) {
     content = (
-      <Center sx={{ height: '100%' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
         <Typography variant="body1" color="error">
           {(error as Error).message || '加载失败'}
         </Typography>
-      </Center>
+      </Box>
     );
   } else if (isSuccess && isEmpty) {
     content = (

@@ -10,8 +10,8 @@ export interface MediaListProps {
   attach: Attach | undefined | Array<Attach | undefined>;
 }
 
+// TODO: tabs 重构
 export function MediaList({ attach }: MediaListProps) {
-  const [type, setType] = useState('');
   const imageRef = useRef<HTMLImageElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null); // TODO: 逗号分隔多个视频
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -22,14 +22,16 @@ export function MediaList({ attach }: MediaListProps) {
   const audioAttach = filterAttachs.find((v) => v.attachType === AttachType.Audio);
   const videoAttach = filterAttachs.find((v) => v.attachType === AttachType.Video);
 
-  const handleClick = (value: string) => {
+  const [type, setType] = useState<AttachType | undefined>(filterAttachs[0].attachType);
+
+  const handleClick = (value: AttachType) => {
     if (value === type) {
-      setType('');
+      setType(undefined);
       return;
     }
     setType(value);
-    if ((value === 'image' || value === 'video') && screenfull.isEnabled) {
-      if (value === 'image') {
+    if ((value === AttachType.Image || value === AttachType.Video) && screenfull.isEnabled) {
+      if (value === AttachType.Image) {
         screenfull.request(imageRef.current!);
       } else {
         screenfull.request(videoRef.current!);
@@ -50,8 +52,8 @@ export function MediaList({ attach }: MediaListProps) {
         {imageAttach && (
           <IconButton
             size="large"
-            color={type === 'image' ? 'primary' : 'default'}
-            onClick={() => handleClick('image')}
+            color={type === AttachType.Image ? 'primary' : 'default'}
+            onClick={() => handleClick(AttachType.Image)}
           >
             <ImageIcon fontSize="inherit" />
           </IconButton>
@@ -59,8 +61,8 @@ export function MediaList({ attach }: MediaListProps) {
         {audioAttach && (
           <IconButton
             size="large"
-            color={type === 'audio' ? 'primary' : 'default'}
-            onClick={() => handleClick('audio')}
+            color={type === AttachType.Audio ? 'primary' : 'default'}
+            onClick={() => handleClick(AttachType.Audio)}
           >
             <AudiotrackIcon fontSize="inherit" />
           </IconButton>
@@ -68,8 +70,8 @@ export function MediaList({ attach }: MediaListProps) {
         {videoAttach && (
           <IconButton
             size="large"
-            color={type === 'video' ? 'primary' : 'default'}
-            onClick={() => handleClick('video')}
+            color={type === AttachType.Video ? 'primary' : 'default'}
+            onClick={() => handleClick(AttachType.Video)}
           >
             <OndemandVideoIcon fontSize="inherit" />
           </IconButton>
@@ -78,7 +80,7 @@ export function MediaList({ attach }: MediaListProps) {
       <Box m={2} display="flex" justifyContent="center">
         {imageAttach && (
           <img
-            style={{ display: type === 'image' ? 'block' : 'none' }}
+            style={{ display: type === AttachType.Image ? 'block' : 'none', maxWidth: 300 }}
             alt="study"
             ref={imageRef}
             src={imageAttach.attachUrl}
@@ -88,7 +90,7 @@ export function MediaList({ attach }: MediaListProps) {
         {audioAttach && (
           <audio
             ref={audioRef}
-            style={{ display: type === 'audio' ? 'block' : 'none' }}
+            style={{ display: type === AttachType.Audio ? 'block' : 'none' }}
             controls
             src={audioAttach.attachUrl}
           />
@@ -96,7 +98,7 @@ export function MediaList({ attach }: MediaListProps) {
         {videoAttach && (
           <video
             ref={videoRef}
-            style={{ display: type === 'video' ? 'block' : 'none' }}
+            style={{ display: type === AttachType.Video ? 'block' : 'none' }}
             controls
             src={videoAttach.attachUrl}
           />

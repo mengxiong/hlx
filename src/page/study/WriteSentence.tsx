@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { WriteSentenceInfo } from 'src/api/study';
-import { TextareaAutoHeight } from 'src/component/TextareaAutoHeight';
+import { InputAutoHeight } from 'src/component/InputAutoHeight';
 import { MediaList } from './ComponentMediaList';
 import { ComponentStepFooter } from './ComponentStepFooter';
 import { StudyContainer } from './ComponentStudyContainer';
@@ -55,7 +55,7 @@ export function WriteSentence({ data, title, baseKey }: WriteSentenceProps) {
       }
     >
       {header}
-      <TextareaAutoHeight value={value} onChange={handleInput}></TextareaAutoHeight>
+      <InputAutoHeight value={value} onChange={handleInput}></InputAutoHeight>
     </StudyContainer>
   );
 }

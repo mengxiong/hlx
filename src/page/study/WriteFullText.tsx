@@ -2,7 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { Button, Typography } from '@mui/material';
 import { useState } from 'react';
 import { WriteFullTextInfo } from 'src/api/study';
-import { TextareaAutoHeight } from 'src/component/TextareaAutoHeight';
+import { InputAutoHeight } from 'src/component/InputAutoHeight';
 import { StudyContainer } from './ComponentStudyContainer';
 import { useSubmit } from './useSubmit';
 
@@ -71,12 +71,12 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
             return i === index ? (
               <Typography key={item.id} component="div" variant="study" sx={{ display: 'flex' }}>
                 {item.character && `${item.character}: `}
-                <TextareaAutoHeight
+                <InputAutoHeight
                   sx={{ flex: 1 }}
                   value={value}
                   onChange={handleInput}
                   onBlur={handleConfirm}
-                ></TextareaAutoHeight>
+                ></InputAutoHeight>
               </Typography>
             ) : (
               <Typography key={item.id} variant="study">
