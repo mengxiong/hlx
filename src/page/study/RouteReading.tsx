@@ -3,15 +3,22 @@ import { ReadInfo } from 'src/api/study';
 import TranslateIcon from '@mui/icons-material/Translate';
 import SourceIcon from '@mui/icons-material/Source';
 import InfoIcon from '@mui/icons-material/Info';
-import { useState } from 'react';
-import { StudyContainer } from './ComponentStudyContainer';
-import { MediaList } from './ComponentMediaList';
-import { ComponentStepFooter } from './ComponentStepFooter';
+import { Container } from './Container';
+import { MediaList } from './MediaList';
+import { useSubmit } from './useSubmit';
+import { useStep } from './useStep';
 
 export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
-  const [index, setIndex] = useState(0);
+  const { submit, isLoading } = useSubmit();
+  const { current, isFirst, isLast, previous, next } = useStep(data);
 
-  const current = data[index];
+  const handleConfirm = () => {
+    if (!isLast) {
+      next();
+    } else {
+      submit();
+    }
+  };
 
   const content = [
     {
@@ -24,9 +31,11 @@ export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
   ];
 
   return (
-    <StudyContainer
+    <Container
       title={title}
-      footer={<ComponentStepFooter index={index} setIndex={setIndex} length={data.length} />}
+      isLoading={isLoading}
+      onCancel={!isFirst ? previous : undefined}
+      onConfirm={handleConfirm}
     >
       <MediaList
         key={current.id}
@@ -40,6 +49,6 @@ export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
           </ListItem>
         ))}
       </List>
-    </StudyContainer>
+    </Container>
   );
 }

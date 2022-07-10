@@ -39,11 +39,9 @@ export function Sortable<T extends { id: string }>({
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      setItems((prevItems) => {
-        const oldIndex = prevItems.findIndex((v) => v.id === active.id);
-        const newIndex = prevItems.findIndex((v) => v.id === over.id);
-        return arrayMove(prevItems, oldIndex, newIndex);
-      });
+      const oldIndex = items.findIndex((v) => v.id === active.id);
+      const newIndex = items.findIndex((v) => v.id === over.id);
+      setItems(arrayMove(items, oldIndex, newIndex));
     }
   };
 

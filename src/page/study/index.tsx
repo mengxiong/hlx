@@ -3,13 +3,13 @@ import { Backdrop, CircularProgress } from '@mui/material';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getStudyInfo, StepValue, StudyParams } from 'src/api/study';
-import { WriteWord } from './WriteWord';
-import { Reading } from './Reading';
-import { Sorting } from './Sorting';
-import { Selection } from './Selection';
-import { WriteSentence } from './WriteSentence';
-import { WriteFullText } from './WriteFullText';
-import { Speaking } from './Speaking';
+import { WriteWord } from './RouteWriteWord';
+import { Reading } from './RouteReading';
+import { Sorting } from './RouteSorting';
+import { Selection } from './RouteSelection';
+import { WriteSentence } from './RouteWriteSentence';
+import { WriteFullText } from './RouteWriteFullText';
+import { Speaking } from './RouteSpeaking';
 
 const map: {
   [key in StepValue]: JSX.Element;
@@ -32,10 +32,10 @@ const map: {
   [StepValue.SortWordByAudio]: <Sorting title="据音排词" data={[]} baseKey="audioAttach" />,
   [StepValue.SortWordByTranslation]: <Sorting title="据译排词" data={[]} baseKey="translation" />,
 
-  [StepValue.Selection]: <Selection title="常规选择" data={[]} />,
-  [StepValue.SelectionByAudio]: <Selection title="据音选文" data={[]} />,
-  [StepValue.SelectionByContent]: <Selection title="据文选择" data={[]} />,
-  [StepValue.SelectionImageByAudio]: <Selection title="据音选图" data={[]} />,
+  [StepValue.Selection]: <Selection title="常规选择" data={[]} baseKey="content" />,
+  [StepValue.SelectionByAudio]: <Selection title="据音选文" data={[]} baseKey="audioAttach" />,
+  [StepValue.SelectionByContent]: <Selection title="据文选择" data={[]} baseKey="content" />,
+  [StepValue.SelectionImageByAudio]: <Selection title="据音选图" data={[]} baseKey="audioAttach" />,
 
   [StepValue.SpeakingByTranslation]: <Speaking title="据译说文" data={[]} baseKey="translation" />,
   [StepValue.SpeakingByImage]: <Speaking title="说图" data={[]} baseKey="imageAttach" />,

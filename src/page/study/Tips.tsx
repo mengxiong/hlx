@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { Tips as TipsProps } from 'src/api/study';
-import { MediaList } from './ComponentMediaList';
+import { MediaList } from './MediaList';
 
 export function Tips({ content, attach }: TipsProps) {
   return (

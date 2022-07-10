@@ -29,7 +29,8 @@
     "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0",
     "react-string-replace": "^1.1.0",
-    "screenfull": "^6.0.1"
+    "screenfull": "^6.0.1",
+    "utility-types": "^3.10.0"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.9.2",

@@ -1,18 +1,32 @@
 import { Box } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { WriteWordInfo } from 'src/api/study';
 import { InputAutoWidth } from 'src/component/InputAutoWidth';
-import { ComponentStepFooter } from './ComponentStepFooter';
-import { StudyContainer } from './ComponentStudyContainer';
-import { Tips } from './Tips';
+import { useSubmit } from './useSubmit';
+import { useStep } from './useStep';
+import { Container } from './Container';
 
 export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: string }) {
-  const [index, setIndex] = useState(0);
-
   const [values, setValues] = useState<string[]>([]);
+  const reset = () => setValues([]);
 
-  const current = data[index];
+  const { current, isFirst, isLast, previous, next } = useStep(data, reset);
+  const { submit, isLoading } = useSubmit();
+
+  const isCorrect = () => {
+    return values.map((v) => v.trim()).join('|') === current?.answer;
+  };
+
+  const handleConfirm = () => {
+    if (isCorrect()) {
+      if (!isLast) {
+        next();
+      } else {
+        submit();
+      }
+    }
+  };
 
   const handleInput = (
     i: number
@@ -27,19 +41,13 @@ export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: strin
     };
   };
 
-  useEffect(() => {
-    setValues([]);
-  }, [index]);
-
-  const isCorrect = () => {
-    return values.map((v) => v.trim()).join('|') === current?.answer;
-  };
-
   let i = -1;
   const items = current?.content.split(/\n/g).map((item, row) => {
     const children = reactStringReplace(item, '#', () => {
       i += 1;
-      return <InputAutoWidth key={`${index}-${i}`} value={values[i]} onChange={handleInput(i)} />;
+      return (
+        <InputAutoWidth key={`${current.id}-${i}`} value={values[i]} onChange={handleInput(i)} />
+      );
     });
     return (
       <Box key={row} marginBottom={1}>
@@ -49,19 +57,13 @@ export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: strin
   });
 
   return (
-    <StudyContainer
+    <Container
       title={title}
-      footer={
-        <ComponentStepFooter
-          index={index}
-          setIndex={setIndex}
-          length={data.length}
-          isCorrect={isCorrect}
-          tips={<Tips {...current.tips} />}
-        />
-      }
+      isLoading={isLoading}
+      onCancel={!isFirst ? previous : undefined}
+      onConfirm={handleConfirm}
     >
       {items}
-    </StudyContainer>
+    </Container>
   );
 }

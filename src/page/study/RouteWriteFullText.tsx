@@ -1,10 +1,10 @@
-import { LoadingButton } from '@mui/lab';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useState } from 'react';
 import { WriteFullTextInfo } from 'src/api/study';
 import { InputAutoHeight } from 'src/component/InputAutoHeight';
-import { StudyContainer } from './ComponentStudyContainer';
 import { useSubmit } from './useSubmit';
+import { Container } from './Container';
+import { useStep } from './useStep';
 
 interface WriteFullTextProps {
   data: WriteFullTextInfo[];
@@ -12,28 +12,24 @@ interface WriteFullTextProps {
 }
 
 export function WriteFullText({ data, title }: WriteFullTextProps) {
-  const { submit, isLoading } = useSubmit();
-
   const [writable, setWritable] = useState(false);
 
-  const [index, setIndex] = useState(0);
+  const [value, setValue] = useState<string>('');
+  const reset = () => setValue('');
 
-  const [value, setValue] = useState('');
-
-  const current = data[index];
+  const { current, index, isLast, next } = useStep(data, reset);
+  const { submit, isLoading } = useSubmit();
 
   const handleInput: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (evt) => {
     setValue(evt.target.value);
   };
 
   const isCorrect = () => value === current.content;
-  const isLast = () => index === data.length - 1;
 
   const handleConfirm = () => {
     if (isCorrect()) {
-      if (!isLast()) {
-        setIndex(index + 1);
-        setValue('');
+      if (!isLast) {
+        next();
       } else {
         submit();
       }
@@ -41,25 +37,11 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
   };
 
   return (
-    <StudyContainer
+    <Container
       title={title}
-      footer={
-        !writable ? (
-          <Button variant="contained" onClick={() => setWritable(true)}>
-            知道了
-          </Button>
-        ) : (
-          <LoadingButton
-            loading={isLoading}
-            loadingIndicator="提交中..."
-            size="large"
-            variant="contained"
-            onClick={handleConfirm}
-          >
-            提交
-          </LoadingButton>
-        )
-      }
+      isLoading={isLoading}
+      onConfirm={writable ? handleConfirm : () => setWritable(true)}
+      confirmText={writable ? '提交' : '知道了'}
     >
       {!writable
         ? data.map((item) => (
@@ -84,6 +66,6 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
               </Typography>
             );
           })}
-    </StudyContainer>
+    </Container>
   );
 }
