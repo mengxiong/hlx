@@ -66,6 +66,27 @@ export interface WriteFullTextInfo extends ReadInfo {
   character?: string;
 }
 
+/**  无限重做
+ *  stepValue == '005001' ||
+    stepValue == '005002' ||
+    stepValue == '005003' ||
+    stepValue == '005004' ||
+    stepValue == '005005' ||
+    stepValue == '005015' ||
+    stepValue == '005018' ||
+    stepValue == '005007' ||
+    stepValue == '005022'
+
+  (
+    // 3 遍重做
+    stepValue == '005011' ||
+    stepValue == '005012' ||
+    stepValue == '005016' ||
+    stepValue == '005017' ||
+    stepValue == '005021'
+  )
+ */
+
 export const enum StepValue {
   Reading = '005006', // 看和听
   WriteWord = '005001', // 填空
