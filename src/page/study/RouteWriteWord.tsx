@@ -1,10 +1,11 @@
-import { Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 import { useState } from 'react';
 import { WriteWordInfo } from 'src/api/study';
 import { InputAutoWidth } from 'src/component/InputAutoWidth';
 import { Container } from './Container';
 import { useStudy } from './useStudy';
+import { Tips } from './Tips';
 
 export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: string }) {
   const [values, setValues] = useState<string[]>([]);
@@ -38,14 +39,14 @@ export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: strin
       );
     });
     return (
-      <Box key={row} marginBottom={1}>
+      <Typography variant="study" key={row} marginBottom={1}>
         {children}
-      </Box>
+      </Typography>
     );
   });
 
   return (
-    <Container title={title} {...restProps}>
+    <Container tips={<Tips {...current.tips} />} title={title} {...restProps}>
       {items}
     </Container>
   );

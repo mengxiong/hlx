@@ -45,7 +45,7 @@ export function DialogBasic({
         </IconButton>
       </DialogTitle>
       <DialogContent>{children}</DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ justifyContent: 'center', p: 2 }}>
         <Button variant={onConfirm ? 'outlined' : 'contained'} onClick={onClose}>
           {cancelButtonText}
         </Button>
