@@ -26,5 +26,5 @@ export function useStep<T>({ data, reset }: UseStepParams<T>) {
 
   const isLast = index === data.length - 1;
 
-  return { current, next, previous, isFirst, isLast, index };
+  return { current, next, previous, isFirst, isLast, setIndex, index };
 }
