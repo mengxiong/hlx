@@ -1,6 +1,11 @@
 import { useState } from 'react';
 
-export function useStep<T>(data: T[], cb?: (value: T) => void) {
+export interface UseStepParams<T> {
+  data: T[];
+  reset?: (value: T) => void;
+}
+
+export function useStep<T>({ data, reset }: UseStepParams<T>) {
   const [index, setIndex] = useState(0);
 
   const current = data[index];
@@ -8,13 +13,13 @@ export function useStep<T>(data: T[], cb?: (value: T) => void) {
   const next = () => {
     const nextIndex = index + 1;
     setIndex(nextIndex);
-    cb?.(data[nextIndex]);
+    reset?.(data[nextIndex]);
   };
 
   const previous = () => {
     const nextIndex = index - 1;
     setIndex(nextIndex);
-    cb?.(data[nextIndex]);
+    reset?.(data[nextIndex]);
   };
 
   const isFirst = index === 0;

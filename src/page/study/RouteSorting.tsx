@@ -7,8 +7,7 @@ import { isAscendingOrder } from 'src/util';
 import { PickByValue } from 'utility-types';
 import { Subject } from './Subject';
 import { Container } from './Container';
-import { useStep } from './useStep';
-import { useSubmit } from './useSubmit';
+import { useStudy } from './useStudy';
 
 interface SortingProps {
   data: SortingInfo[];
@@ -21,32 +20,16 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
   const [value, setValue] = useState<Array<{ id: string; content: string }> | null>(null);
   const reset = () => setValue(null);
 
-  const { current, isFirst, isLast, previous, next } = useStep(data, reset);
-  const { submit, isLoading } = useSubmit();
+  const { current, ...restProps } = useStudy({
+    data,
+    reset,
+    isCorrect: () => (value ? isAscendingOrder(value.map((v) => +v.id)) : false),
+  });
 
   const items = value || current.options.map((v) => ({ id: v.value, content: v.content }));
 
-  const isCorrect = () => {
-    return isAscendingOrder(items.map((v) => +v.id));
-  };
-
-  const handleConfirm = () => {
-    if (isCorrect()) {
-      if (!isLast) {
-        next();
-      } else {
-        submit();
-      }
-    }
-  };
-
   return (
-    <Container
-      title={title}
-      isLoading={isLoading}
-      onCancel={!isFirst ? previous : undefined}
-      onConfirm={handleConfirm}
-    >
+    <Container title={title} {...restProps}>
       {baseKey && (
         <Subject
           id={current.id!}

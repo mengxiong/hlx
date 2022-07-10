@@ -2,9 +2,8 @@ import { Typography } from '@mui/material';
 import { useState } from 'react';
 import { WriteFullTextInfo } from 'src/api/study';
 import { InputAutoHeight } from 'src/component/InputAutoHeight';
-import { useSubmit } from './useSubmit';
 import { Container } from './Container';
-import { useStep } from './useStep';
+import { useStudy } from './useStudy';
 
 interface WriteFullTextProps {
   data: WriteFullTextInfo[];
@@ -17,30 +16,23 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
   const [value, setValue] = useState<string>('');
   const reset = () => setValue('');
 
-  const { current, index, isLast, next } = useStep(data, reset);
-  const { submit, isLoading } = useSubmit();
+  const { current, isLoading, onConfirm } = useStudy({
+    data,
+    reset,
+    isCorrect: (item) => value === item.content,
+  });
+
+  const index = data.indexOf(current);
 
   const handleInput: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (evt) => {
     setValue(evt.target.value);
-  };
-
-  const isCorrect = () => value === current.content;
-
-  const handleConfirm = () => {
-    if (isCorrect()) {
-      if (!isLast) {
-        next();
-      } else {
-        submit();
-      }
-    }
   };
 
   return (
     <Container
       title={title}
       isLoading={isLoading}
-      onConfirm={writable ? handleConfirm : () => setWritable(true)}
+      onConfirm={writable ? onConfirm : () => setWritable(true)}
       confirmText={writable ? '提交' : '知道了'}
     >
       {!writable
@@ -57,7 +49,7 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
                   sx={{ flex: 1 }}
                   value={value}
                   onChange={handleInput}
-                  onBlur={handleConfirm}
+                  onBlur={onConfirm}
                 ></InputAutoHeight>
               </Typography>
             ) : (

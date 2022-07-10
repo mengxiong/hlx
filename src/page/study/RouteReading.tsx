@@ -5,20 +5,10 @@ import SourceIcon from '@mui/icons-material/Source';
 import InfoIcon from '@mui/icons-material/Info';
 import { Container } from './Container';
 import { MediaList } from './MediaList';
-import { useSubmit } from './useSubmit';
-import { useStep } from './useStep';
+import { useStudy } from './useStudy';
 
 export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
-  const { submit, isLoading } = useSubmit();
-  const { current, isFirst, isLast, previous, next } = useStep(data);
-
-  const handleConfirm = () => {
-    if (!isLast) {
-      next();
-    } else {
-      submit();
-    }
-  };
+  const { current, ...restProps } = useStudy({ data });
 
   const content = [
     {
@@ -31,12 +21,7 @@ export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
   ];
 
   return (
-    <Container
-      title={title}
-      isLoading={isLoading}
-      onCancel={!isFirst ? previous : undefined}
-      onConfirm={handleConfirm}
-    >
+    <Container title={title} {...restProps}>
       <MediaList
         key={current.id}
         attach={[current.imageAttach, current.audioAttach, current.videoAttach]}

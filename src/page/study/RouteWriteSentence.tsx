@@ -4,8 +4,7 @@ import { InputAutoHeight } from 'src/component/InputAutoHeight';
 import { PickByValue } from 'utility-types';
 import { Subject } from './Subject';
 import { Container } from './Container';
-import { useStep } from './useStep';
-import { useSubmit } from './useSubmit';
+import { useStudy } from './useStudy';
 
 interface WriteSentenceProps {
   data: WriteSentenceInfo[];
@@ -17,34 +16,18 @@ export function WriteSentence({ data, title, baseKey }: WriteSentenceProps) {
   const [value, setValue] = useState<string>('');
   const reset = () => setValue('');
 
-  const { current, isFirst, isLast, previous, next } = useStep(data, reset);
-  const { submit, isLoading } = useSubmit();
-
-  const isCorrect = () => {
-    return value === current.content;
-  };
-
-  const handleConfirm = () => {
-    if (isCorrect()) {
-      if (!isLast) {
-        next();
-      } else {
-        submit();
-      }
-    }
-  };
+  const { current, ...restProps } = useStudy({
+    data,
+    reset,
+    isCorrect: (item) => value === item.content,
+  });
 
   const handleInput: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (evt) => {
     setValue(evt.target.value);
   };
 
   return (
-    <Container
-      title={title}
-      isLoading={isLoading}
-      onCancel={!isFirst ? previous : undefined}
-      onConfirm={handleConfirm}
-    >
+    <Container title={title} {...restProps}>
       <Subject id={current.id} data={current[baseKey]} />
       <InputAutoHeight value={value} onChange={handleInput}></InputAutoHeight>
     </Container>

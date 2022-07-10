@@ -4,8 +4,7 @@ import { CheckboxGroup } from 'src/component/CheckboxGroup';
 import { RadioGroups } from 'src/component/RadioGroup';
 import { Container } from './Container';
 import { Subject } from './Subject';
-import { useStep } from './useStep';
-import { useSubmit } from './useSubmit';
+import { useStudy } from './useStudy';
 
 interface SelectionProps {
   data: SelectionInfo[];
@@ -14,25 +13,15 @@ interface SelectionProps {
 }
 
 export function Selection({ data, title, baseKey }: SelectionProps) {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState('');
+
   const reset = () => setValue('');
 
-  const { current, isFirst, isLast, previous, next } = useStep(data, reset);
-  const { submit, isLoading } = useSubmit();
-
-  const isCorrect = () => {
-    return value === current.answer;
-  };
-
-  const handleConfirm = () => {
-    if (isCorrect()) {
-      if (!isLast) {
-        next();
-      } else {
-        submit();
-      }
-    }
-  };
+  const { current, ...restProps } = useStudy({
+    data,
+    reset,
+    isCorrect: (item) => value === item.answer,
+  });
 
   const multiSelect = current.answer.indexOf('|') !== -1;
 
@@ -42,12 +31,7 @@ export function Selection({ data, title, baseKey }: SelectionProps) {
   }));
 
   return (
-    <Container
-      title={title}
-      isLoading={isLoading}
-      onCancel={!isFirst ? previous : undefined}
-      onConfirm={handleConfirm}
-    >
+    <Container title={title} {...restProps}>
       <Subject id={current.id!} data={current[baseKey]} />
       {multiSelect ? (
         <CheckboxGroup

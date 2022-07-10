@@ -3,30 +3,18 @@ import reactStringReplace from 'react-string-replace';
 import { useState } from 'react';
 import { WriteWordInfo } from 'src/api/study';
 import { InputAutoWidth } from 'src/component/InputAutoWidth';
-import { useSubmit } from './useSubmit';
-import { useStep } from './useStep';
 import { Container } from './Container';
+import { useStudy } from './useStudy';
 
 export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: string }) {
   const [values, setValues] = useState<string[]>([]);
   const reset = () => setValues([]);
 
-  const { current, isFirst, isLast, previous, next } = useStep(data, reset);
-  const { submit, isLoading } = useSubmit();
-
-  const isCorrect = () => {
-    return values.map((v) => v.trim()).join('|') === current?.answer;
-  };
-
-  const handleConfirm = () => {
-    if (isCorrect()) {
-      if (!isLast) {
-        next();
-      } else {
-        submit();
-      }
-    }
-  };
+  const { current, ...restProps } = useStudy({
+    data,
+    reset,
+    isCorrect: (item) => values.map((v) => v.trim()).join('|') === item.answer,
+  });
 
   const handleInput = (
     i: number
@@ -57,12 +45,7 @@ export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: strin
   });
 
   return (
-    <Container
-      title={title}
-      isLoading={isLoading}
-      onCancel={!isFirst ? previous : undefined}
-      onConfirm={handleConfirm}
-    >
+    <Container title={title} {...restProps}>
       {items}
     </Container>
   );
