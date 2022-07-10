@@ -23,6 +23,7 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
   const { current, ...restProps } = useStudy({
     data,
     reset,
+    needRestart: vertical === false,
     isCorrect: () => (value ? isAscendingOrder(value.map((v) => +v.id)) : false),
   });
 

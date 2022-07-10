@@ -15,31 +15,31 @@ const map: {
   [key in StepValue]: JSX.Element;
 } = {
   [StepValue.Reading]: <Reading title="看和听" data={[]} />,
-  [StepValue.WriteWord]: <WriteWord title="填空" data={[]} />,
+  [StepValue.WriteWord]: <WriteWord title="填空" data={[]} />, // 有提示 错题重来
   [StepValue.WriteSentenceByAudio]: (
     <WriteSentence title="句子听写" data={[]} baseKey="audioAttach" />
-  ),
+  ), // 提示为看和听 错题重来
   [StepValue.WriteSentenceByTranslation]: (
     <WriteSentence title="据译写文" data={[]} baseKey="translation" />
-  ),
-  [StepValue.WriteFullText]: <WriteFullText title="默写" data={[]} />,
+  ), // 提示为看和听 错题重来
+  [StepValue.WriteFullText]: <WriteFullText title="默写" data={[]} />, // 提示为看和听 错题重来
 
-  [StepValue.SortSentence]: <Sorting title="排句成篇" data={[]} vertical />,
-  [StepValue.SortTranslation]: <Sorting title="译文排序" data={[]} vertical baseKey="attach" />,
+  [StepValue.SortSentence]: <Sorting title="排句成篇" data={[]} vertical />, // 无提示 无错题
+  [StepValue.SortTranslation]: <Sorting title="译文排序" data={[]} vertical baseKey="attach" />, // 无提示 无错题
   [StepValue.SortSentenceByAudio]: (
     <Sorting title="据音排句" data={[]} vertical baseKey="audioAttach" />
-  ),
-  [StepValue.SortWordByAudio]: <Sorting title="据音排词" data={[]} baseKey="audioAttach" />,
-  [StepValue.SortWordByTranslation]: <Sorting title="据译排词" data={[]} baseKey="translation" />,
+  ), // 无提示 无错题
+  [StepValue.SortWordByAudio]: <Sorting title="据音排词" data={[]} baseKey="audioAttach" />, // 提示为看和听 错题重来
+  [StepValue.SortWordByTranslation]: <Sorting title="据译排词" data={[]} baseKey="translation" />, // 提示为看和听 错题重来
 
-  [StepValue.Selection]: <Selection title="常规选择" data={[]} baseKey="content" />,
-  [StepValue.SelectionByAudio]: <Selection title="据音选文" data={[]} baseKey="audioAttach" />,
-  [StepValue.SelectionByContent]: <Selection title="据文选择" data={[]} baseKey="content" />,
-  [StepValue.SelectionImageByAudio]: <Selection title="据音选图" data={[]} baseKey="audioAttach" />,
+  [StepValue.Selection]: <Selection title="常规选择" data={[]} baseKey="content" />, // 有提示 错误重来
+  [StepValue.SelectionByAudio]: <Selection title="据音选文" data={[]} baseKey="audioAttach" />, // 无提示 错误重来
+  [StepValue.SelectionByContent]: <Selection title="据文选择" data={[]} baseKey="content" />, // 无提示 错误重来
+  [StepValue.SelectionImageByAudio]: <Selection title="据音选图" data={[]} baseKey="audioAttach" />, // 无提示 错误重来
 
-  [StepValue.SpeakingByTranslation]: <Speaking title="据译说文" data={[]} baseKey="translation" />,
-  [StepValue.SpeakingByImage]: <Speaking title="说图" data={[]} baseKey="imageAttach" />,
-  [StepValue.SpeakingByContent]: <Speaking title="读句子" data={[]} baseKey="content" />,
+  [StepValue.SpeakingByTranslation]: <Speaking title="据译说文" data={[]} baseKey="translation" />, // 直接过
+  [StepValue.SpeakingByImage]: <Speaking title="说图" data={[]} baseKey="imageAttach" />, // 直接过
+  [StepValue.SpeakingByContent]: <Speaking title="读句子" data={[]} baseKey="content" />, // 打分...
 };
 
 export function Study<T extends StepValue>() {
