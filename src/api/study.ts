@@ -49,11 +49,11 @@ export interface WriteWordInfo {
   answer: string;
 }
 
-export interface SortingInfo extends Partial<ReadInfo> {
+export interface SortingInfo extends ReadInfo {
   options: SortOption[];
 }
 
-export interface SelectionInfo extends Partial<ReadInfo> {
+export interface SelectionInfo extends ReadInfo {
   tips?: Tips;
   answer: string;
   options: SelectOption[];

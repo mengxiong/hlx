@@ -7,9 +7,7 @@ import { Container } from './Container';
 import { MediaList } from './MediaList';
 import { useStudy } from './useStudy';
 
-export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
-  const { current, ...restProps } = useStudy({ data });
-
+export function ReadingContent({ current }: { current: ReadInfo }) {
   const content = [
     {
       key: 'translation',
@@ -19,9 +17,8 @@ export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
     { key: 'content', icon: <SourceIcon fontSize="inherit" />, text: current.content },
     { key: 'analysis', icon: <InfoIcon fontSize="inherit" />, text: current.analysis },
   ];
-
   return (
-    <Container title={title} {...restProps}>
+    <>
       <MediaList
         key={current.id}
         attach={[current.imageAttach, current.audioAttach, current.videoAttach]}
@@ -34,6 +31,16 @@ export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
           </ListItem>
         ))}
       </List>
+    </>
+  );
+}
+
+export function Reading({ data, title }: { data: ReadInfo[]; title: string }) {
+  const { current, ...restProps } = useStudy({ data });
+
+  return (
+    <Container title={title} {...restProps}>
+      <ReadingContent current={current} />
     </Container>
   );
 }

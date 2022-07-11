@@ -8,6 +8,7 @@ import { PickByValue } from 'utility-types';
 import { Subject } from './Subject';
 import { Container } from './Container';
 import { useStudy } from './useStudy';
+import { ReadingContent } from './RouteReading';
 
 interface SortingProps {
   data: SortingInfo[];
@@ -20,17 +21,23 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
   const [value, setValue] = useState<Array<{ id: string; content: string }> | null>(null);
   const reset = () => setValue(null);
 
+  const needRestart = vertical === false; // 排句子 不用重来 也没有提示
+
   const { current, ...restProps } = useStudy({
     data,
     reset,
-    needRestart: vertical === false,
+    needRestart,
     isCorrect: () => (value ? isAscendingOrder(value.map((v) => +v.id)) : false),
   });
 
   const items = value || current.options.map((v) => ({ id: v.value, content: v.content }));
 
   return (
-    <Container title={title} {...restProps}>
+    <Container
+      tips={vertical ? undefined : <ReadingContent current={current} />}
+      title={title}
+      {...restProps}
+    >
       {baseKey && (
         <Subject
           id={current.id!}

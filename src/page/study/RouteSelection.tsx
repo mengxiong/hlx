@@ -4,6 +4,7 @@ import { CheckboxGroup } from 'src/component/CheckboxGroup';
 import { RadioGroups } from 'src/component/RadioGroup';
 import { Container } from './Container';
 import { Subject } from './Subject';
+import { Tips } from './Tips';
 import { useStudy } from './useStudy';
 
 interface SelectionProps {
@@ -31,7 +32,7 @@ export function Selection({ data, title, baseKey }: SelectionProps) {
   }));
 
   return (
-    <Container title={title} {...restProps}>
+    <Container tips={current.tips && <Tips {...current.tips} />} title={title} {...restProps}>
       <Subject id={current.id!} data={current[baseKey]} />
       {multiSelect ? (
         <CheckboxGroup

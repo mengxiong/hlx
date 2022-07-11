@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { WriteFullTextInfo } from 'src/api/study';
 import { InputAutoHeight } from 'src/component/InputAutoHeight';
 import { Container } from './Container';
+import { ReadingContent } from './RouteReading';
 import { useStudy } from './useStudy';
 
 interface WriteFullTextProps {
@@ -30,6 +31,7 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
 
   return (
     <Container
+      tips={<ReadingContent current={current} />}
       title={title}
       isLoading={isLoading}
       onConfirm={writable ? onConfirm : () => setWritable(true)}

@@ -5,6 +5,7 @@ import { PickByValue } from 'utility-types';
 import { Subject } from './Subject';
 import { Container } from './Container';
 import { useStudy } from './useStudy';
+import { ReadingContent } from './RouteReading';
 
 interface WriteSentenceProps {
   data: WriteSentenceInfo[];
@@ -27,7 +28,7 @@ export function WriteSentence({ data, title, baseKey }: WriteSentenceProps) {
   };
 
   return (
-    <Container title={title} {...restProps}>
+    <Container tips={<ReadingContent current={current} />} title={title} {...restProps}>
       <Subject id={current.id} data={current[baseKey]} />
       <InputAutoHeight value={value} onChange={handleInput}></InputAutoHeight>
     </Container>
