@@ -29,7 +29,11 @@ export function useSubmit() {
         const index = stepList.findIndex((item) => item.stepNum === stepId);
         if (index !== stepList.length - 1) {
           const next = stepList[index + 1];
-          navigate(getStudyPath(textbookId, unitId, next.stepNum, next.stepValue));
+          navigate(getStudyPath(textbookId, unitId, next.stepNum, next.stepValue), {
+            replace: true,
+          });
+        } else {
+          navigate(-1);
         }
       }
     },
