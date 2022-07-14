@@ -1,6 +1,7 @@
 import PersonIcon from '@mui/icons-material/Person';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
+import HistoryIcon from '@mui/icons-material/History';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { List, ListItemButton, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 
@@ -22,9 +23,9 @@ const items: Item[] = [
     icon: <PersonIcon />,
   },
   {
-    key: '/exam',
-    label: '现在测评',
-    icon: <WysiwygIcon />,
+    key: '/history',
+    label: '学习记录',
+    icon: <HistoryIcon />,
   },
 ];
 

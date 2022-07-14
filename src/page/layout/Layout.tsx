@@ -47,7 +47,7 @@ export function Layout() {
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
-            overflow: 'hidden',
+            overflow: 'auto',
           }}
         >
           <Outlet />
