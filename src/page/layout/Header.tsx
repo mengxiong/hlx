@@ -9,7 +9,7 @@ import {
   Divider,
   Link,
 } from '@mui/material';
-import logo from 'src/image/logo.png';
+import logo from 'src/assets/image/logo.png';
 import { Notifications } from '@mui/icons-material';
 import { useState } from 'react';
 import { auth } from 'src/auth/auth';

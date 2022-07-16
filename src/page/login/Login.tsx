@@ -1,8 +1,8 @@
 import { Box, Container, Tabs, Tab } from '@mui/material';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import bg from 'src/image/login-bg.png';
-import logo from 'src/image/login-logo.png';
+import bg from 'src/assets/image/login-bg.png';
+import logo from 'src/assets/image/login-logo.png';
 import { login } from 'src/api/auth';
 import { useMutation } from 'react-query';
 import { auth } from 'src/auth/auth';

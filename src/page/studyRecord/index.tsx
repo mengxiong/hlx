@@ -2,6 +2,7 @@ import { Box, List, ListItem, ListItemText, ListSubheader } from '@mui/material'
 import { useInfiniteQuery } from 'react-query';
 import { getStudyRecord, StudyRecordContent } from 'src/api/studyRecord';
 import { CircularProgressWithLabel } from 'src/component/CircularProgressWithLabel';
+import { InfiniteScroll } from 'src/component/InfiniteScroll';
 
 const getTime = (time: number) => {
   let minutes = Math.floor(time / 60);
@@ -45,45 +46,50 @@ export function StudyRecord() {
       },
     }
   );
-
-  const list = result.data?.pages.reduce(
-    (acc, val) => acc.concat(val.content),
-    [] as StudyRecordContent[]
-  );
+  const list =
+    result.data?.pages.reduce((acc, val) => acc.concat(val.content), [] as StudyRecordContent[]) ||
+    [];
   const group = groupByDate(list);
 
   return (
-    <List>
-      {group.map((val, j) => (
-        <Box
-          key={val[0]}
-          component="li"
-          sx={{ borderBottom: j === group.length - 1 ? 0 : 1, borderBottomColor: 'divider' }}
-        >
-          <ul style={{ padding: 0, margin: 0 }}>
-            <ListSubheader sx={{ lineHeight: '36px' }}>{val[0]}</ListSubheader>
-            {val[1].map((item, i) => (
-              <ListItem key={`${val[0]}-${i}`}>
-                <ListItemText
-                  sx={{ whiteSpace: 'pre' }}
-                  primary={`${item.textbookName}  /  ${item.unitName}`}
-                  secondaryTypographyProps={{ display: 'flex', flexWrap: 'wrap' }}
-                  secondary={
-                    <>
-                      <Box component="span">单元得分: {item.onlineScore}</Box>
-                      <Box component="span" sx={{ mx: 1 }}>
-                        课程得分: {item.onlineAllScore}
-                      </Box>
-                      <Box component="span">学时: {getTime(parseInt(item.studyTime, 10))}</Box>
-                    </>
-                  }
-                ></ListItemText>
-                <CircularProgressWithLabel value={parseInt(item.studyRate, 10)} />
-              </ListItem>
-            ))}
-          </ul>
-        </Box>
-      ))}
-    </List>
+    <InfiniteScroll
+      fetchNextPage={() => result.fetchNextPage()}
+      hasNextPage={result.hasNextPage}
+      isLoading={result.isLoading}
+      hasChildren={list.length > 0}
+    >
+      <List>
+        {group.map((val, j) => (
+          <Box
+            key={val[0]}
+            component="li"
+            sx={{ borderBottom: j === group.length - 1 ? 0 : 1, borderBottomColor: 'divider' }}
+          >
+            <ul style={{ padding: 0, margin: 0 }}>
+              <ListSubheader sx={{ lineHeight: '36px' }}>{val[0]}</ListSubheader>
+              {val[1].map((item, i) => (
+                <ListItem key={`${val[0]}-${i}`}>
+                  <ListItemText
+                    sx={{ whiteSpace: 'pre' }}
+                    primary={`${item.textbookName}  /  ${item.unitName}`}
+                    secondaryTypographyProps={{ display: 'flex', flexWrap: 'wrap' }}
+                    secondary={
+                      <>
+                        <Box component="span">单元得分: {item.onlineScore}</Box>
+                        <Box component="span" sx={{ mx: 1 }}>
+                          课程得分: {item.onlineAllScore}
+                        </Box>
+                        <Box component="span">学时: {getTime(parseInt(item.studyTime, 10))}</Box>
+                      </>
+                    }
+                  ></ListItemText>
+                  <CircularProgressWithLabel value={parseInt(item.studyRate, 10)} />
+                </ListItem>
+              ))}
+            </ul>
+          </Box>
+        ))}
+      </List>
+    </InfiniteScroll>
   );
 }
