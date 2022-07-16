@@ -3,9 +3,9 @@ import CircleIcon from '@mui/icons-material/Circle';
 import StopIcon from '@mui/icons-material/Stop';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
-import { RecorderManager } from 'src/lib/RecorderManager';
 import { useEffect, useRef, useState } from 'react';
 import { padStart } from 'lodash';
+import { RecorderManager } from './recorderManager';
 
 export interface AudioRecorderProps {
   url?: string; // 标准音频
