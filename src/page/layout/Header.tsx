@@ -75,9 +75,11 @@ export function Header({ children }: { children?: React.ReactNode }) {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem>15623530290</MenuItem>
+          <MenuItem dense>15623530290</MenuItem>
           <Divider />
-          <MenuItem onClick={() => auth.clear()}>退出</MenuItem>
+          <MenuItem dense onClick={() => auth.clear()}>
+            退出
+          </MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

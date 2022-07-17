@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   List,
   ListItem,
   ListItemAvatar,
@@ -29,12 +28,10 @@ export function TextbookList() {
 
   return (
     <>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={type} onChange={handleChange}>
-          <Tab label="英语课程" value={TextbookType.English} />
-          <Tab label="汉语课程" value={TextbookType.Chinese} />
-        </Tabs>
-      </Box>
+      <Tabs value={type} onChange={handleChange}>
+        <Tab label="英语课程" value={TextbookType.English} />
+        <Tab label="汉语课程" value={TextbookType.Chinese} />
+      </Tabs>
       <QueryContainer sx={{ flex: 1, overflow: 'auto' }} isEmpty={items.length === 0} {...result}>
         <List>
           {items.map((value, index) => (

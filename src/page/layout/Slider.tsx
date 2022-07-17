@@ -1,6 +1,5 @@
 import PersonIcon from '@mui/icons-material/Person';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import HistoryIcon from '@mui/icons-material/History';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { List, ListItemButton, ListItem, ListItemIcon, ListItemText } from '@mui/material';
@@ -60,9 +59,7 @@ export function Slider({ onClick }: { onClick?: VoidFunction }) {
               },
             })}
           >
-            <ListItemIcon sx={{ minWidth: 35, fontSize: 20, color: 'inherit' }}>
-              {item.icon}
-            </ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 35, color: 'inherit' }}>{item.icon}</ListItemIcon>
             <ListItemText primary={item.label} />
           </ListItemButton>
         </ListItem>
