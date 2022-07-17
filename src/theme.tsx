@@ -91,7 +91,7 @@ theme.typography.study = {
     fontSize: '1.5rem',
   },
   [theme.breakpoints.up('lg')]: {
-    fontSize: '2.0rem',
+    fontSize: '1.5rem',
   },
 };
 

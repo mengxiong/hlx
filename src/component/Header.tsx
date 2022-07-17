@@ -23,9 +23,9 @@ export function Header({ title, primary }: HeaderProps) {
   return (
     <Box
       sx={{
+        position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        px: 2,
         py: 1,
         ...style,
       }}
@@ -33,8 +33,9 @@ export function Header({ title, primary }: HeaderProps) {
       <IconButton
         onClick={() => navigate(-1)}
         sx={{
+          position: 'absolute',
           color: 'inherit',
-          ml: -2,
+          left: 2,
           '&:hover': {
             backgroundColor: 'transparent',
             color: primary ? 'inherit' : 'primary.main',
@@ -43,7 +44,9 @@ export function Header({ title, primary }: HeaderProps) {
       >
         <ArrowBackIosNewIcon />
       </IconButton>
-      <Typography variant="h6">{title}</Typography>
+      <Typography variant="h6" sx={{ flex: 1, textAlign: 'center' }}>
+        {title}
+      </Typography>
     </Box>
   );
 }
