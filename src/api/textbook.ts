@@ -43,7 +43,7 @@ export const enum TextbookType {
  * @param type '001001' 是汉语 '001002' 是英语
  */
 export function getTextbooks(subType = TextbookType.English) {
-  return request.post<any, TextBooks>('/fc/study/authtextbook', { subType });
+  return request.post<any, TextBooks>('/study/authtextbook', { subType });
 }
 
 /**
@@ -51,7 +51,7 @@ export function getTextbooks(subType = TextbookType.English) {
  * @param id 课程id
  */
 export function getTextbookUnit(id: string) {
-  return request.post<any, TextBookUnit[]>('/fc/study/textbook/unit', { id });
+  return request.post<any, TextBookUnit[]>('/study/textbook/unit', { id });
 }
 
 /**
@@ -59,5 +59,5 @@ export function getTextbookUnit(id: string) {
  * @param values
  */
 export function getTextbookUnitStep(values: { textbookId: string; unitId: string }) {
-  return request.post<any, TextBookUnitStep[]>('/fc/study/textbook/step', values);
+  return request.post<any, TextBookUnitStep[]>('/study/textbook/step', values);
 }

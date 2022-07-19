@@ -135,7 +135,7 @@ export type StudyParams<T extends StepValue> = {
 };
 
 export function getStudyInfo<T extends StepValue>(values: StudyParams<T>) {
-  return request.post<any, StudyInfoMap[T]>('/fc/study/info/search', values);
+  return request.post<any, StudyInfoMap[T]>('/study/info/search', values);
 }
 
 export interface RecordStudyParams {
@@ -149,5 +149,5 @@ export interface RecordStudyParams {
 }
 
 export function recordStudy(values: RecordStudyParams) {
-  return request.post('/fc/study/confirm', values);
+  return request.post('/study/confirm', values);
 }

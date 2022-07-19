@@ -6,7 +6,7 @@ import { auth } from './auth/auth';
 
 export const request = axios.create({
   timeout: 15000,
-  baseURL: 'https://admin.huilaixue.cn',
+  baseURL: 'https://admin.huilaixue.cn/fc',
 });
 
 request.interceptors.request.use((config) => {

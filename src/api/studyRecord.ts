@@ -35,5 +35,5 @@ export interface StudyRecordContent {
   unitName: "第1课"
 */
 export function getStudyRecord(params: PageParams = { page: 0, size: 10 }) {
-  return request.post<any, StudyRecord>('/fc/study/record', params);
+  return request.post<any, StudyRecord>('/study/record', params);
 }

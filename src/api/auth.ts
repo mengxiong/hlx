@@ -33,12 +33,12 @@ export type LoginHandler = typeof login;
 
 // 发送手机验证码
 export function sendSms(params: { phone: string }) {
-  return request.post('/fc/login/sendSms', params);
+  return request.post('/login/sendSms', params);
 }
 
 export function login(params: LoginByPassParams | LoginByCodeParams) {
   if (Object.prototype.hasOwnProperty.call(params, 'phone')) {
-    return request.post<any, AuthInfo>('/fc/login/sms', params);
+    return request.post<any, AuthInfo>('/login/sms', params);
   }
-  return request.post<any, AuthInfo>('/fc/login/username', params);
+  return request.post<any, AuthInfo>('/login/username', params);
 }
