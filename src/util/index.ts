@@ -20,3 +20,7 @@ export function delay(wait = 1000) {
     window.setTimeout(res, wait);
   });
 }
+
+export function isObject<T = any>(value: unknown): value is T {
+  return typeof value === 'object' && value !== null;
+}

@@ -2,7 +2,8 @@ import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Toaster } from 'react-hot-toast';
-import { Router } from './Routes';
+import { BrowserRouter } from 'react-router-dom';
+import { Routes } from './Routes';
 import { Theme } from './theme';
 import { queryClient } from './queryClient';
 
@@ -11,7 +12,9 @@ export function App() {
     <Theme>
       <QueryClientProvider client={queryClient}>
         <CssBaseline />
-        <Router />
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
         <Toaster />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

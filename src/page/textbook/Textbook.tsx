@@ -3,7 +3,6 @@ import { useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getTextbookUnit } from 'src/api/textbook';
-import { Header } from 'src/component/Header';
 
 export function Textbook() {
   const location = useLocation();
@@ -28,8 +27,7 @@ export function Textbook() {
 
   return (
     <>
-      <Header title={(location.state as any)?.title} />
-      <Box sx={{ height: 48, borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ height: 48 }}>
         {textbook.isLoading ? (
           <Skeleton height={48} width={200} />
         ) : (

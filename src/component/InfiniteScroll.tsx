@@ -25,7 +25,7 @@ export function InfiniteScroll({
       loadMore={fetchNextPage}
       hasMore={!error && (hasNextPage === undefined ? isLoading : hasNextPage)}
       loader={
-        <Box sx={{ display: 'flex', justifyContent: 'center', my: 1 }}>
+        <Box key="loader" sx={{ display: 'flex', justifyContent: 'center', my: 1 }}>
           <CircularProgress />
         </Box>
       }

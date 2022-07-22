@@ -10,7 +10,7 @@ interface Item {
   icon?: React.ReactNode;
 }
 
-const items: Item[] = [
+export const navList: Item[] = [
   {
     key: '/textbooks',
     label: '已选课程',
@@ -47,7 +47,7 @@ export function Slider({ onClick }: { onClick?: VoidFunction }) {
       }}
       component="nav"
     >
-      {items.map((item) => (
+      {navList.map((item) => (
         <ListItem key={item.key} disablePadding>
           <ListItemButton
             selected={selectedKey === item.key}

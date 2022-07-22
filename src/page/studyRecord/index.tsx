@@ -61,7 +61,7 @@ export function StudyRecord() {
       <List>
         {group.map((val, j) => (
           <Box
-            key={val[0]}
+            key={`${val[0]}`}
             component="li"
             sx={{ borderBottom: j === group.length - 1 ? 0 : 1, borderBottomColor: 'divider' }}
           >

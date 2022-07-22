@@ -1,15 +1,24 @@
-import { Outlet } from 'react-router-dom';
+import { matchRoutes, Outlet, useLocation } from 'react-router-dom';
 import { Box, Drawer, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
+import { getBreadcrumbs, routesConfig, BreadcrumbLink } from 'src/Routes';
 import { Header } from './Header';
 import { Slider } from './Slider';
+import { Breadcrumbs } from './Breadcrumbs';
 
 export function Layout() {
-  const [open, setOpen] = useState(false);
-
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.down('sm'));
+  const location = useLocation();
+
+  const [open, setOpen] = useState(false);
+
+  const breadcrumbs = (matchRoutes(routesConfig, location) || [])
+    .filter((v) => v.route.breadcrumbName)
+    .reduce((acc, cur) => {
+      return acc.concat(getBreadcrumbs(cur.route.breadcrumbName!, cur.pathname, location));
+    }, [] as BreadcrumbLink[]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -47,10 +56,13 @@ export function Layout() {
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
-            overflow: 'auto',
+            px: 0,
           }}
         >
-          <Outlet />
+          <Breadcrumbs list={breadcrumbs}></Breadcrumbs>
+          <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'auto' }}>
+            <Outlet />
+          </Box>
         </Box>
       </Box>
     </Box>

@@ -19,12 +19,8 @@ export function Unit() {
   return (
     <QueryContainer sx={{ flex: 1, overflow: 'auto' }} {...unit}>
       <List>
-        {data.map((value, index) => (
-          <ListItem
-            key={value.stepNum + value.stepValue}
-            divider={index !== data.length - 1}
-            disablePadding
-          >
+        {data.map((value) => (
+          <ListItem key={value.stepNum + value.stepValue} disablePadding>
             <ListItemButton
               component={Link}
               to={getStudyPath(textbookId, unitId, value.stepNum, value.stepValue)}
