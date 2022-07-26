@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { UseQueryResult } from 'react-query';
-import { Box, CircularProgress, Fade, SxProps, Theme } from '@mui/material';
+import { Box, CircularProgress, Fade } from '@mui/material';
+import { Sx } from 'src/types';
 import { Empty } from './Empty';
 import { ErrorComponent } from './Error';
 
@@ -8,7 +9,7 @@ export interface QueryContainerProps {
   children: React.ReactNode;
   isEmpty?: boolean;
   loading?: React.ReactNode;
-  sx?: SxProps<Theme>;
+  sx?: Sx;
 }
 
 const isDefaultEmpty = (value: unknown) => {

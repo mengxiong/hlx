@@ -1,8 +1,9 @@
-import { Box, Skeleton, Tab, Tabs } from '@mui/material';
+import { Tab, Tabs } from '@mui/material';
 import { useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getTextbookUnit } from 'src/api/textbook';
+import { PageContainer } from '../layout/PageContainer';
 
 export function Textbook() {
   const location = useLocation();
@@ -26,23 +27,17 @@ export function Textbook() {
   }, [unitId, units]);
 
   return (
-    <>
-      <Box sx={{ height: 48 }}>
-        {textbook.isLoading ? (
-          <Skeleton height={48} width={200} />
-        ) : (
-          <Tabs
-            variant="scrollable"
-            value={unitId || false}
-            onChange={(evt, value) => setUnitId(value)}
-          >
-            {units.map((item) => (
-              <Tab key={item.id} label={item.title} value={item.id} />
-            ))}
-          </Tabs>
-        )}
-      </Box>
+    <PageContainer>
+      <Tabs
+        variant="scrollable"
+        value={unitId || false}
+        onChange={(evt, value) => setUnitId(value)}
+      >
+        {units.map((item) => (
+          <Tab key={item.id} label={item.title} value={item.id} />
+        ))}
+      </Tabs>
       <Outlet />
-    </>
+    </PageContainer>
   );
 }

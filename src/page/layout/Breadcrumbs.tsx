@@ -1,38 +1,33 @@
 import { Breadcrumbs as BreadcrumbComponent, Link, Typography } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import { BreadcrumbLink } from 'src/Routes';
+import { matchRoutes, useLocation } from 'react-router-dom';
+import { BreadcrumbLink, getBreadcrumbs, routesConfig } from 'src/Routes';
 
-export interface BreadcrumbsProps {
-  list: BreadcrumbLink[];
-}
+export interface BreadcrumbsProps {}
 
-export function Breadcrumbs({ list }: BreadcrumbsProps) {
-  const breadcrumbs = list.map((item, index) => {
-    if (index !== list.length - 1) {
+export function Breadcrumbs() {
+  const location = useLocation();
+
+  const breadcrumbs = (matchRoutes(routesConfig, location) || [])
+    .filter((v) => v.route.breadcrumbName)
+    .reduce((acc, cur) => {
+      console.log(cur);
+      return acc.concat(getBreadcrumbs(cur.route.breadcrumbName!, cur.pathname, location));
+    }, [] as BreadcrumbLink[])
+    .map((item, index, list) => {
+      console.log(item);
+      if (index !== list.length - 1) {
+        return (
+          <Link underline="hover" key={item.path} color="inherit" href={item.path}>
+            {item.name}
+          </Link>
+        );
+      }
       return (
-        <Link underline="hover" key={item.path} color="inherit" href={item.path}>
+        <Typography variant="h6" key={item.path} fontSize="1rem" color="text.primary">
           {item.name}
-        </Link>
+        </Typography>
       );
-    }
-    return (
-      <Typography variant="h6" key={item.path} fontSize="1rem" color="text.primary">
-        {item.name}
-      </Typography>
-    );
-  });
+    });
 
-  return (
-    <BreadcrumbComponent aria-label="breadcrumb" sx={{ p: 2, mb: -1 }}>
-      <Link
-        sx={{ display: 'flex', alignItems: 'center' }}
-        underline="hover"
-        color="inherit"
-        href="/"
-      >
-        <HomeIcon></HomeIcon>
-      </Link>
-      {breadcrumbs}
-    </BreadcrumbComponent>
-  );
+  return <BreadcrumbComponent aria-label="breadcrumb">{breadcrumbs}</BreadcrumbComponent>;
 }

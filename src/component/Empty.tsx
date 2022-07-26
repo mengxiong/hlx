@@ -1,8 +1,9 @@
-import { Box, Typography, SxProps, Theme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import EmptyImage from 'src/assets/svg/empty.svg';
+import { Sx } from 'src/types';
 
 export interface EmptyProps {
-  sx?: SxProps<Theme>;
+  sx?: Sx;
 }
 
 export function Empty({ sx }: EmptyProps) {

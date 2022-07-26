@@ -1,7 +1,8 @@
-import { Box, SxProps, TextareaAutosize, TextareaAutosizeProps, Theme } from '@mui/material';
+import { Box, TextareaAutosize, TextareaAutosizeProps } from '@mui/material';
+import { Sx } from 'src/types';
 
 export interface InputAutoHeightProps extends TextareaAutosizeProps {
-  sx?: SxProps<Theme>;
+  sx?: Sx;
 }
 
 export function InputAutoHeight({ sx, ...restProps }: InputAutoHeightProps) {

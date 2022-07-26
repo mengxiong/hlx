@@ -1,8 +1,9 @@
-import { Box, Typography, SxProps, Theme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { Sx } from 'src/types';
 
 export interface ErrorProps {
   error: Error;
-  sx?: SxProps<Theme>;
+  sx?: Sx;
 }
 
 export function ErrorComponent({ error, sx }: ErrorProps) {

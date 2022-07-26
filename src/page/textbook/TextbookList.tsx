@@ -12,6 +12,7 @@ import { useQuery } from 'react-query';
 import { Link, useSearchParams } from 'react-router-dom';
 import { getTextbooks, TextbookType } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';
+import { PageContainer } from 'src/page/layout/PageContainer';
 
 export function TextbookList() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,8 +28,8 @@ export function TextbookList() {
   const items = result.data?.textBooks || [];
 
   return (
-    <>
-      <Tabs value={type} onChange={handleChange}>
+    <PageContainer>
+      <Tabs variant="scrollable" value={type} onChange={handleChange}>
         <Tab label="英语课程" value={TextbookType.English} />
         <Tab label="汉语课程" value={TextbookType.Chinese} />
       </Tabs>
@@ -53,6 +54,6 @@ export function TextbookList() {
           ))}
         </List>
       </QueryContainer>
-    </>
+    </PageContainer>
   );
 }

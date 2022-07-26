@@ -1,6 +1,7 @@
-import { Box, Typography, IconButton, SxProps, Theme } from '@mui/material';
+import { Box, Typography, IconButton } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useNavigate } from 'react-router-dom';
+import { Sx } from 'src/types';
 
 export interface HeaderProps {
   title: string;
@@ -10,7 +11,7 @@ export interface HeaderProps {
 export function Header({ title, primary }: HeaderProps) {
   const navigate = useNavigate();
 
-  const style: SxProps<Theme> = primary
+  const style: Sx = primary
     ? {
         backgroundColor: 'primary.main',
         color: '#fff',

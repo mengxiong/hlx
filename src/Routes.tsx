@@ -76,7 +76,7 @@ export const routesConfig: RouteObject[] = [
         path: 'textbook/:textbookId',
         element: <Textbook />,
         breadcrumbName: [
-          { path: 'textbooks', name: '已选课程' },
+          { path: '/textbooks', name: '已选课程' },
           (location) => (isObject(location.state) ? location.state.title : ''),
         ],
         children: [{ path: 'unit/:unitId', element: <Unit /> }],
