@@ -1,13 +1,13 @@
 import { Box } from '@mui/material';
 import { Sx } from 'src/types';
-import { Breadcrumbs } from './Breadcrumbs';
+import { Breadcrumbs, BreadcrumbsProps } from './Breadcrumbs';
 
-export interface PageContainerProps {
+export interface PageContainerProps extends BreadcrumbsProps {
   children: React.ReactNode;
   contentStyle?: Sx;
 }
 
-export function PageContainer({ children, contentStyle }: PageContainerProps) {
+export function PageContainer({ children, contentStyle, ...restProps }: PageContainerProps) {
   return (
     <Box
       sx={{
@@ -26,7 +26,7 @@ export function PageContainer({ children, contentStyle }: PageContainerProps) {
           borderBottomStyle: 'solid',
         }}
       >
-        <Breadcrumbs></Breadcrumbs>
+        <Breadcrumbs {...restProps}></Breadcrumbs>
       </Box>
       <Box
         sx={{

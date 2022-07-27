@@ -1,31 +1,43 @@
 import { Breadcrumbs as BreadcrumbComponent, Link, Typography } from '@mui/material';
 import { matchRoutes, useLocation } from 'react-router-dom';
-import { BreadcrumbLink, getBreadcrumbs, routesConfig } from 'src/Routes';
+import { routesConfig } from 'src/Routes';
 
-export interface BreadcrumbsProps {}
+export interface BreadcrumbsProps {
+  replaceBreadcrumbs?: (breadcrumbs: BreadcrumbLink[]) => BreadcrumbLink[];
+}
 
-export function Breadcrumbs() {
+export interface BreadcrumbLink {
+  name: string;
+  path: string;
+}
+
+export function Breadcrumbs({ replaceBreadcrumbs }: BreadcrumbsProps) {
   const location = useLocation();
 
-  const breadcrumbs = (matchRoutes(routesConfig, location) || [])
+  let breadcrumbs: BreadcrumbLink[] = (matchRoutes(routesConfig, location) || [])
     .filter((v) => v.route.breadcrumbName)
-    .reduce((acc, cur) => {
-      return acc.concat(getBreadcrumbs(cur.route.breadcrumbName!, cur.pathname, location));
-    }, [] as BreadcrumbLink[])
-    .map((item, index, list) => {
-      if (index !== list.length - 1) {
-        return (
-          <Link underline="hover" key={item.path} color="inherit" href={item.path}>
-            {item.name}
-          </Link>
-        );
-      }
-      return (
-        <Typography variant="h6" key={item.path} fontSize="1rem" color="text.primary">
-          {item.name}
-        </Typography>
-      );
+    .map((cur) => {
+      return { name: cur.route.breadcrumbName!, path: cur.pathname };
     });
 
-  return <BreadcrumbComponent aria-label="breadcrumb">{breadcrumbs}</BreadcrumbComponent>;
+  if (replaceBreadcrumbs) {
+    breadcrumbs = replaceBreadcrumbs(breadcrumbs);
+  }
+
+  const list = breadcrumbs.map((item, index) => {
+    if (index !== breadcrumbs.length - 1) {
+      return (
+        <Link underline="hover" key={item.path} color="inherit" href={item.path}>
+          {item.name}
+        </Link>
+      );
+    }
+    return (
+      <Typography variant="h6" key={item.path} fontSize="1rem" color="text.primary">
+        {item.name}
+      </Typography>
+    );
+  });
+
+  return <BreadcrumbComponent aria-label="breadcrumb">{list}</BreadcrumbComponent>;
 }

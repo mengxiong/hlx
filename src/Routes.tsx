@@ -1,4 +1,4 @@
-import { Navigate, useRoutes, RouteObject, Location } from 'react-router-dom';
+import { Navigate, useRoutes, RouteObject } from 'react-router-dom';
 import { AuthProvider } from 'src/auth/AuthProvider';
 import { AuthRequired } from './auth/AuthRequired';
 import { LoginPage } from './page/login/Login';
@@ -8,42 +8,12 @@ import { Textbook } from './page/textbook/Textbook';
 import { Study } from './page/study';
 import { Unit } from './page/textbook/Unit';
 import { StudyRecord } from './page/studyRecord';
-import { isObject } from './util';
-
-export interface BreadcrumbLink {
-  path: string;
-  name: string;
-}
-
-type BreadcrumbName =
-  | string
-  | BreadcrumbLink
-  | ((location: Location) => BreadcrumbName)
-  | BreadcrumbName[];
 
 declare module 'react-router-dom' {
   interface RouteObject {
-    breadcrumbName?: BreadcrumbName;
+    breadcrumbName?: string;
   }
 }
-
-export const getBreadcrumbs = (
-  breadcrumbName: BreadcrumbName,
-  path: string,
-  location: Location
-): Array<BreadcrumbLink> => {
-  if (typeof breadcrumbName === 'string') {
-    return [{ path, name: breadcrumbName }];
-  }
-  if (Array.isArray(breadcrumbName)) {
-    return breadcrumbName.flatMap((v) => getBreadcrumbs(v, path, location));
-  }
-  if (typeof breadcrumbName === 'function') {
-    return getBreadcrumbs(breadcrumbName(location), path, location);
-  }
-
-  return [breadcrumbName];
-};
 
 export const generateStudyPath = (
   textbookId: string,
@@ -75,10 +45,6 @@ export const routesConfig: RouteObject[] = [
       {
         path: 'textbook/:textbookId',
         element: <Textbook />,
-        breadcrumbName: [
-          { path: '/textbooks', name: '已选课程' },
-          (location) => (isObject(location.state) ? location.state.title : ''),
-        ],
         children: [{ path: 'unit/:unitId', element: <Unit /> }],
       },
       { path: 'history', element: <StudyRecord />, breadcrumbName: '学习记录' },

@@ -3,11 +3,19 @@ import { useCallback, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getTextbookUnit } from 'src/api/textbook';
+import { isObject } from 'src/util';
 import { PageContainer } from '../layout/PageContainer';
 
 export function Textbook() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const replaceBreadcrumbs = () => {
+    return [
+      { path: '/textbooks', name: '已选课程' },
+      { path: location.pathname, name: isObject(location.state) ? location.state.title : '' },
+    ];
+  };
 
   const { textbookId, unitId } = useParams();
 
@@ -27,7 +35,7 @@ export function Textbook() {
   }, [unitId, units]);
 
   return (
-    <PageContainer>
+    <PageContainer replaceBreadcrumbs={replaceBreadcrumbs}>
       <Tabs
         variant="scrollable"
         value={unitId || false}
