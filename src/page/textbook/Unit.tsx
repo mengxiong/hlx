@@ -1,9 +1,11 @@
-import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useQuery } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
 import { getTextbookUnitStep } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';
 import { getStudyPath } from 'src/Routes';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 
 export function Unit() {
   const { textbookId, unitId } = useParams() as { textbookId: string; unitId: string };
@@ -19,17 +21,27 @@ export function Unit() {
   return (
     <QueryContainer sx={{ flex: 1, overflow: 'auto' }} {...unit}>
       <List>
-        {data.map((value) => (
-          <ListItem key={value.stepNum + value.stepValue} disablePadding>
-            <ListItemButton
-              component={Link}
-              to={getStudyPath(textbookId, unitId, value.stepNum, value.stepValue)}
-              disabled={value.finished === '0'}
-            >
-              <ListItemText primary={value.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {data.map((value) => {
+          const disabled = value.finished === '0';
+          return (
+            <ListItem key={value.stepNum + value.stepValue} disablePadding>
+              <ListItemButton
+                component={Link}
+                to={getStudyPath(textbookId, unitId, value.stepNum, value.stepValue)}
+                disabled={disabled}
+              >
+                <ListItemIcon sx={{ minWidth: 0, mr: 1.5 }}>
+                  {disabled ? (
+                    <LockOutlinedIcon />
+                  ) : (
+                    <PlayArrowOutlinedIcon sx={{ color: 'primary.main' }} />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={value.title} />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
       </List>
     </QueryContainer>
   );

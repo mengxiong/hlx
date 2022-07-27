@@ -10,11 +10,9 @@ export function Breadcrumbs() {
   const breadcrumbs = (matchRoutes(routesConfig, location) || [])
     .filter((v) => v.route.breadcrumbName)
     .reduce((acc, cur) => {
-      console.log(cur);
       return acc.concat(getBreadcrumbs(cur.route.breadcrumbName!, cur.pathname, location));
     }, [] as BreadcrumbLink[])
     .map((item, index, list) => {
-      console.log(item);
       if (index !== list.length - 1) {
         return (
           <Link underline="hover" key={item.path} color="inherit" href={item.path}>
