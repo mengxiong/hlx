@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
 import { getTextbookUnitStep } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';
-import { getStudyPath } from 'src/Routes';
+import { generateStudyPath } from 'src/Routes';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 
@@ -27,7 +27,7 @@ export function Unit() {
             <ListItem key={value.stepNum + value.stepValue} disablePadding>
               <ListItemButton
                 component={Link}
-                to={getStudyPath(textbookId, unitId, value.stepNum, value.stepValue)}
+                to={generateStudyPath(textbookId, unitId, value.stepNum, value.stepValue)}
                 disabled={disabled}
               >
                 <ListItemIcon sx={{ minWidth: 0, mr: 1.5 }}>

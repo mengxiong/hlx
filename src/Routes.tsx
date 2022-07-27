@@ -45,7 +45,7 @@ export const getBreadcrumbs = (
   return [breadcrumbName];
 };
 
-export const getStudyPath = (
+export const generateStudyPath = (
   textbookId: string,
   unitId: string,
   stepId: string,
@@ -55,7 +55,7 @@ export const getStudyPath = (
 export const routesConfig: RouteObject[] = [
   { path: '/login', element: <LoginPage /> },
   {
-    path: getStudyPath(':textbookId', ':unitId', ':stepId', ':stepValue'),
+    path: generateStudyPath(':textbookId', ':unitId', ':stepId', ':stepValue'),
     element: (
       <AuthRequired>
         <Study />

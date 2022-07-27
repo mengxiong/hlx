@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { recordStudy, StudyParams } from 'src/api/study';
 import { TextBookUnitStep } from 'src/api/textbook';
-import { getStudyPath } from 'src/Routes';
+import { generateStudyPath } from 'src/Routes';
 
 export function useSubmit() {
   const { textbookId, unitId, stepId, stepValue } = useParams() as StudyParams<any>;
@@ -29,7 +29,7 @@ export function useSubmit() {
         const index = stepList.findIndex((item) => item.stepNum === stepId);
         if (index !== stepList.length - 1) {
           const next = stepList[index + 1];
-          navigate(getStudyPath(textbookId, unitId, next.stepNum, next.stepValue), {
+          navigate(generateStudyPath(textbookId, unitId, next.stepNum, next.stepValue), {
             replace: true,
           });
         } else {
