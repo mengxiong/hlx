@@ -1,16 +1,16 @@
 import { request } from 'src/request';
 
-interface PageParams {
+export interface PageParams {
   page: number;
   size: number;
 }
 
-export interface StudyRecord {
+export interface ListPageSize<T> {
   page: number;
   size: number;
   totalPages: number;
   totalElements: number;
-  content: StudyRecordContent[];
+  content: T[];
 }
 
 export interface StudyRecordContent {
@@ -35,5 +35,5 @@ export interface StudyRecordContent {
   unitName: "第1课"
 */
 export function getStudyRecord(params: PageParams = { page: 0, size: 10 }) {
-  return request.post<any, StudyRecord>('/study/record', params);
+  return request.post<any, ListPageSize<StudyRecordContent>>('/study/record', params);
 }
