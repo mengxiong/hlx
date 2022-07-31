@@ -1,8 +1,8 @@
 import React from 'react';
-import { Backdrop, CircularProgress } from '@mui/material';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getStudyInfo, StepValue, StudyParams } from 'src/api/study';
+import { QueryContainer } from 'src/component/QueryContainer';
 import { WriteWord } from './RouteWriteWord';
 import { Reading } from './RouteReading';
 import { Sorting } from './RouteSorting';
@@ -45,26 +45,25 @@ const map: {
 export function Study<T extends StepValue>() {
   const { textbookId, unitId, stepId, stepValue } = useParams() as StudyParams<T>;
 
-  const { isLoading, isError, error, data } = useQuery(
-    ['study', textbookId, unitId, stepId, stepValue],
-    () => getStudyInfo({ textbookId, unitId, stepId, stepValue })
+  const info = useQuery(['study', textbookId, unitId, stepId, stepValue], () =>
+    getStudyInfo({ textbookId, unitId, stepId, stepValue })
   );
 
-  if (isLoading) {
-    return (
-      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    );
+  const { data } = info;
+
+  let children: React.ReactNode = null;
+  if (!map[stepValue]) {
+    children = <span>暂不支持</span>;
+  } else if (data) {
+    children = React.cloneElement(map[stepValue], { data });
   }
 
-  if (isError) {
-    return <span>{(error as Error).message}</span>;
-  }
-
-  return map[stepValue] ? (
-    React.cloneElement(map[stepValue], { data: data! })
-  ) : (
-    <span>暂不支持</span>
+  return (
+    <QueryContainer
+      sx={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}
+      {...info}
+    >
+      {children}
+    </QueryContainer>
   );
 }

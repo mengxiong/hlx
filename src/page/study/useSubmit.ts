@@ -20,11 +20,7 @@ export function useSubmit() {
 
   const { mutate, isLoading } = useMutation(recordStudy, {
     onSuccess() {
-      const stepList = queryClient.getQueryData<TextBookUnitStep[]>([
-        'steplist',
-        textbookId,
-        unitId,
-      ]);
+      const stepList = queryClient.getQueryData<TextBookUnitStep[]>(['unit', textbookId, unitId]);
       if (stepList) {
         const index = stepList.findIndex((item) => item.stepNum === stepId);
         if (index !== stepList.length - 1) {
@@ -35,6 +31,8 @@ export function useSubmit() {
         } else {
           navigate(-1);
         }
+      } else {
+        navigate(-1);
       }
     },
   });

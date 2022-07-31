@@ -27,7 +27,7 @@ export function Container({
   onCancel,
   onConfirm,
   cancelText = '上一步',
-  confirmText = '提交',
+  confirmText = '确定',
   children,
 }: StudyContainerProps) {
   return (
