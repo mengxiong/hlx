@@ -26,6 +26,11 @@ export const navList: Item[] = [
     label: '学习记录',
     icon: <HistoryIcon />,
   },
+  {
+    key: '/feedback',
+    label: '问题反馈',
+    icon: <HistoryIcon />,
+  },
 ];
 
 export function Slider({ onClick }: { onClick?: VoidFunction }) {

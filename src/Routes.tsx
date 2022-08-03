@@ -8,6 +8,7 @@ import { Textbook } from './page/textbook/Textbook';
 import { Study } from './page/study';
 import { Unit } from './page/textbook/Unit';
 import { StudyRecord } from './page/studyRecord';
+import { Feedback } from './page/feedback';
 
 declare module 'react-router-dom' {
   interface RouteObject {
@@ -48,6 +49,7 @@ export const routesConfig: RouteObject[] = [
         children: [{ path: 'unit/:unitId', element: <Unit /> }],
       },
       { path: 'history', element: <StudyRecord />, breadcrumbName: '学习记录' },
+      { path: 'feedback', element: <Feedback />, breadcrumbName: '问题反馈' },
     ],
   },
 ];
