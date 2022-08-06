@@ -22,7 +22,7 @@ export function Speaking({ data, title, baseKey }: SpeakingProps) {
   return (
     <Container
       footer={<AudioRecorder key={current.id} url={current.audioAttach?.attachUrl} />}
-      confirmText="我说对了"
+      confirmText="下一步"
       title={title}
       {...restProps}
     >
