@@ -1,10 +1,10 @@
-import { IconButton, Stack, Typography } from '@mui/material';
+import { Button, Box, ButtonGroup } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import StopIcon from '@mui/icons-material/Stop';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import { useEffect, useRef, useState } from 'react';
-import { padStart } from 'lodash';
+import { padStart, debounce } from 'lodash';
 import { RecorderManager } from './recorderManager';
 
 export interface AudioRecorderProps {
@@ -57,7 +57,7 @@ export function AudioRecorder({ url }: AudioRecorderProps) {
       intervalId.current = window.setInterval(() => {
         setTime((value) => value + 1);
       }, 1000);
-    } else if (recordState === 'inactive') {
+    } else if (recordState !== 'paused') {
       setTime(0);
     }
     return () => {
@@ -69,16 +69,19 @@ export function AudioRecorder({ url }: AudioRecorderProps) {
     const audio = audioEl;
 
     if (recordingUrl) {
-      const playList = [recordingUrl];
+      const playList: string[] = [];
       if (url) {
         playList.push(url);
       }
+      playList.push(recordingUrl);
       let i = 0;
+      const throttleSetAudioState = debounce(setAudioState, 50);
+
       audio.addEventListener('play', () => {
-        setAudioState('play');
+        throttleSetAudioState('play');
       });
       audio.addEventListener('pause', () => {
-        setAudioState('pause');
+        throttleSetAudioState('pause');
       });
       audio.addEventListener('ended', () => {
         i = (i + 1) % playList.length;
@@ -98,34 +101,43 @@ export function AudioRecorder({ url }: AudioRecorderProps) {
   const ss = padStart(String(time % 60), 2, '0');
 
   return (
-    <Stack pt={2} pb={4} direction="row" spacing={4} justifyContent="center" alignItems="end">
-      <IconButton sx={{ color: '#000' }} disabled={!recordingUrl} onClick={togglePlay}>
-        {audioState === 'play' ? (
-          <PauseIcon fontSize="large" />
-        ) : (
-          <PlayArrowIcon fontSize="large" />
-        )}
-      </IconButton>
-      <Stack justifyContent="center" alignItems="center">
-        <Typography>
-          {recordState === 'recording' || recordState === 'paused' ? `${mm}:${ss}` : ' '}
-        </Typography>
-        <IconButton sx={{ border: '1px solid #ccc' }} onClick={start} color="error">
-          {recordState === 'recording' ? (
-            <PauseIcon fontSize="large" />
-          ) : (
-            <CircleIcon fontSize="large" />
-          )}
-        </IconButton>
-      </Stack>
-
-      <IconButton
-        sx={{ color: '#000' }}
-        disabled={recordState !== 'recording' && recordState !== 'paused'}
-        onClick={stop}
-      >
-        <StopIcon fontSize="large" />
-      </IconButton>
-    </Stack>
+    <Box sx={{ display: 'flex', justifyContent: 'center', my: 6 }}>
+      <ButtonGroup variant="contained">
+        <Button
+          startIcon={
+            audioState === 'play' ? (
+              <PauseIcon fontSize="large" />
+            ) : (
+              <PlayArrowIcon fontSize="large" />
+            )
+          }
+          disabled={!recordingUrl}
+          onClick={togglePlay}
+        >
+          {audioState === 'play' ? '暂停' : '播放'}
+        </Button>
+        <Button
+          startIcon={
+            recordState === 'recording' ? (
+              <PauseIcon fontSize="large" />
+            ) : (
+              <CircleIcon fontSize="large" />
+            )
+          }
+          onClick={start}
+        >
+          <span style={{ display: 'inline-block', width: '4.5em' }}>
+            {recordState === 'recording' ? `${mm}:${ss}` : '开始录音'}
+          </span>
+        </Button>
+        <Button
+          startIcon={<StopIcon fontSize="large" />}
+          disabled={recordState !== 'recording' && recordState !== 'paused'}
+          onClick={stop}
+        >
+          停止录音
+        </Button>
+      </ButtonGroup>
+    </Box>
   );
 }

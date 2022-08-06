@@ -17,7 +17,7 @@ export function Speaking({ data, title, baseKey }: SpeakingProps) {
   });
 
   return (
-    <Container title={title} {...restProps}>
+    <Container confirmText="我说对了" title={title} {...restProps}>
       <Subject id={current.id} data={current[baseKey]} />
       <AudioRecorder key={current.id} url={current.audioAttach?.attachUrl} />
     </Container>
