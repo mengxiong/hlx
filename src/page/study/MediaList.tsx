@@ -46,38 +46,42 @@ export function MediaList({ attach }: MediaListProps) {
     }
   };
 
+  const onlyOne = filterAttachs.length <= 1;
+
   return (
     <Box>
-      <Stack direction="row" spacing={2} justifyContent="center">
-        {imageAttach && (
-          <IconButton
-            size="large"
-            color={type === AttachType.Image ? 'primary' : 'default'}
-            onClick={() => handleClick(AttachType.Image)}
-          >
-            <ImageIcon fontSize="inherit" />
-          </IconButton>
-        )}
-        {audioAttach && (
-          <IconButton
-            size="large"
-            color={type === AttachType.Audio ? 'primary' : 'default'}
-            onClick={() => handleClick(AttachType.Audio)}
-          >
-            <AudiotrackIcon fontSize="inherit" />
-          </IconButton>
-        )}
-        {videoAttach && (
-          <IconButton
-            size="large"
-            color={type === AttachType.Video ? 'primary' : 'default'}
-            onClick={() => handleClick(AttachType.Video)}
-          >
-            <OndemandVideoIcon fontSize="inherit" />
-          </IconButton>
-        )}
-      </Stack>
-      <Box m={2} display="flex" justifyContent="center">
+      {!onlyOne && (
+        <Stack direction="row" spacing={2} justifyContent="center">
+          {imageAttach && (
+            <IconButton
+              size="large"
+              color={type === AttachType.Image ? 'primary' : 'default'}
+              onClick={() => handleClick(AttachType.Image)}
+            >
+              <ImageIcon fontSize="inherit" />
+            </IconButton>
+          )}
+          {audioAttach && (
+            <IconButton
+              size="large"
+              color={type === AttachType.Audio ? 'primary' : 'default'}
+              onClick={() => handleClick(AttachType.Audio)}
+            >
+              <AudiotrackIcon fontSize="inherit" />
+            </IconButton>
+          )}
+          {videoAttach && (
+            <IconButton
+              size="large"
+              color={type === AttachType.Video ? 'primary' : 'default'}
+              onClick={() => handleClick(AttachType.Video)}
+            >
+              <OndemandVideoIcon fontSize="inherit" />
+            </IconButton>
+          )}
+        </Stack>
+      )}
+      <Box py={2} display="flex" justifyContent={onlyOne ? 'start' : 'center'}>
         {imageAttach && (
           <img
             style={{ display: type === AttachType.Image ? 'block' : 'none', maxWidth: 300 }}

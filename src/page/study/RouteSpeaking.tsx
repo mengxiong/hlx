@@ -5,21 +5,30 @@ import { Container } from './Container';
 import { Subject } from './Subject';
 import { useStudy } from './useStudy';
 
+type BaseKey = keyof PickByValue<Required<SpeakingInfo>, string | Attach>;
+
 interface SpeakingProps {
   data: SpeakingInfo[];
   title: string;
-  baseKey: keyof PickByValue<Required<SpeakingInfo>, string | Attach>;
+  baseKey: BaseKey | BaseKey[];
 }
 
 export function Speaking({ data, title, baseKey }: SpeakingProps) {
   const { current, ...restProps } = useStudy({
     data,
   });
+  const baseKeys = Array.isArray(baseKey) ? baseKey : [baseKey];
 
   return (
-    <Container confirmText="我说对了" title={title} {...restProps}>
-      <Subject id={current.id} data={current[baseKey]} />
-      <AudioRecorder key={current.id} url={current.audioAttach?.attachUrl} />
+    <Container
+      footer={<AudioRecorder key={current.id} url={current.audioAttach?.attachUrl} />}
+      confirmText="我说对了"
+      title={title}
+      {...restProps}
+    >
+      {baseKeys.map((key) => (
+        <Subject key={key} id={current.id} data={current[key]} />
+      ))}
     </Container>
   );
 }

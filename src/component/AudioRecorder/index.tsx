@@ -101,8 +101,8 @@ export function AudioRecorder({ url }: AudioRecorderProps) {
   const ss = padStart(String(time % 60), 2, '0');
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', my: 6 }}>
-      <ButtonGroup variant="contained">
+    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <ButtonGroup variant="contained" size="large">
         <Button
           startIcon={
             audioState === 'play' ? (

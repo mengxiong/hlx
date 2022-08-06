@@ -105,6 +105,7 @@ export const enum StepValue {
   SpeakingByTranslation = '005017', // 据译说文
   SpeakingByImage = '005012', // 说图
   SpeakingByContent = '005011', // 读句子
+  SpeakingRepeat = '005016', // 句子复述
 }
 
 export type StudyInfoMap = {
@@ -125,6 +126,7 @@ export type StudyInfoMap = {
   [StepValue.SpeakingByTranslation]: SpeakingInfo[];
   [StepValue.SpeakingByImage]: SpeakingInfo[];
   [StepValue.SpeakingByContent]: SpeakingInfo[];
+  [StepValue.SpeakingRepeat]: SpeakingInfo[];
 };
 
 export type StudyParams<T extends StepValue> = {

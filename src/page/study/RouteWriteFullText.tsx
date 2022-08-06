@@ -1,7 +1,6 @@
-import { Typography } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { WriteFullTextInfo } from 'src/api/study';
-import { InputAutoHeight } from 'src/component/InputAutoHeight';
 import { Container } from './Container';
 import { ReadingContent } from './RouteReading';
 import { useStudy } from './useStudy';
@@ -47,12 +46,14 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
             return i === index ? (
               <Typography key={item.id} component="div" variant="study" sx={{ display: 'flex' }}>
                 {item.character && `${item.character}: `}
-                <InputAutoHeight
+                <TextField
                   sx={{ flex: 1 }}
+                  multiline
                   value={value}
                   onChange={handleInput}
                   onBlur={onConfirm}
-                ></InputAutoHeight>
+                  variant="standard"
+                />
               </Typography>
             ) : (
               <Typography key={item.id} variant="study">

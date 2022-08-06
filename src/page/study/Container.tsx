@@ -6,6 +6,7 @@ import { DialogBasic } from 'src/component/DialogBasic';
 export interface StudyContainerProps {
   title: string;
   children: React.ReactNode;
+  footer?: React.ReactNode;
   tips?: React.ReactNode;
   confirmText?: string;
   cancelText?: string;
@@ -29,6 +30,7 @@ export function Container({
   cancelText = '上一步',
   confirmText = '确定',
   children,
+  footer,
 }: StudyContainerProps) {
   return (
     <Paper sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
@@ -36,13 +38,16 @@ export function Container({
       <Typography variant="study" sx={{ whiteSpace: 'pre-wrap', flex: 1, overflow: 'auto', p: 4 }}>
         {children}
       </Typography>
-      <Stack p={2} spacing={2} direction="row" justifyContent="center" alignItems="center">
+      <Stack
+        p={2}
+        spacing={2}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        flexWrap="wrap"
+      >
         <>
-          {onCancel && (
-            <Button size="large" variant="outlined" onClick={onCancel}>
-              {cancelText}
-            </Button>
-          )}
+          {footer}
           <LoadingButton
             loading={isLoading}
             loadingIndicator="提交中..."
@@ -52,6 +57,11 @@ export function Container({
           >
             {confirmText}
           </LoadingButton>
+          {onCancel && (
+            <Button size="large" variant="outlined" onClick={onCancel}>
+              {cancelText}
+            </Button>
+          )}
         </>
       </Stack>
       {tips && (

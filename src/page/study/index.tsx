@@ -39,8 +39,20 @@ const map: {
 
   [StepValue.SpeakingByTranslation]: <Speaking title="据译说文" data={[]} baseKey="translation" />, // 直接过
   [StepValue.SpeakingByImage]: <Speaking title="说图" data={[]} baseKey="imageAttach" />, // 直接过
+  [StepValue.SpeakingRepeat]: (
+    <Speaking title="句子复述" data={[]} baseKey={['audioAttach', 'content']} />
+  ), // 直接过
   [StepValue.SpeakingByContent]: <Speaking title="读句子" data={[]} baseKey="content" />, // 打分...
 };
+
+// 背诵
+// 句子复述
+// 读句子
+
+// TODO:
+// 读句中词
+// 句中词听写
+// 读单词
 
 export function Study<T extends StepValue>() {
   const { textbookId, unitId, stepId, stepValue } = useParams() as StudyParams<T>;
