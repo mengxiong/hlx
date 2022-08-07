@@ -1,7 +1,7 @@
 import { Attach, SpeakingInfo } from 'src/api/study';
 import { AudioRecorder } from 'src/component/AudioRecorder';
 import { PickByValue } from 'utility-types';
-import { Container } from './Container';
+import { StudyContainer } from './Container';
 import { Subject } from './Subject';
 import { useStudy } from './useStudy';
 
@@ -20,7 +20,7 @@ export function Speaking({ data, title, baseKey }: SpeakingProps) {
   const baseKeys = Array.isArray(baseKey) ? baseKey : [baseKey];
 
   return (
-    <Container
+    <StudyContainer
       footer={<AudioRecorder key={current.id} url={current.audioAttach?.attachUrl} />}
       confirmText="下一步"
       title={title}
@@ -29,6 +29,6 @@ export function Speaking({ data, title, baseKey }: SpeakingProps) {
       {baseKeys.map((key) => (
         <Subject key={key} id={current.id} data={current[key]} />
       ))}
-    </Container>
+    </StudyContainer>
   );
 }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SelectionInfo } from 'src/api/study';
 import { CheckboxGroup } from 'src/component/CheckboxGroup';
 import { RadioGroups } from 'src/component/RadioGroup';
-import { Container } from './Container';
+import { StudyContainer } from './Container';
 import { Subject } from './Subject';
 import { Tips } from './Tips';
 import { useStudy } from './useStudy';
@@ -32,7 +32,7 @@ export function Selection({ data, title, baseKey }: SelectionProps) {
   }));
 
   return (
-    <Container tips={current.tips && <Tips {...current.tips} />} title={title} {...restProps}>
+    <StudyContainer tips={current.tips && <Tips {...current.tips} />} title={title} {...restProps}>
       <Subject id={current.id!} data={current[baseKey]} />
       {multiSelect ? (
         <CheckboxGroup
@@ -43,6 +43,6 @@ export function Selection({ data, title, baseKey }: SelectionProps) {
       ) : (
         <RadioGroups value={value} onChange={setValue} options={options}></RadioGroups>
       )}
-    </Container>
+    </StudyContainer>
   );
 }

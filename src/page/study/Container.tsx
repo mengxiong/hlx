@@ -1,4 +1,4 @@
-import { Typography, Paper, Stack, Button } from '@mui/material';
+import { Paper, Container, Stack, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Header } from 'src/component/Header';
 import { DialogBasic } from 'src/component/DialogBasic';
@@ -19,7 +19,7 @@ export interface StudyContainerProps {
 
 const voidFunction = () => {};
 
-export function Container({
+export function StudyContainer({
   title,
   tips,
   isLoading = false,
@@ -35,9 +35,9 @@ export function Container({
   return (
     <Paper sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
       <Header primary title={title}></Header>
-      <Typography variant="study" sx={{ whiteSpace: 'pre-wrap', flex: 1, overflow: 'auto', p: 4 }}>
+      <Container maxWidth="lg" sx={{ flex: 1, overflow: 'audo', py: 4 }}>
         {children}
-      </Typography>
+      </Container>
       <Stack
         p={2}
         spacing={2}

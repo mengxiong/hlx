@@ -1,7 +1,7 @@
 import { TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { WriteFullTextInfo } from 'src/api/study';
-import { Container } from './Container';
+import { StudyContainer } from './Container';
 import { ReadingContent } from './RouteReading';
 import { useStudy } from './useStudy';
 
@@ -29,7 +29,7 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
   };
 
   return (
-    <Container
+    <StudyContainer
       tips={<ReadingContent current={current} />}
       title={title}
       isLoading={isLoading}
@@ -61,6 +61,6 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
               </Typography>
             );
           })}
-    </Container>
+    </StudyContainer>
   );
 }

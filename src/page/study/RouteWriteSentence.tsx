@@ -3,7 +3,7 @@ import { Attach, WriteSentenceInfo } from 'src/api/study';
 import { PickByValue } from 'utility-types';
 import { TextField } from '@mui/material';
 import { Subject } from './Subject';
-import { Container } from './Container';
+import { StudyContainer } from './Container';
 import { useStudy } from './useStudy';
 import { ReadingContent } from './RouteReading';
 
@@ -28,9 +28,9 @@ export function WriteSentence({ data, title, baseKey }: WriteSentenceProps) {
   };
 
   return (
-    <Container tips={<ReadingContent current={current} />} title={title} {...restProps}>
+    <StudyContainer tips={<ReadingContent current={current} />} title={title} {...restProps}>
       <Subject id={current.id} data={current[baseKey]} />
       <TextField fullWidth multiline value={value} onChange={handleInput} variant="standard" />
-    </Container>
+    </StudyContainer>
   );
 }

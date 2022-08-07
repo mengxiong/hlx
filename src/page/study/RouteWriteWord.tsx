@@ -3,7 +3,7 @@ import reactStringReplace from 'react-string-replace';
 import { useState } from 'react';
 import { WriteWordInfo } from 'src/api/study';
 import { InputAutoWidth } from 'src/component/InputAutoWidth';
-import { Container } from './Container';
+import { StudyContainer } from './Container';
 import { useStudy } from './useStudy';
 import { Tips } from './Tips';
 
@@ -46,8 +46,8 @@ export function WriteWord({ data, title }: { data: WriteWordInfo[]; title: strin
   });
 
   return (
-    <Container tips={<Tips {...current.tips} />} title={title} {...restProps}>
+    <StudyContainer tips={<Tips {...current.tips} />} title={title} {...restProps}>
       {items}
-    </Container>
+    </StudyContainer>
   );
 }

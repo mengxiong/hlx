@@ -6,7 +6,7 @@ import { Sortable } from 'src/component/Sortable';
 import { isAscendingOrder } from 'src/util';
 import { PickByValue } from 'utility-types';
 import { Subject } from './Subject';
-import { Container } from './Container';
+import { StudyContainer } from './Container';
 import { useStudy } from './useStudy';
 import { ReadingContent } from './RouteReading';
 
@@ -33,7 +33,7 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
   const items = value || current.options.map((v) => ({ id: v.value, content: v.content }));
 
   return (
-    <Container
+    <StudyContainer
       tips={vertical ? undefined : <ReadingContent current={current} />}
       title={title}
       {...restProps}
@@ -67,6 +67,6 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
           )}
         ></Sortable>
       </Box>
-    </Container>
+    </StudyContainer>
   );
 }
