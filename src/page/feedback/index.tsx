@@ -21,7 +21,7 @@ export function Feedback() {
     result.data?.pages.reduce((acc, cur) => acc.concat(cur.content), [] as FeedbackContent[]) || [];
 
   return (
-    <PageContainer contentStyle={{ backgroundColor: '#f1f1f1' }}>
+    <PageContainer contentStyle={{ bgcolor: 'grey.100' }}>
       <InfiniteScroll
         fetchNextPage={() => result.fetchNextPage()}
         hasNextPage={result.hasNextPage}
@@ -29,18 +29,24 @@ export function Feedback() {
         hasChildren={list.length > 0}
       >
         {list.map((item) => (
-          <Card sx={{ m: 2 }} elevation={0} square>
+          <Card sx={{ m: 1.5 }} elevation={1}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary">
                 {item.createTime}
               </Typography>
-              <Typography variant="h6" component="div" gutterBottom>
-                {item.recontent}
+              <Typography sx={{ fontSize: 16 }} variant="h6">
+                {item.recontent || '空'}
               </Typography>
-              <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                {item.updateTime}
-              </Typography>
-              <Typography variant="body2">{item.response}</Typography>
+              {item.response && (
+                <CardContent sx={{ bgcolor: 'grey.100', mt: 1 }}>
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary">
+                    {item.updateTime}
+                  </Typography>
+                  <Typography sx={{ fontSize: 16 }} variant="body2">
+                    {item.response}
+                  </Typography>
+                </CardContent>
+              )}
             </CardContent>
           </Card>
         ))}
