@@ -7,26 +7,30 @@ import {
   IconButton,
   Button,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+
 import CloseIcon from '@mui/icons-material/Close';
 
-export interface DialogBasicProps extends DialogProps {
+export interface ModalProps extends DialogProps {
   title: string;
   onConfirm?: () => void;
   onClose: () => void;
   children: React.ReactNode;
+  confirmLoading?: boolean;
   cancelButtonText?: string;
   confirmButtonText?: string;
 }
 
-export function DialogBasic({
+export function Modal({
   title,
   open,
   children,
   onClose,
   onConfirm,
+  confirmLoading = false,
   cancelButtonText = '取消',
   confirmButtonText = '确定',
-}: DialogBasicProps) {
+}: ModalProps) {
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
       <DialogTitle>
@@ -45,14 +49,14 @@ export function DialogBasic({
         </IconButton>
       </DialogTitle>
       <DialogContent>{children}</DialogContent>
-      <DialogActions sx={{ justifyContent: 'center', p: 2 }}>
+      <DialogActions sx={{ px: 3, py: 2 }}>
         <Button variant={onConfirm ? 'outlined' : 'contained'} onClick={onClose}>
           {cancelButtonText}
         </Button>
         {onConfirm && (
-          <Button variant="contained" onClick={onConfirm}>
+          <LoadingButton loading={confirmLoading} variant="contained" onClick={onConfirm}>
             {confirmButtonText}
-          </Button>
+          </LoadingButton>
         )}
       </DialogActions>
     </Dialog>

@@ -1,6 +1,8 @@
-import { Card, CardContent, Typography } from '@mui/material';
-import { useInfiniteQuery } from 'react-query';
-import { FeedbackContent, getFeedbackList } from 'src/api/feedback';
+import { Card, CardContent, Typography, Button, TextField } from '@mui/material';
+import { useState } from 'react';
+import { useInfiniteQuery, useMutation } from 'react-query';
+import { createFeedback, FeedbackContent, getFeedbackList } from 'src/api/feedback';
+import { Modal } from 'src/component/DialogBasic';
 import { InfiniteScroll } from 'src/component/InfiniteScroll';
 import { PageContainer } from '../layout/PageContainer';
 
@@ -20,8 +22,36 @@ export function Feedback() {
   const list =
     result.data?.pages.reduce((acc, cur) => acc.concat(cur.content), [] as FeedbackContent[]) || [];
 
+  const [open, setOpen] = useState(false);
+  const [content, setContent] = useState('');
+  const [isError, setError] = useState(false);
+
+  const submit = useMutation(createFeedback);
+
+  const handleClose = () => {
+    setOpen(false);
+    setContent('');
+    setError(false);
+  };
+  const handleConfirm = async () => {
+    if (!content) {
+      setError(true);
+    } else {
+      await submit.mutateAsync(content);
+      result.refetch();
+      handleClose();
+    }
+  };
+
   return (
-    <PageContainer contentStyle={{ bgcolor: 'grey.100' }}>
+    <PageContainer
+      contentStyle={{ bgcolor: 'grey.100' }}
+      action={
+        <Button variant="outlined" onClick={() => setOpen(true)}>
+          发给老师
+        </Button>
+      }
+    >
       <InfiniteScroll
         fetchNextPage={() => result.fetchNextPage()}
         hasNextPage={result.hasNextPage}
@@ -51,6 +81,24 @@ export function Feedback() {
           </Card>
         ))}
       </InfiniteScroll>
+      <Modal
+        title="发给老师"
+        open={open}
+        confirmLoading={submit.isLoading}
+        onClose={handleClose}
+        onConfirm={handleConfirm}
+      >
+        <TextField
+          fullWidth
+          multiline
+          autoFocus
+          error={isError}
+          helperText={isError ? '不能为空' : ''}
+          rows={10}
+          value={content}
+          onChange={(evt) => setContent(evt.target.value)}
+        />
+      </Modal>
     </PageContainer>
   );
 }

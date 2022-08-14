@@ -4,10 +4,16 @@ import { Breadcrumbs, BreadcrumbsProps } from './Breadcrumbs';
 
 export interface PageContainerProps extends BreadcrumbsProps {
   children: React.ReactNode;
+  action?: React.ReactNode;
   contentStyle?: Sx;
 }
 
-export function PageContainer({ children, contentStyle, ...restProps }: PageContainerProps) {
+export function PageContainer({
+  children,
+  action,
+  contentStyle,
+  ...restProps
+}: PageContainerProps) {
   return (
     <Box
       sx={{
@@ -20,6 +26,7 @@ export function PageContainer({ children, contentStyle, ...restProps }: PageCont
         sx={{
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'space-between',
           p: 2,
           borderBottomColor: 'divider',
           borderBottomWidth: 1,
@@ -27,6 +34,7 @@ export function PageContainer({ children, contentStyle, ...restProps }: PageCont
         }}
       >
         <Breadcrumbs {...restProps}></Breadcrumbs>
+        {action}
       </Box>
       <Box
         sx={{

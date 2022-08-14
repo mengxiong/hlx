@@ -1,7 +1,7 @@
 import { Paper, Container, Stack, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Header } from 'src/component/Header';
-import { DialogBasic } from 'src/component/DialogBasic';
+import { Modal } from 'src/component/DialogBasic';
 
 export interface StudyContainerProps {
   title: string;
@@ -65,14 +65,14 @@ export function StudyContainer({
         </>
       </Stack>
       {tips && (
-        <DialogBasic
+        <Modal
           title="提示"
           cancelButtonText="知道了"
           open={isWrong}
           onClose={onRight || voidFunction}
         >
           {tips}
-        </DialogBasic>
+        </Modal>
       )}
     </Paper>
   );
