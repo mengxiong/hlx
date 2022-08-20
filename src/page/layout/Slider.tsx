@@ -1,4 +1,4 @@
-import PersonIcon from '@mui/icons-material/Person';
+// import PersonIcon from '@mui/icons-material/Person';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import HistoryIcon from '@mui/icons-material/History';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -16,11 +16,11 @@ export const navList: Item[] = [
     label: '已选课程',
     icon: <MenuBookIcon />,
   },
-  {
-    key: '/user',
-    label: '本人信息',
-    icon: <PersonIcon />,
-  },
+  // {
+  //   key: '/user',
+  //   label: '本人信息',
+  //   icon: <PersonIcon />,
+  // },
   {
     key: '/history',
     label: '学习记录',

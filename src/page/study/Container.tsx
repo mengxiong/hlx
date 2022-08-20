@@ -48,13 +48,7 @@ export function StudyContainer({
       >
         <>
           {footer}
-          <LoadingButton
-            loading={isLoading}
-            loadingIndicator="提交中..."
-            size="large"
-            variant="contained"
-            onClick={onConfirm}
-          >
+          <LoadingButton loading={isLoading} size="large" variant="contained" onClick={onConfirm}>
             {confirmText}
           </LoadingButton>
           {onCancel && (
