@@ -47,7 +47,7 @@ export function QueryContainer(props: QueryContainerProps & UseQueryResult) {
     if (isLoading) {
       timeoutRef.current = window.setTimeout(() => {
         setLoadingVisible(true);
-      }, 500);
+      }, 100);
     } else {
       window.clearTimeout(timeoutRef.current);
       setLoadingVisible(false);
