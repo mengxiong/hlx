@@ -12,7 +12,7 @@ export function App() {
     <Theme>
       <QueryClientProvider client={queryClient}>
         <CssBaseline />
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Routes />
         </BrowserRouter>
         <Toaster />

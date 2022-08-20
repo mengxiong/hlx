@@ -59,7 +59,7 @@ export function Feedback() {
         hasChildren={list.length > 0}
       >
         {list.map((item) => (
-          <Card sx={{ m: 1.5 }} elevation={1}>
+          <Card key={item.id} sx={{ m: 1.5 }} elevation={1}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary">
                 {item.createTime}
