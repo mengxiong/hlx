@@ -63,7 +63,7 @@ export interface SelectionInfo extends ReadInfo {
 export type WriteSentenceInfo = ReadInfo;
 export type SpeakingInfo = ReadInfo;
 
-export interface WriteFullTextInfo extends ReadInfo {
+export interface FullTextInfo extends ReadInfo {
   character?: string;
 }
 
@@ -106,6 +106,7 @@ export const enum StepValue {
   SpeakingByTranslation = '005017', // 据译说文
   SpeakingByImage = '005012', // 说图
   SpeakingByContent = '005011', // 读句子
+  SpeakingByFullword = '005019', // 背诵
   SpeakingRepeat = '005016', // 句子复述
 }
 
@@ -114,7 +115,7 @@ export type StudyInfoMap = {
   [StepValue.WriteWord]: WriteWordInfo[];
   [StepValue.WriteSentenceByAudio]: WriteSentenceInfo[];
   [StepValue.WriteSentenceByTranslation]: WriteSentenceInfo[];
-  [StepValue.WriteFullText]: WriteFullTextInfo[];
+  [StepValue.WriteFullText]: FullTextInfo[];
   [StepValue.SortSentence]: SortingInfo[];
   [StepValue.SortTranslation]: SortingInfo[];
   [StepValue.SortSentenceByAudio]: SortingInfo[];
@@ -128,6 +129,7 @@ export type StudyInfoMap = {
   [StepValue.SpeakingByImage]: SpeakingInfo[];
   [StepValue.SpeakingByContent]: SpeakingInfo[];
   [StepValue.SpeakingRepeat]: SpeakingInfo[];
+  [StepValue.SpeakingByFullword]: FullTextInfo[];
 };
 
 export type StudyParams<T extends StepValue> = {
@@ -168,16 +170,20 @@ export interface SentenceScoreWord {
   dpMessage: string;
 }
 
-/**
- * 读句子 打分
- * @returns
- */
-export function checkSentence(values: { audioBase64: string; id: string; language: string }) {
-  const language = values.language === TextbookType.English ? 'en_us' : 'zh-cn';
-  const audioBase64 = values.audioBase64.replace(/^data:audio\/.*;base64,/, '');
-  return request.post<any, SentenceScore>('/study/check/5011', {
+interface CheckVoiceParams {
+  type: number;
+  audioBase64: string;
+  id: string;
+  language: string;
+}
+
+export function checkVoice({ language, id, audioBase64, type }: CheckVoiceParams) {
+  language = language === TextbookType.English ? 'en_us' : 'zh-cn';
+  audioBase64 = audioBase64.replace(/^data:audio\/.*;base64,/, '');
+  // /study/check/5019
+  return request.post<any, SentenceScore>(`/study/check/${type}`, {
     language,
     audioBase64,
-    id: values.id,
+    id,
   });
 }

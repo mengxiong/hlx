@@ -11,6 +11,7 @@ import { WriteSentence } from './RouteWriteSentence';
 import { WriteFullText } from './RouteWriteFullText';
 import { Speaking } from './RouteSpeaking';
 import { SpeakingSentence } from './RouteSpeakingSentence';
+import { SpeakingFullText } from './RouteSpeakingFullText';
 
 const map: {
   [key in StepValue]: JSX.Element;
@@ -44,6 +45,7 @@ const map: {
     <Speaking title="句子复述" data={[]} baseKey={['audioAttach', 'content']} />
   ), // 直接过
   [StepValue.SpeakingByContent]: <SpeakingSentence title="读句子" data={[]} baseKey="content" />, // 打分...
+  [StepValue.SpeakingByFullword]: <SpeakingFullText title="背诵" data={[]} />,
 };
 
 // 背诵

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Attach, SpeakingInfo } from 'src/api/study';
 import { AudioRecorder } from 'src/component/AudioRecorder';
 import { PickByValue } from 'utility-types';
@@ -14,14 +15,19 @@ interface SpeakingProps {
 }
 
 export function Speaking({ data, title, baseKey }: SpeakingProps) {
+  const [audio, setAudio] = useState<Blob | undefined>();
+
   const { current, ...restProps } = useStudy({
     data,
+    reset: () => setAudio(undefined),
   });
   const baseKeys = Array.isArray(baseKey) ? baseKey : [baseKey];
 
   return (
     <StudyContainer
-      footer={<AudioRecorder key={current.id} url={current.audioAttach?.attachUrl} />}
+      footer={
+        <AudioRecorder value={audio} onChange={setAudio} url={current.audioAttach?.attachUrl} />
+      }
       confirmText="读的不错"
       title={title}
       {...restProps}

@@ -1,22 +1,22 @@
 import { TextField, Typography } from '@mui/material';
 import { useState } from 'react';
-import { WriteFullTextInfo } from 'src/api/study';
+import { FullTextInfo } from 'src/api/study';
 import { StudyContainer } from './Container';
 import { ReadingContent } from './RouteReading';
 import { useStudy } from './useStudy';
 
 interface WriteFullTextProps {
-  data: WriteFullTextInfo[];
+  data: FullTextInfo[];
   title: string;
 }
 
 export function WriteFullText({ data, title }: WriteFullTextProps) {
-  const [writable, setWritable] = useState(false);
+  const [editable, setEditable] = useState(false);
 
   const [value, setValue] = useState<string>('');
   const reset = () => setValue('');
 
-  const { current, isLoading, onConfirm } = useStudy({
+  const { current, isLoading, onConfirm, ...restProps } = useStudy({
     data,
     reset,
     isCorrect: (item) => value === item.content,
@@ -33,12 +33,13 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
       tips={<ReadingContent current={current} />}
       title={title}
       isLoading={isLoading}
-      onConfirm={writable ? onConfirm : () => setWritable(true)}
-      confirmText={writable ? '提交' : '知道了'}
+      onConfirm={editable ? onConfirm : () => setEditable(true)}
+      confirmText={editable ? '提交' : '知道了'}
+      {...restProps}
     >
-      {!writable
+      {!editable
         ? data.map((item) => (
-            <Typography key={item.id} variant="study">
+            <Typography gutterBottom key={item.id} variant="study">
               {item.character ? `${item.character}: ${item.content}` : item.content}
             </Typography>
           ))
@@ -56,7 +57,7 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
                 />
               </Typography>
             ) : (
-              <Typography key={item.id} variant="study">
+              <Typography gutterBottom key={item.id} variant="study">
                 {item.character ? `${item.character}: ${item.content}` : item.content}
               </Typography>
             );

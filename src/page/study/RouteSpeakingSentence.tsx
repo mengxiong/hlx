@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { Attach, checkSentence, SpeakingInfo } from 'src/api/study';
+import { Attach, checkVoice, SpeakingInfo } from 'src/api/study';
 import { AudioRecorder } from 'src/component/AudioRecorder';
 import { blobToBase64 } from 'src/util';
 import { PickByValue } from 'utility-types';
@@ -19,15 +19,20 @@ interface SpeakingProps {
 }
 
 export function SpeakingSentence({ data, title, baseKey }: SpeakingProps) {
-  const { type } = useParams() as { type: string };
+  const { type, stepValue } = useParams() as { type: string; stepValue: string };
 
   const [audio, setAudio] = useState<Blob>();
 
-  const sentenceMutation = useMutation(checkSentence);
+  const sentenceMutation = useMutation(checkVoice);
 
   const isCorrect = async (value: SpeakingInfo) => {
     const audioBase64 = await blobToBase64(audio!);
-    const val = await sentenceMutation.mutateAsync({ id: value.id, language: type, audioBase64 });
+    const val = await sentenceMutation.mutateAsync({
+      type: parseInt(stepValue, 10),
+      id: value.id,
+      language: type,
+      audioBase64,
+    });
     return val.status === '1';
   };
 
@@ -40,10 +45,10 @@ export function SpeakingSentence({ data, title, baseKey }: SpeakingProps) {
   return (
     <StudyContainer
       footer={
-        <AudioRecorder onStop={setAudio} key={current.id} url={current.audioAttach?.attachUrl} />
+        <AudioRecorder onChange={setAudio} value={audio} url={current.audioAttach?.attachUrl} />
       }
       confirmProps={{ disabled: !audio }}
-      confirmText="读的不错"
+      confirmText="提交"
       title={title}
       isLoading={isLoading || sentenceMutation.isLoading}
       tips={

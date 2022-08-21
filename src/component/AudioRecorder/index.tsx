@@ -9,13 +9,13 @@ import { recorder } from './recorderManager';
 
 export interface AudioRecorderProps {
   url?: string; // 标准音频
-  onStop?: (blob: Blob) => void;
+  value?: Blob;
+  onChange: (value?: Blob) => void;
 }
 
-export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
+export function AudioRecorder({ url, value, onChange }: AudioRecorderProps) {
   const [recordState, setRecordState] = useState<RecordingState>('inactive');
   const [time, setTime] = useState(0);
-  const [recordingUrl, setRecordingUrl] = useState('');
   const [audioState, setAudioState] = useState('');
   const intervalId = useRef<number>();
   const [audioEl] = useState(() => new Audio());
@@ -23,9 +23,7 @@ export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
   const stop = async () => {
     await recorder.stop();
     const blob = recorder.getWAVBlob();
-    onStop?.(blob);
-    const audioURL = window.URL.createObjectURL(blob);
-    setRecordingUrl(audioURL);
+    onChange(blob);
   };
 
   const start = () => {
@@ -37,7 +35,7 @@ export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
       stop();
       setRecordState('inactive');
     } else {
-      setRecordingUrl('');
+      onChange(undefined);
       recorder.start().then(() => {
         setRecordState('recording');
       });
@@ -46,6 +44,7 @@ export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
 
   useEffect(() => {
     return () => {
+      audioEl.pause();
       recorder.destroy();
     };
   }, []);
@@ -61,7 +60,7 @@ export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
   useEffect(() => {
     if (recordState === 'recording') {
       intervalId.current = window.setInterval(() => {
-        setTime((value) => value + 1);
+        setTime((val) => val + 1);
       }, 1000);
     } else if (recordState !== 'paused') {
       setTime(0);
@@ -74,12 +73,13 @@ export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
   useEffect(() => {
     const audio = audioEl;
 
-    if (recordingUrl) {
+    if (value) {
       const playList: string[] = [];
+      const audioURL = window.URL.createObjectURL(value);
       if (url) {
         playList.push(url);
       }
-      playList.push(recordingUrl);
+      playList.push(audioURL);
       let i = 0;
       const throttleSetAudioState = debounce(setAudioState, 50);
 
@@ -101,7 +101,7 @@ export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
     return () => {
       audio.pause();
     };
-  }, [recordingUrl, url]);
+  }, [value, url]);
 
   const mm = padStart(String((time / 60) | 0), 2, '0');
   const ss = padStart(String(time % 60), 2, '0');
@@ -118,7 +118,7 @@ export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
             <PlayArrowIcon fontSize="large" />
           )
         }
-        disabled={!recordingUrl}
+        disabled={!value}
         onClick={togglePlay}
       >
         {audioState === 'play' ? '暂停' : '播放'}
@@ -135,7 +135,7 @@ export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
         }
         onClick={start}
       >
-        {recordState === 'recording' ? `${mm}:${ss}` : recordingUrl ? '重录' : '录音'}
+        {recordState === 'recording' ? `${mm}:${ss}` : value ? '重录' : '录音'}
       </Button>
     </>
   );
