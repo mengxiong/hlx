@@ -1,4 +1,5 @@
 import { request } from 'src/request';
+import { TextbookType } from './textbook';
 
 export const enum AttachType {
   Audio = '002001',
@@ -152,4 +153,31 @@ export interface RecordStudyParams {
 
 export function recordStudy(values: RecordStudyParams) {
   return request.post('/study/confirm', values);
+}
+
+export interface SentenceScore {
+  status: '0' | '1'; // 0 不通过
+  score: string;
+  words?: SentenceScoreWord[];
+}
+
+export interface SentenceScoreWord {
+  word: string;
+  audioUrl: string;
+  translation: string;
+  dpMessage: string;
+}
+
+/**
+ * 读句子 打分
+ * @returns
+ */
+export function checkSentence(values: { audioBase64: string; id: string; language: string }) {
+  const language = values.language === TextbookType.English ? 'en_us' : 'zh-cn';
+  const audioBase64 = values.audioBase64.replace(/^data:audio\/.*;base64,/, '');
+  return request.post<any, SentenceScore>('/study/check/5011', {
+    language,
+    audioBase64,
+    id: values.id,
+  });
 }

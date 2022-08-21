@@ -17,16 +17,17 @@ declare module 'react-router-dom' {
 }
 
 export const generateStudyPath = (
+  type: string,
   textbookId: string,
   unitId: string,
   stepId: string,
   stepValue: string
-) => `/textbook/${textbookId}/unit/${unitId}/step/${stepId}/${stepValue}`;
+) => `/textbook/${type}/${textbookId}/unit/${unitId}/step/${stepId}/${stepValue}`;
 
 export const routesConfig: RouteObject[] = [
   { path: '/login', element: <LoginPage /> },
   {
-    path: generateStudyPath(':textbookId', ':unitId', ':stepId', ':stepValue'),
+    path: generateStudyPath(':type', ':textbookId', ':unitId', ':stepId', ':stepValue'),
     element: (
       <AuthRequired>
         <Study />
@@ -44,7 +45,7 @@ export const routesConfig: RouteObject[] = [
       { index: true, element: <Navigate to="textbooks" replace /> },
       { path: 'textbooks', element: <TextbookList />, breadcrumbName: '已选课程' },
       {
-        path: 'textbook/:textbookId',
+        path: 'textbook/:type/:textbookId',
         element: <Textbook />,
         children: [{ path: 'unit/:unitId', element: <Unit /> }],
       },

@@ -31,6 +31,7 @@ specifiers:
   eslint-plugin-react: ^7.29.4
   eslint-plugin-react-hooks: ^4.5.0
   eventemitter3: ^4.0.7
+  js-audio-recorder: ^1.0.7
   lodash: ^4.17.21
   md5: ^2.3.0
   prettier: ^2.6.2
@@ -61,6 +62,7 @@ dependencies:
   axios: 0.27.2
   dayjs: 1.11.3
   eventemitter3: 4.0.7
+  js-audio-recorder: 1.0.7
   lodash: 4.17.21
   md5: 2.3.0
   react: 18.2.0
@@ -2680,6 +2682,10 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
+
+  /js-audio-recorder/1.0.7:
+    resolution: {integrity: sha512-JiDODCElVHGrFyjGYwYyNi7zCbKk9va9C77w+zCPMmi4C6ix7zsX2h3ddHugmo4dOTOTCym9++b/wVW9nC0IaA==}
+    dev: false
 
   /js-sha3/0.8.0:
     resolution: {integrity: sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==}

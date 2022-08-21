@@ -24,3 +24,11 @@ export function delay(wait = 1000) {
 export function isObject<T = any>(value: unknown): value is T {
   return typeof value === 'object' && value !== null;
 }
+
+export function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.readAsDataURL(blob);
+  });
+}

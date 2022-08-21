@@ -39,7 +39,7 @@ export function TextbookList() {
             <ListItem divider={index !== items.length - 1} disablePadding key={value.id}>
               <ListItemButton
                 component={Link}
-                to={`/textbook/${value.id}`}
+                to={`/textbook/${type}/${value.id}`}
                 state={{ title: value.label }}
               >
                 <ListItemAvatar>

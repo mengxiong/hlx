@@ -9,15 +9,14 @@ import { PageContainer } from '../layout/PageContainer';
 export function Textbook() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { textbookId, unitId, type } = useParams();
 
   const replaceBreadcrumbs = () => {
     return [
-      { path: '/textbooks', name: '已选课程' },
+      { path: `/textbooks?type=${type}`, name: '已选课程' },
       { path: location.pathname, name: isObject(location.state) ? location.state.title : '' },
     ];
   };
-
-  const { textbookId, unitId } = useParams();
 
   const textbook = useQuery(['textbook', textbookId], () => getTextbookUnit(textbookId!));
 

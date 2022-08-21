@@ -1,4 +1,4 @@
-import { Paper, Container, Stack, Button } from '@mui/material';
+import { Paper, Container, Stack, Button, ButtonProps } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Header } from 'src/component/Header';
 import { Modal } from 'src/component/DialogBasic';
@@ -12,6 +12,7 @@ export interface StudyContainerProps {
   cancelText?: string;
   isLoading?: boolean;
   isWrong?: boolean;
+  confirmProps?: ButtonProps;
   onRight?: () => void;
   onConfirm: () => void;
   onCancel?: () => void;
@@ -27,6 +28,7 @@ export function StudyContainer({
   onRight,
   onCancel,
   onConfirm,
+  confirmProps,
   cancelText = '上一步',
   confirmText = '确定',
   children,
@@ -48,7 +50,13 @@ export function StudyContainer({
       >
         <>
           {footer}
-          <LoadingButton loading={isLoading} size="large" variant="contained" onClick={onConfirm}>
+          <LoadingButton
+            loading={isLoading}
+            size="large"
+            variant="contained"
+            onClick={onConfirm}
+            {...confirmProps}
+          >
             {confirmText}
           </LoadingButton>
           {onCancel && (

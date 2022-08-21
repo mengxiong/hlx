@@ -7,7 +7,9 @@ import { TextBookUnitStep } from 'src/api/textbook';
 import { generateStudyPath } from 'src/Routes';
 
 export function useSubmit() {
-  const { textbookId, unitId, stepId, stepValue } = useParams() as StudyParams<any>;
+  const { type, textbookId, unitId, stepId, stepValue } = useParams() as StudyParams<any> & {
+    type: string;
+  };
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
@@ -25,7 +27,7 @@ export function useSubmit() {
         const index = stepList.findIndex((item) => item.stepNum === stepId);
         if (index !== stepList.length - 1) {
           const next = stepList[index + 1];
-          navigate(generateStudyPath(textbookId, unitId, next.stepNum, next.stepValue), {
+          navigate(generateStudyPath(type, textbookId, unitId, next.stepNum, next.stepValue), {
             replace: true,
           });
         } else {

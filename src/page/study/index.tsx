@@ -10,6 +10,7 @@ import { Selection } from './RouteSelection';
 import { WriteSentence } from './RouteWriteSentence';
 import { WriteFullText } from './RouteWriteFullText';
 import { Speaking } from './RouteSpeaking';
+import { SpeakingSentence } from './RouteSpeakingSentence';
 
 const map: {
   [key in StepValue]: JSX.Element;
@@ -42,7 +43,7 @@ const map: {
   [StepValue.SpeakingRepeat]: (
     <Speaking title="句子复述" data={[]} baseKey={['audioAttach', 'content']} />
   ), // 直接过
-  [StepValue.SpeakingByContent]: <Speaking title="读句子" data={[]} baseKey="content" />, // 打分...
+  [StepValue.SpeakingByContent]: <SpeakingSentence title="读句子" data={[]} baseKey="content" />, // 打分...
 };
 
 // 背诵

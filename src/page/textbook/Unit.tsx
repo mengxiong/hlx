@@ -8,7 +8,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 
 export function Unit() {
-  const { textbookId, unitId } = useParams() as { textbookId: string; unitId: string };
+  const { textbookId, unitId, type } = useParams() as {
+    textbookId: string;
+    unitId: string;
+    type: string;
+  };
 
   const unit = useQuery(
     ['unit', textbookId, unitId],
@@ -27,7 +31,7 @@ export function Unit() {
             <ListItem key={value.stepNum + value.stepValue} disablePadding>
               <ListItemButton
                 component={Link}
-                to={generateStudyPath(textbookId, unitId, value.stepNum, value.stepValue)}
+                to={generateStudyPath(type, textbookId, unitId, value.stepNum, value.stepValue)}
                 disabled={disabled}
               >
                 <ListItemIcon sx={{ minWidth: 0, mr: 1.5 }}>

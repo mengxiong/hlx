@@ -5,14 +5,14 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import { useEffect, useRef, useState } from 'react';
 import { padStart, debounce } from 'lodash';
-import { RecorderManager } from './recorderManager';
+import { recorder } from './recorderManager';
 
 export interface AudioRecorderProps {
   url?: string; // 标准音频
+  onStop?: (blob: Blob) => void;
 }
 
-export function AudioRecorder({ url }: AudioRecorderProps) {
-  const recorderManager = RecorderManager.getInstance();
+export function AudioRecorder({ url, onStop }: AudioRecorderProps) {
   const [recordState, setRecordState] = useState<RecordingState>('inactive');
   const [time, setTime] = useState(0);
   const [recordingUrl, setRecordingUrl] = useState('');
@@ -21,7 +21,9 @@ export function AudioRecorder({ url }: AudioRecorderProps) {
   const [audioEl] = useState(() => new Audio());
 
   const stop = async () => {
-    const blob = await recorderManager.stop();
+    await recorder.stop();
+    const blob = recorder.getWAVBlob();
+    onStop?.(blob);
     const audioURL = window.URL.createObjectURL(blob);
     setRecordingUrl(audioURL);
   };
@@ -29,15 +31,24 @@ export function AudioRecorder({ url }: AudioRecorderProps) {
   const start = () => {
     // 取消暂停步骤
     if (recordState === 'paused') {
-      recorderManager.resume();
+      recorder.resume();
     } else if (recordState === 'recording') {
       // recorderManager.pause();
       stop();
+      setRecordState('inactive');
     } else {
       setRecordingUrl('');
-      recorderManager.start();
+      recorder.start().then(() => {
+        setRecordState('recording');
+      });
     }
   };
+
+  useEffect(() => {
+    return () => {
+      recorder.destroy();
+    };
+  }, []);
 
   const togglePlay = () => {
     if (audioState === 'play') {
@@ -46,13 +57,6 @@ export function AudioRecorder({ url }: AudioRecorderProps) {
       audioEl.play();
     }
   };
-
-  useEffect(() => {
-    recorderManager.on('statechange', setRecordState);
-    return () => {
-      recorderManager.off('statechange', setRecordState);
-    };
-  }, []);
 
   useEffect(() => {
     if (recordState === 'recording') {
@@ -121,7 +125,7 @@ export function AudioRecorder({ url }: AudioRecorderProps) {
       </Button>
       <Button
         size="large"
-        variant="contained"
+        variant="outlined"
         startIcon={
           recordState === 'recording' ? (
             <StopIcon fontSize="large" />
@@ -131,7 +135,7 @@ export function AudioRecorder({ url }: AudioRecorderProps) {
         }
         onClick={start}
       >
-        {recordState === 'recording' ? `${mm}:${ss}` : '录音'}
+        {recordState === 'recording' ? `${mm}:${ss}` : recordingUrl ? '重录' : '录音'}
       </Button>
     </>
   );

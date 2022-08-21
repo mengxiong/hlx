@@ -3,7 +3,7 @@ import { useStep, UseStepParams } from './useStep';
 import { useSubmit } from './useSubmit';
 
 interface UseStudyParams<T> extends UseStepParams<T> {
-  isCorrect?: (item: T) => boolean;
+  isCorrect?: (item: T) => boolean | Promise<boolean>;
   needRestart?: boolean;
 }
 
@@ -17,15 +17,16 @@ export function useStudy<T = unknown>({
   const [isRestart, setRestart] = useState(false);
   const [wrongList, setWrongList] = useState<T[]>([]);
 
-  const { current, isFirst, isLast, previous, next, setIndex } = useStep({
+  const { current, isLast, next, setIndex } = useStep({
     data: isRestart ? wrongList : data,
     reset,
   });
 
   const { submit, isLoading } = useSubmit();
 
-  const onConfirm = () => {
-    if (isCorrect(current)) {
+  const onConfirm = async () => {
+    const result = await isCorrect(current);
+    if (result) {
       if (!isLast) {
         next();
       } else if (wrongList.length) {
@@ -43,9 +44,10 @@ export function useStudy<T = unknown>({
     }
   };
 
-  const onCancel = !isFirst ? previous : undefined;
+  // 不显示上一步
+  // const onCancel = !isFirst ? previous : undefined;
 
   const onRight = () => setWrong(false);
 
-  return { current, isLoading, onConfirm, onCancel, isWrong, onRight };
+  return { current, isLoading, onConfirm, isWrong, onRight };
 }
