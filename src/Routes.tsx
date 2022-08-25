@@ -1,9 +1,9 @@
 import { Navigate, useRoutes, RouteObject } from 'react-router-dom';
 import { AuthProvider } from 'src/auth/AuthProvider';
 import { AuthRequired } from './auth/AuthRequired';
-import { LoginPage } from './page/login/Login';
+import { LoginPage } from './page/login';
 import { Layout } from './page/layout/Layout';
-import { TextbookList } from './page/textbook/TextbookList';
+import { TextbookList } from './page/textbook';
 import { Textbook } from './page/textbook/Textbook';
 import { Study } from './page/study';
 import { Unit } from './page/textbook/Unit';
