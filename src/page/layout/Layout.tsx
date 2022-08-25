@@ -38,9 +38,7 @@ export function Layout() {
             <Slider onClick={() => setOpen(false)} />
           </Drawer>
         ) : (
-          <Drawer variant="permanent" PaperProps={{ sx: { position: 'relative', zIndex: 0 } }} open>
-            <Slider />
-          </Drawer>
+          <Slider sx={{ borderRight: `1px solid ${theme.palette.divider}` }} />
         )}
         <Outlet />
       </Box>

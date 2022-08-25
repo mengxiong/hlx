@@ -61,12 +61,8 @@ export function StudyRecord() {
         hasChildren={list.length > 0}
       >
         <List>
-          {group.map((val, j) => (
-            <Box
-              key={`${val[0]}`}
-              component="li"
-              sx={{ borderBottom: j === group.length - 1 ? 0 : 1, borderBottomColor: 'divider' }}
-            >
+          {group.map((val) => (
+            <Box key={`${val[0]}`} component="li">
               <ul style={{ padding: 0, margin: 0 }}>
                 <ListSubheader sx={{ lineHeight: '36px' }}>{val[0]}</ListSubheader>
                 {val[1].map((item, i) => (

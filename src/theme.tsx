@@ -51,18 +51,25 @@ const LinkBehavior = React.forwardRef<
 
 const theme = createTheme({
   palette: {
+    // primary: {
+    //   ...deepOrange,
+    //   main: '#ff630f',
+    //   dark: '#ff870f',
+    // },
     primary: {
       ...deepOrange,
-      // light: will be calculated from palette.primary.main,
-      main: '#ff630f',
-      dark: '#ff870f',
       contrastText: '#fff',
-      // dark: will be calculated from palette.primary.main,
-      // contrastText: will be calculated to contrast with palette.primary.main
+      // main: '#fb8c15',
+      // main: '#bf360c',
+      main: '#ed7233',
     },
-    // background: {
-    //   default: '#006a60',
-    // },
+    secondary: {
+      main: '#00796b',
+    },
+    background: {
+      default: '#fafafa',
+      paper: '#fff',
+    },
   },
   components: {
     MuiLink: {

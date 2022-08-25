@@ -3,6 +3,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import HistoryIcon from '@mui/icons-material/History';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { List, ListItemButton, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Sx } from 'src/types';
 
 interface Item {
   key: string;
@@ -33,7 +34,7 @@ export const navList: Item[] = [
   },
 ];
 
-export function Slider({ onClick }: { onClick?: VoidFunction }) {
+export function Slider({ onClick, sx }: { onClick?: VoidFunction; sx?: Sx }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -49,6 +50,7 @@ export function Slider({ onClick }: { onClick?: VoidFunction }) {
       sx={{
         width: 240,
         px: 2,
+        ...sx,
       }}
       component="nav"
     >

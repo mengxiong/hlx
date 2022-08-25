@@ -45,9 +45,8 @@ export function Feedback() {
 
   return (
     <PageContainer
-      contentStyle={{ bgcolor: 'grey.100' }}
       action={
-        <Button variant="outlined" onClick={() => setOpen(true)}>
+        <Button variant="outlined" size="medium" onClick={() => setOpen(true)}>
           发给老师
         </Button>
       }
