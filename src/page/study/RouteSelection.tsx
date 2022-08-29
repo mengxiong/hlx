@@ -1,42 +1,47 @@
+import { uniqBy } from 'lodash';
 import { useState } from 'react';
 import { SelectionInfo } from 'src/api/study';
 import { CheckboxGroup } from 'src/component/CheckboxGroup';
 import { RadioGroups } from 'src/component/RadioGroup';
 import { StudyContainer } from './Container';
-import { Subject } from './Subject';
+import { Subject, SubjectBaseKeys } from './Subject';
 import { Tips } from './Tips';
 import { useStudy } from './useStudy';
 
 interface SelectionProps {
   data: SelectionInfo[];
   title: string;
-  baseKey: 'audioAttach' | 'content';
+  baseKey: SubjectBaseKeys<SelectionInfo>;
 }
 
 export function Selection({ data, title, baseKey }: SelectionProps) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<string>('');
 
   const reset = () => setValue('');
 
   const { current, ...restProps } = useStudy({
     data,
     reset,
+    validate: () => value === '',
     isCorrect: (item) => value === item.answer,
   });
 
   const multiSelect = current.answer.indexOf('|') !== -1;
 
-  const options = current.options.map((v) => ({
-    label: v.type === '006002' ? <img src={v.content} alt={v.content} height="160" /> : v.content,
-    value: v.value,
-  }));
+  const options = uniqBy(
+    current.options.map((v) => ({
+      label: v.type === '006002' ? <img src={v.content} alt={v.content} height="160" /> : v.content,
+      value: v.value,
+    })),
+    'value'
+  );
 
   return (
     <StudyContainer tips={current.tips && <Tips {...current.tips} />} title={title} {...restProps}>
-      <Subject id={current.id!} data={current[baseKey]} />
+      <Subject data={current} baseKey={baseKey} />
       {multiSelect ? (
         <CheckboxGroup
-          value={value.split('|')}
+          value={value ? value.split('|') : []}
           onChange={(v) => setValue(v.sort().join('|'))}
           options={options}
         ></CheckboxGroup>

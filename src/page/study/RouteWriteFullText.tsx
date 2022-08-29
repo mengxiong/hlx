@@ -1,6 +1,7 @@
 import { TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FullTextInfo } from 'src/api/study';
+import { isSameSentence } from 'src/util';
 import { StudyContainer } from './Container';
 import { ReadingContent } from './RouteReading';
 import { useStudy } from './useStudy';
@@ -19,7 +20,9 @@ export function WriteFullText({ data, title }: WriteFullTextProps) {
   const { current, isLoading, onConfirm, ...restProps } = useStudy({
     data,
     reset,
-    isCorrect: (item) => value === item.content,
+    validateText: '答案不能为空',
+    validate: () => value.trim() === '',
+    isCorrect: (item) => isSameSentence(value, item.content),
   });
 
   const index = data.indexOf(current);

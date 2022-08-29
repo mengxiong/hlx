@@ -1,7 +1,18 @@
-import { Paper, Container, Stack, Button, ButtonProps } from '@mui/material';
+import {
+  Paper,
+  Container,
+  Stack,
+  Button,
+  ButtonProps,
+  useTheme,
+  useMediaQuery,
+  Slide,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Header } from 'src/component/Header';
 import { Modal } from 'src/component/DialogBasic';
+import { TransitionProps } from '@mui/material/transitions';
+import React from 'react';
 
 export interface StudyContainerProps {
   title: string;
@@ -20,6 +31,15 @@ export interface StudyContainerProps {
 
 const voidFunction = () => {};
 
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export function StudyContainer({
   title,
   tips,
@@ -34,10 +54,13 @@ export function StudyContainer({
   children,
   footer,
 }: StudyContainerProps) {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <Paper sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
       <Header primary title={title}></Header>
-      <Container maxWidth="lg" sx={{ flex: 1, overflow: 'audo', py: 4 }}>
+      <Container maxWidth="lg" sx={{ flex: 1, overflow: 'auto', py: 4 }}>
         {children}
       </Container>
       <Stack
@@ -68,6 +91,8 @@ export function StudyContainer({
       </Stack>
       {tips && (
         <Modal
+          TransitionComponent={Transition}
+          fullScreen={fullScreen}
           title="提示"
           cancelButtonText="知道了"
           open={isWrong}

@@ -1,17 +1,14 @@
 import { useState } from 'react';
-import { Attach, SpeakingInfo } from 'src/api/study';
+import { SpeakingInfo } from 'src/api/study';
 import { AudioRecorder } from 'src/component/AudioRecorder';
-import { PickByValue } from 'utility-types';
 import { StudyContainer } from './Container';
-import { Subject } from './Subject';
+import { Subject, SubjectBaseKeys } from './Subject';
 import { useStudy } from './useStudy';
-
-type BaseKey = keyof PickByValue<Required<SpeakingInfo>, string | Attach>;
 
 interface SpeakingProps {
   data: SpeakingInfo[];
   title: string;
-  baseKey: BaseKey | BaseKey[];
+  baseKey: SubjectBaseKeys<SpeakingInfo>;
 }
 
 export function Speaking({ data, title, baseKey }: SpeakingProps) {
@@ -19,9 +16,10 @@ export function Speaking({ data, title, baseKey }: SpeakingProps) {
 
   const { current, ...restProps } = useStudy({
     data,
+    validateText: '请先录音',
+    validate: () => audio === undefined,
     reset: () => setAudio(undefined),
   });
-  const baseKeys = Array.isArray(baseKey) ? baseKey : [baseKey];
 
   return (
     <StudyContainer
@@ -32,9 +30,7 @@ export function Speaking({ data, title, baseKey }: SpeakingProps) {
       title={title}
       {...restProps}
     >
-      {baseKeys.map((key) => (
-        <Subject key={key} id={current.id} data={current[key]} />
-      ))}
+      <Subject data={current} baseKey={baseKey} />
     </StudyContainer>
   );
 }

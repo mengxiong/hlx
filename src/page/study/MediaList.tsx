@@ -7,11 +7,12 @@ import screenfull from 'screenfull';
 import { useRef, useState } from 'react';
 
 export interface MediaListProps {
+  defaultIndex?: number;
   attach: Attach | undefined | Array<Attach | undefined>;
 }
 
 // TODO: tabs 重构
-export function MediaList({ attach }: MediaListProps) {
+export function MediaList({ attach, defaultIndex = 0 }: MediaListProps) {
   const imageRef = useRef<HTMLImageElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null); // TODO: 逗号分隔多个视频
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -22,7 +23,7 @@ export function MediaList({ attach }: MediaListProps) {
   const audioAttach = filterAttachs.find((v) => v.attachType === AttachType.Audio);
   const videoAttach = filterAttachs.find((v) => v.attachType === AttachType.Video);
 
-  const [type, setType] = useState<AttachType | undefined>(filterAttachs[0].attachType);
+  const [type, setType] = useState<AttachType | undefined>(filterAttachs[defaultIndex]?.attachType);
 
   const handleClick = (value: AttachType) => {
     if (value === type) {
@@ -46,11 +47,11 @@ export function MediaList({ attach }: MediaListProps) {
     }
   };
 
-  const onlyOne = filterAttachs.length <= 1;
+  const hideIcon = filterAttachs.length <= 1 && defaultIndex >= 0;
 
   return (
     <Box>
-      {!onlyOne && (
+      {!hideIcon && (
         <Stack direction="row" spacing={2} justifyContent="center">
           {imageAttach && (
             <IconButton
@@ -81,7 +82,7 @@ export function MediaList({ attach }: MediaListProps) {
           )}
         </Stack>
       )}
-      <Box py={2} display="flex" justifyContent={onlyOne ? 'start' : 'center'}>
+      <Box sx={{ mb: type ? 1 : 0 }} display="flex" justifyContent={hideIcon ? 'start' : 'center'}>
         {imageAttach && (
           <img
             style={{ display: type === AttachType.Image ? 'block' : 'none', maxWidth: 300 }}

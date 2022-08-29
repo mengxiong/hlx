@@ -27,14 +27,27 @@ const map: {
   [StepValue.WriteFullText]: <WriteFullText title="默写" data={[]} />, // 提示为看和听 错题重来
 
   [StepValue.SortSentence]: <Sorting title="排句成篇" data={[]} vertical />, // 无提示 无错题
-  [StepValue.SortTranslation]: <Sorting title="译文排序" data={[]} vertical baseKey="attach" />, // 无提示 无错题
+  [StepValue.SortTranslation]: (
+    <Sorting
+      title="译文排序"
+      data={[]}
+      vertical
+      baseKey={['imageAttach', 'audioAttach', 'videoAttach']}
+    />
+  ), // 无提示 无错题
   [StepValue.SortSentenceByAudio]: (
     <Sorting title="据音排句" data={[]} vertical baseKey="audioAttach" />
   ), // 无提示 无错题
   [StepValue.SortWordByAudio]: <Sorting title="据音排词" data={[]} baseKey="audioAttach" />, // 提示为看和听 错题重来
   [StepValue.SortWordByTranslation]: <Sorting title="据译排词" data={[]} baseKey="translation" />, // 提示为看和听 错题重来
 
-  [StepValue.Selection]: <Selection title="常规选择" data={[]} baseKey="content" />, // 有提示 错误重来
+  [StepValue.Selection]: (
+    <Selection
+      title="常规选择"
+      data={[]}
+      baseKey={['content', 'imageAttach', 'audioAttach', 'videoAttach']}
+    />
+  ), // 有提示 错误重来
   [StepValue.SelectionByAudio]: <Selection title="据音选文" data={[]} baseKey="audioAttach" />, // 无提示 错误重来
   [StepValue.SelectionByContent]: <Selection title="据文选择" data={[]} baseKey="content" />, // 无提示 错误重来
   [StepValue.SelectionImageByAudio]: <Selection title="据音选图" data={[]} baseKey="audioAttach" />, // 无提示 错误重来
@@ -47,9 +60,6 @@ const map: {
   [StepValue.SpeakingByContent]: <SpeakingSentence title="读句子" data={[]} baseKey="content" />, // 打分...
   [StepValue.SpeakingByFullword]: <SpeakingFullText title="背诵" data={[]} />,
 };
-
-// 背诵
-// 读句子
 
 // TODO:
 // 读句中词

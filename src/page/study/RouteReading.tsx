@@ -20,14 +20,20 @@ export function ReadingContent({ current }: { current: ReadInfo }) {
   return (
     <>
       <MediaList
+        defaultIndex={-1}
         key={current.id}
         attach={[current.imageAttach, current.audioAttach, current.videoAttach]}
       ></MediaList>
       <List>
         {content.map((item) => (
           <ListItem key={item.key} alignItems="flex-start">
-            <ListItemIcon sx={{ color: 'primary.main' }}>{item.icon}</ListItemIcon>
-            <ListItemText disableTypography primary={item.text} />
+            <ListItemIcon sx={{ color: 'primary.main', typography: 'study' }}>
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText
+              primary={item.text}
+              primaryTypographyProps={{ variant: 'study', component: 'p' }}
+            />
           </ListItem>
         ))}
       </List>

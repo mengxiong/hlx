@@ -30,9 +30,10 @@ export function Modal({
   confirmLoading = false,
   cancelButtonText = '取消',
   confirmButtonText = '确定',
+  ...restProps
 }: ModalProps) {
   return (
-    <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
+    <Dialog {...restProps} fullWidth maxWidth="sm" open={open} onClose={onClose}>
       <DialogTitle>
         {title}
         <IconButton
@@ -49,12 +50,10 @@ export function Modal({
         </IconButton>
       </DialogTitle>
       <DialogContent>{children}</DialogContent>
-      <DialogActions sx={{ px: 3, py: 2 }}>
-        <Button variant={onConfirm ? 'outlined' : 'contained'} onClick={onClose}>
-          {cancelButtonText}
-        </Button>
+      <DialogActions disableSpacing sx={{ py: 1 }}>
+        <Button onClick={onClose}>{cancelButtonText}</Button>
         {onConfirm && (
-          <LoadingButton loading={confirmLoading} variant="contained" onClick={onConfirm}>
+          <LoadingButton loading={confirmLoading} onClick={onConfirm}>
             {confirmButtonText}
           </LoadingButton>
         )}

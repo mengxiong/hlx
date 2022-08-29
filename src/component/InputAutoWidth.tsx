@@ -1,5 +1,7 @@
-export function InputAutoWidth(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  const { value } = props;
+export function InputAutoWidth({
+  value = '',
+  ...restProps
+}: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div
       style={{
@@ -13,7 +15,8 @@ export function InputAutoWidth(props: React.InputHTMLAttributes<HTMLInputElement
         {value || '测试'}
       </span>
       <input
-        {...props}
+        {...restProps}
+        value={value}
         style={{
           position: 'absolute',
           left: 0,

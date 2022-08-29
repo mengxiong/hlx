@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Attach, WriteSentenceInfo } from 'src/api/study';
-import { PickByValue } from 'utility-types';
+import { WriteSentenceInfo } from 'src/api/study';
 import { TextField } from '@mui/material';
-import { Subject } from './Subject';
+import { isSameSentence } from 'src/util';
+import { Subject, SubjectBaseKeys } from './Subject';
 import { StudyContainer } from './Container';
 import { useStudy } from './useStudy';
 import { ReadingContent } from './RouteReading';
@@ -10,7 +10,7 @@ import { ReadingContent } from './RouteReading';
 interface WriteSentenceProps {
   data: WriteSentenceInfo[];
   title: string;
-  baseKey: keyof PickByValue<Required<WriteSentenceInfo>, string | Attach>;
+  baseKey: SubjectBaseKeys<WriteSentenceInfo>;
 }
 
 export function WriteSentence({ data, title, baseKey }: WriteSentenceProps) {
@@ -20,7 +20,9 @@ export function WriteSentence({ data, title, baseKey }: WriteSentenceProps) {
   const { current, ...restProps } = useStudy({
     data,
     reset,
-    isCorrect: (item) => value === item.content,
+    validateText: '答案不能为空',
+    validate: () => value.trim() === '',
+    isCorrect: (item) => isSameSentence(value, item.content),
   });
 
   const handleInput: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (evt) => {
@@ -29,7 +31,7 @@ export function WriteSentence({ data, title, baseKey }: WriteSentenceProps) {
 
   return (
     <StudyContainer tips={<ReadingContent current={current} />} title={title} {...restProps}>
-      <Subject id={current.id} data={current[baseKey]} />
+      <Subject data={current} baseKey={baseKey} />
       <TextField fullWidth multiline value={value} onChange={handleInput} variant="standard" />
     </StudyContainer>
   );

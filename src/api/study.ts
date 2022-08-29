@@ -48,6 +48,9 @@ export interface WriteWordInfo {
   content: string;
   tips: Tips;
   answer: string;
+  audioAttach?: Attach;
+  imageAttach?: Attach;
+  videoAttach?: Attach;
 }
 
 export interface SortingInfo extends ReadInfo {

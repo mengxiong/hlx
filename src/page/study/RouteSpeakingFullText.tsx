@@ -39,6 +39,8 @@ export function SpeakingFullText({ data, title }: SpeakingFullTextProps) {
   const { current, isLoading, onConfirm, ...restProps } = useStudy({
     data,
     reset,
+    validateText: '请先录音',
+    validate: () => audio === undefined,
     isCorrect,
   });
 

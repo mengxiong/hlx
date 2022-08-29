@@ -1,8 +1,8 @@
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Toaster } from 'react-hot-toast';
 import { HashRouter } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
 import { Routes } from './Routes';
 import { Theme } from './theme';
 import { queryClient } from './queryClient';
@@ -19,7 +19,10 @@ export function App() {
         <HashRouter basename={basename}>
           <Routes />
         </HashRouter>
-        <Toaster />
+        <SnackbarProvider
+          autoHideDuration={1500}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        ></SnackbarProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Theme>

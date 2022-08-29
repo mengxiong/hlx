@@ -1,11 +1,9 @@
 import { verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { Box, Paper } from '@mui/material';
 import { useState } from 'react';
-import { Attach, SortingInfo } from 'src/api/study';
+import { SortingInfo } from 'src/api/study';
 import { Sortable } from 'src/component/Sortable';
-import { isAscendingOrder } from 'src/util';
-import { PickByValue } from 'utility-types';
-import { Subject } from './Subject';
+import { Subject, SubjectBaseKeys } from './Subject';
 import { StudyContainer } from './Container';
 import { useStudy } from './useStudy';
 import { ReadingContent } from './RouteReading';
@@ -13,7 +11,7 @@ import { ReadingContent } from './RouteReading';
 interface SortingProps {
   data: SortingInfo[];
   title: string;
-  baseKey?: keyof PickByValue<Required<SortingInfo>, string | Attach> | 'attach';
+  baseKey?: SubjectBaseKeys<SortingInfo>;
   vertical?: boolean;
 }
 
@@ -27,7 +25,16 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
     data,
     reset,
     needRestart,
-    isCorrect: () => (value ? isAscendingOrder(value.map((v) => +v.id)) : false),
+    isCorrect: (item) => {
+      // 会有 content 一样的选项, 直接对比整个字符串
+      const result = item.options
+        .slice()
+        .sort((a, b) => +a.value - +b.value)
+        .map((v) => v.content)
+        .join('');
+      const answer = (value || item.options).map((v) => v.content).join('');
+      return result === answer;
+    },
   });
 
   const items = value || current.options.map((v) => ({ id: v.value, content: v.content }));
@@ -38,16 +45,7 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
       title={title}
       {...restProps}
     >
-      {baseKey && (
-        <Subject
-          id={current.id!}
-          data={
-            baseKey === 'attach'
-              ? [current.audioAttach, current.videoAttach, current.imageAttach]
-              : current[baseKey]
-          }
-        />
-      )}
+      {baseKey && <Subject data={current} baseKey={baseKey} />}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: vertical ? 'column' : 'row' }}>
         <Sortable
           strategy={vertical ? verticalListSortingStrategy : undefined}
@@ -58,7 +56,7 @@ export function Sorting({ data, title, baseKey, vertical = false }: SortingProps
               variant="outlined"
               ref={setNodeRef}
               style={style}
-              sx={vertical ? { p: '0.5em', my: 1 } : { p: '0.5em', mr: 1 }}
+              sx={vertical ? { p: '0.5em', my: 1 } : { p: '0.5em', mr: '1px' }}
               {...listeners}
               {...attributes}
             >

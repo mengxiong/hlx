@@ -86,7 +86,9 @@ const theme = createTheme({
 });
 
 theme.typography.study = {
-  fontSize: '1.2rem',
+  fontSize: '1rem',
+  whiteSpace: 'pre-wrap',
+  userSelect: 'none',
   [theme.breakpoints.up('sm')]: {
     fontSize: '1.5rem',
   },
