@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { recordStudy, StudyParams } from 'src/api/study';
-import { TextBookUnitStep } from 'src/api/textbook';
+import { getTextbookUnitStep } from 'src/api/textbook';
 import { generateStudyPath } from 'src/Routes';
 
 export function useSubmit() {
@@ -21,9 +21,15 @@ export function useSubmit() {
   }, []);
 
   const { mutate, isLoading } = useMutation(recordStudy, {
-    onSuccess() {
-      const stepList = queryClient.getQueryData<TextBookUnitStep[]>(['unit', textbookId, unitId]);
-      if (stepList) {
+    async onSuccess() {
+      try {
+        const stepList = await queryClient.fetchQuery(
+          ['unit', textbookId, unitId],
+          () => getTextbookUnitStep({ textbookId, unitId }),
+          {
+            staleTime: 15 * 60 * 1000,
+          }
+        );
         const index = stepList.findIndex((item) => item.stepNum === stepId);
         if (index !== stepList.length - 1) {
           const next = stepList[index + 1];
@@ -33,7 +39,7 @@ export function useSubmit() {
         } else {
           navigate(-1);
         }
-      } else {
+      } catch (error) {
         navigate(-1);
       }
     },
