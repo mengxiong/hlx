@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import { UseQueryResult } from 'react-query';
+import { UseQueryResult } from '@tanstack/react-query';
 import { Box, CircularProgress, Fade } from '@mui/material';
 import { Sx } from 'src/types';
 import { Empty } from './Empty';

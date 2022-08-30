@@ -1,6 +1,6 @@
 import { Tab, Tabs } from '@mui/material';
 import { useCallback, useEffect } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getTextbookUnit } from 'src/api/textbook';
 import { isObject } from 'src/util';

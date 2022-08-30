@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import bg from 'src/assets/image/login-bg.png';
 import logo from 'src/assets/image/login-logo.png';
 import { login } from 'src/api/auth';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import { auth } from 'src/auth/auth';
 import { AccountPassword } from './AccountPassword';
 import { VerificationCode } from './VerificationCode';

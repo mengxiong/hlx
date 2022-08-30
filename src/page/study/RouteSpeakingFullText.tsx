@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { checkVoice, FullTextInfo } from 'src/api/study';
 import { AudioRecorder } from 'src/component/AudioRecorder';

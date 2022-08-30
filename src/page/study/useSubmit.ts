@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useEffect, useRef } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { recordStudy, StudyParams } from 'src/api/study';
 import { getTextbookUnitStep } from 'src/api/textbook';

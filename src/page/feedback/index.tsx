@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography, Button, TextField } from '@mui/material';
 import { useState } from 'react';
-import { useInfiniteQuery, useMutation } from 'react-query';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
 import { createFeedback, FeedbackContent, getFeedbackList } from 'src/api/feedback';
 import { Modal } from 'src/component/DialogBasic';
 import { InfiniteScroll } from 'src/component/InfiniteScroll';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getStudyInfo, StepValue, StudyParams } from 'src/api/study';
 import { QueryContainer } from 'src/component/QueryContainer';

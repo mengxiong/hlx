@@ -8,7 +8,7 @@ import {
   Tab,
   Tabs,
 } from '@mui/material';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router-dom';
 import { getTextbooks, TextbookType } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';

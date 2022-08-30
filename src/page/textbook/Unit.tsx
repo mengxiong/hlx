@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Link, useParams } from 'react-router-dom';
 import { getTextbookUnitStep } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';

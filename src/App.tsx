@@ -1,5 +1,4 @@
-import { QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClientProvider } from '@tanstack/react-query';
 import CssBaseline from '@mui/material/CssBaseline';
 import { HashRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
@@ -23,7 +22,6 @@ export function App() {
           autoHideDuration={1500}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         ></SnackbarProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Theme>
   );
