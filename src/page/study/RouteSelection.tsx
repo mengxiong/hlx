@@ -12,9 +12,10 @@ interface SelectionProps {
   data: SelectionInfo[];
   title: string;
   baseKey: SubjectBaseKeys<SelectionInfo>;
+  multiple?: boolean;
 }
 
-export function Selection({ data, title, baseKey }: SelectionProps) {
+export function Selection({ data, title, baseKey, multiple = false }: SelectionProps) {
   const [value, setValue] = useState<string>('');
 
   const reset = () => setValue('');
@@ -25,8 +26,6 @@ export function Selection({ data, title, baseKey }: SelectionProps) {
     validate: () => value === '',
     isCorrect: (item) => value === item.answer,
   });
-
-  const multiSelect = current.answer.indexOf('|') !== -1;
 
   const options = uniqBy(
     current.options.map((v) => ({
@@ -39,7 +38,7 @@ export function Selection({ data, title, baseKey }: SelectionProps) {
   return (
     <StudyContainer tips={current.tips && <Tips {...current.tips} />} title={title} {...restProps}>
       <Subject data={current} baseKey={baseKey} />
-      {multiSelect ? (
+      {multiple ? (
         <CheckboxGroup
           value={value ? value.split('|') : []}
           onChange={(v) => setValue(v.sort().join('|'))}

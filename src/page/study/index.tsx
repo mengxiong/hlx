@@ -45,6 +45,7 @@ const map: {
     <Selection
       title="常规选择"
       data={[]}
+      multiple
       baseKey={['content', 'imageAttach', 'audioAttach', 'videoAttach']}
     />
   ), // 有提示 错误重来
