@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getStudyInfo, StepValue, StudyParams } from 'src/api/study';
 import { QueryContainer } from 'src/component/QueryContainer';
+import { Box } from '@mui/material';
 import { WriteWord } from './RouteWriteWord';
 import { Reading } from './RouteReading';
 import { Sorting } from './RouteSorting';
@@ -84,11 +85,20 @@ export function Study<T extends StepValue>() {
   }
 
   return (
-    <QueryContainer
-      sx={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}
-      {...info}
+    <Box
+      sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 100,
+        background: '#fff',
+      }}
     >
-      {children}
-    </QueryContainer>
+      <QueryContainer sx={{ height: '100%' }} {...info}>
+        {children}
+      </QueryContainer>
+    </Box>
   );
 }

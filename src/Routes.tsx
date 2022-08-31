@@ -16,24 +16,12 @@ declare module 'react-router-dom' {
   }
 }
 
-export const generateStudyPath = (
-  type: string,
-  textbookId: string,
-  unitId: string,
-  stepId: string,
-  stepValue: string
-) => `/textbook/${type}/${textbookId}/unit/${unitId}/step/${stepId}/${stepValue}`;
+export const generateStudyPath = ({ stepId, stepValue }: { stepId: string; stepValue: string }) => {
+  return `step/${stepId}/${stepValue}`;
+};
 
 export const routesConfig: RouteObject[] = [
   { path: '/login', element: <LoginPage /> },
-  {
-    path: generateStudyPath(':type', ':textbookId', ':unitId', ':stepId', ':stepValue'),
-    element: (
-      <AuthRequired>
-        <Study />
-      </AuthRequired>
-    ),
-  },
   {
     path: '/',
     element: (
@@ -47,7 +35,18 @@ export const routesConfig: RouteObject[] = [
       {
         path: 'textbook/:type/:textbookId',
         element: <Textbook />,
-        children: [{ path: 'unit/:unitId', element: <Unit /> }],
+        children: [
+          {
+            path: 'unit/:unitId',
+            element: <Unit />,
+            children: [
+              {
+                path: generateStudyPath({ stepId: ':stepId', stepValue: ':stepValue' }),
+                element: <Study />,
+              },
+            ],
+          },
+        ],
       },
       { path: 'history', element: <StudyRecord />, breadcrumbName: '学习记录' },
       { path: 'feedback', element: <Feedback />, breadcrumbName: '问题反馈' },
@@ -57,6 +56,5 @@ export const routesConfig: RouteObject[] = [
 
 export function Routes() {
   const element = useRoutes(routesConfig);
-
   return <AuthProvider>{element}</AuthProvider>;
 }

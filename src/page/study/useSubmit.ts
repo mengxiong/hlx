@@ -1,16 +1,16 @@
 import dayjs from 'dayjs';
 import { useEffect, useRef } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { recordStudy, StudyParams } from 'src/api/study';
-import { getTextbookUnitStep } from 'src/api/textbook';
+import { getTextbookUnitStep, TextBookUnitStep } from 'src/api/textbook';
 import { generateStudyPath } from 'src/Routes';
 
 export function useSubmit() {
-  const { type, textbookId, unitId, stepId, stepValue } = useParams() as StudyParams<any> & {
-    type: string;
-  };
+  const { textbookId, unitId, stepId, stepValue } = useParams() as StudyParams<any>;
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const queryClient = useQueryClient();
 
@@ -23,17 +23,20 @@ export function useSubmit() {
   const { mutate, isLoading } = useMutation(recordStudy, {
     async onSuccess() {
       try {
-        const stepList = await queryClient.fetchQuery(
-          ['unit', textbookId, unitId],
-          () => getTextbookUnitStep({ textbookId, unitId }),
-          {
-            staleTime: 15 * 60 * 1000,
-          }
-        );
+        let stepList = queryClient.getQueryData<TextBookUnitStep[]>(['unit', textbookId, unitId])!;
+        if (!stepList) {
+          stepList = await queryClient.fetchQuery(['unit', textbookId, unitId], () =>
+            getTextbookUnitStep({ textbookId, unitId })
+          );
+        }
         const index = stepList.findIndex((item) => item.stepNum === stepId);
         if (index !== stepList.length - 1) {
           const next = stepList[index + 1];
-          navigate(generateStudyPath(type, textbookId, unitId, next.stepNum, next.stepValue), {
+          const nextPath = location.pathname.replace(
+            generateStudyPath({ stepId, stepValue }),
+            generateStudyPath({ stepId: next.stepNum, stepValue: next.stepValue })
+          );
+          navigate(nextPath, {
             replace: true,
           });
         } else {
