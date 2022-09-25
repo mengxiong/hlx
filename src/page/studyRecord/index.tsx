@@ -3,21 +3,8 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getStudyRecord, StudyRecordContent } from 'src/api/studyRecord';
 import { CircularProgressWithLabel } from 'src/component/CircularProgressWithLabel';
 import { InfiniteScroll } from 'src/component/InfiniteScroll';
+import { getTimeFormat } from 'src/util';
 import { PageContainer } from '../layout/PageContainer';
-
-const getTime = (time: number) => {
-  let minutes = Math.floor(time / 60);
-  const hours = Math.floor(minutes / 60);
-  minutes %= 60;
-  const seconds = time % 60;
-  if (hours) {
-    return `${hours}时${minutes}分`;
-  }
-  if (minutes) {
-    return `${minutes}分${seconds}秒`;
-  }
-  return `${seconds}秒`;
-};
 
 const groupByDate = (list?: StudyRecordContent[]) => {
   if (!list || list.length === 0) {
@@ -81,7 +68,9 @@ export function StudyRecord() {
                           <Box component="span" sx={{ mx: 1 }}>
                             课程得分: {item.onlineAllScore}
                           </Box>
-                          <Box component="span">学时: {getTime(parseInt(item.studyTime, 10))}</Box>
+                          <Box component="span">
+                            学时: {getTimeFormat(parseInt(item.studyTime, 10))}
+                          </Box>
                         </>
                       }
                     ></ListItemText>

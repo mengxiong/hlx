@@ -37,3 +37,17 @@ export function isSameSentence(a: string, b: string) {
   const removeRest = (str: string) => str.replace(/[\p{P}]/gu, '').replace(/\s{2,}/g, ' ');
   return removeRest(a).toLowerCase() === removeRest(b).toLowerCase();
 }
+
+export function getTimeFormat(time: number) {
+  let minutes = Math.floor(time / 60);
+  const hours = Math.floor(minutes / 60);
+  minutes %= 60;
+  const seconds = time % 60;
+  if (hours) {
+    return `${hours}时${minutes}分`;
+  }
+  if (minutes) {
+    return `${minutes}分${seconds}秒`;
+  }
+  return `${seconds}秒`;
+}

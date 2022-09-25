@@ -12,7 +12,7 @@ import { LoadingButton } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
 
 export interface ModalProps extends DialogProps {
-  title: string;
+  title?: string;
   onConfirm?: () => void;
   onClose: () => void;
   children: React.ReactNode;
@@ -22,7 +22,7 @@ export interface ModalProps extends DialogProps {
 }
 
 export function Modal({
-  title,
+  title = '',
   open,
   children,
   onClose,
