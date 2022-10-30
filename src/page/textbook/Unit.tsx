@@ -32,6 +32,7 @@ export function Unit() {
                 <ListItemButton
                   component={Link}
                   to={generateStudyPath({ stepId: value.stepNum, stepValue: value.stepValue })}
+                  state={{ title: value.title }}
                   disabled={disabled}
                 >
                   <ListItemIcon sx={{ minWidth: 0, mr: 1.5 }}>

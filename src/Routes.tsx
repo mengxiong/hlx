@@ -51,7 +51,7 @@ export const routesConfig: RouteObject[] = [
         ],
       },
       { path: 'history', element: <StudyRecord />, breadcrumbName: '学习记录' },
-      { path: 'feedback', element: <Feedback />, breadcrumbName: '问题反馈' },
+      { path: 'feedback', element: <Feedback />, breadcrumbName: '师生互动' },
       { path: 'exams', element: <ExamList />, breadcrumbName: '现在测评' },
     ],
   },

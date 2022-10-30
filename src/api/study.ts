@@ -135,7 +135,7 @@ export type StudyInfoMap = {
   [StepValue.SpeakingByFullword]: FullTextInfo[];
 };
 
-export type StudyParams<T extends StepValue> = {
+export type StudyParams<T extends StepValue = StepValue> = {
   textbookId: string;
   unitId: string;
   stepId: string;

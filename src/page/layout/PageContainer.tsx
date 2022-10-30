@@ -20,6 +20,7 @@ export function PageContainer({
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
+        overflowX: 'hidden',
       }}
     >
       <Box

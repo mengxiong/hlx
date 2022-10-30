@@ -37,7 +37,7 @@ export function Selection({ data, title, baseKey, multiple = false }: SelectionP
 
   return (
     <StudyContainer tips={current.tips && <Tips {...current.tips} />} title={title} {...restProps}>
-      <Subject data={current} baseKey={baseKey} />
+      <Subject mediaFirst={multiple} data={current} baseKey={baseKey} />
       {multiple ? (
         <CheckboxGroup
           value={value ? value.split('|') : []}

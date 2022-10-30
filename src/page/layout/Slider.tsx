@@ -29,7 +29,7 @@ export const navList: Item[] = [
   },
   {
     key: '/feedback',
-    label: '问题反馈',
+    label: '师生互动',
     icon: <HistoryIcon />,
   },
 ];
