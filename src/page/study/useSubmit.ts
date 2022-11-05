@@ -1,18 +1,19 @@
 import dayjs from 'dayjs';
 import { useEffect, useRef } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { recordStudy, StudyParams } from 'src/api/study';
-import { getTextbookUnitStep, TextBookUnitStep } from 'src/api/textbook';
 import { generateStudyPath } from 'src/Routes';
+import { useSteps } from '../textbook/Unit';
 
 export function useSubmit() {
   const { textbookId, unitId, stepId, stepValue } = useParams() as StudyParams<any>;
 
+  const steps = useSteps();
+  // const step = steps.find((v) => String(v.stepNum) === stepId);
+
   const navigate = useNavigate();
   const location = useLocation();
-
-  const queryClient = useQueryClient();
 
   const startTime = useRef(0);
 
@@ -23,15 +24,9 @@ export function useSubmit() {
   const { mutate, isLoading } = useMutation(recordStudy, {
     async onSuccess() {
       try {
-        let stepList = queryClient.getQueryData<TextBookUnitStep[]>(['unit', textbookId, unitId])!;
-        if (!stepList) {
-          stepList = await queryClient.fetchQuery(['unit', textbookId, unitId], () =>
-            getTextbookUnitStep({ textbookId, unitId })
-          );
-        }
-        const index = stepList.findIndex((item) => item.stepNum === stepId);
-        if (index !== stepList.length - 1) {
-          const next = stepList[index + 1];
+        const index = steps.findIndex((item) => item.stepNum === stepId);
+        if (index !== steps.length - 1) {
+          const next = steps[index + 1];
           const nextPath = location.pathname.replace(
             generateStudyPath({ stepId, stepValue }),
             generateStudyPath({ stepId: next.stepNum, stepValue: next.stepValue })

@@ -2,8 +2,8 @@ import { Paper, Container, Stack, Button, ButtonProps } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Header } from 'src/component/Header';
 import { DialogFullscreen } from 'src/component/DialogFullscreen';
-import { useLocation } from 'react-router-dom';
-import { isObject } from 'src/util';
+import { useParams } from 'react-router-dom';
+import { useSteps } from '../textbook/Unit';
 
 export interface StudyContainerProps {
   title: string;
@@ -36,9 +36,11 @@ export function StudyContainer({
   children,
   footer,
 }: StudyContainerProps) {
-  const location = useLocation();
+  const steps = useSteps();
+  const { stepId } = useParams();
+  const step = steps.find((v) => String(v.stepNum) === stepId);
 
-  const headerTitle = isObject(location.state) ? location.state.title : title;
+  const headerTitle = step ? step.title : title;
 
   return (
     <Paper sx={{ display: 'flex', height: '100%', flexDirection: 'column' }}>

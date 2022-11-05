@@ -1,7 +1,7 @@
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { Link, Outlet, useParams } from 'react-router-dom';
-import { getTextbookUnitStep } from 'src/api/textbook';
+import { Link, Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { getTextbookUnitStep, TextBookUnitStep } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';
 import { generateStudyPath } from 'src/Routes';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -32,7 +32,6 @@ export function Unit() {
                 <ListItemButton
                   component={Link}
                   to={generateStudyPath({ stepId: value.stepNum, stepValue: value.stepValue })}
-                  state={{ title: value.title }}
                   disabled={disabled}
                 >
                   <ListItemIcon sx={{ minWidth: 0, mr: 1.5 }}>
@@ -49,7 +48,11 @@ export function Unit() {
           })}
         </List>
       </QueryContainer>
-      <Outlet />
+      <Outlet context={data} />
     </>
   );
+}
+
+export function useSteps() {
+  return useOutletContext<TextBookUnitStep[]>();
 }
