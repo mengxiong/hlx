@@ -1,6 +1,6 @@
 import { Box, List, ListItem, ListItemText, ListSubheader } from '@mui/material';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getStudyRecord, StudyRecordContent } from 'src/api/studyRecord';
+import { getStudyRecord, StudyRecordContent } from 'src/api/record';
 import { CircularProgressWithLabel } from 'src/component/CircularProgressWithLabel';
 import { InfiniteScroll } from 'src/component/InfiniteScroll';
 import { getTimeFormat } from 'src/util';

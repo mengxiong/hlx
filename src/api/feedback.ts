@@ -1,5 +1,5 @@
 import { request } from 'src/request';
-import { ListPageSize, PageParams } from './studyRecord';
+import { ListPageSize, PageParams } from './record';
 
 export function createFeedback(content: string) {
   return request.post('common/feedback/add', { content });

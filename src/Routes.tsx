@@ -11,6 +11,7 @@ import { StudyRecord } from './page/studyRecord';
 import { Feedback } from './page/feedback';
 import { ExamList } from './page/examList';
 import { ExamDetail } from './page/exam';
+import { ExamRecord } from './page/examRecord';
 
 declare module 'react-router-dom' {
   interface RouteObject {
@@ -53,6 +54,7 @@ export const routesConfig: RouteObject[] = [
       { path: 'history', element: <StudyRecord />, breadcrumbName: '学习记录' },
       { path: 'feedback', element: <Feedback />, breadcrumbName: '师生互动' },
       { path: 'exams', element: <ExamList />, breadcrumbName: '现在测评' },
+      { path: 'recordExam', element: <ExamRecord />, breadcrumbName: '测评记录' },
     ],
   },
   {
