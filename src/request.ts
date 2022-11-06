@@ -35,6 +35,6 @@ request.interceptors.response.use(
       auth.clear();
     }
     enqueueSnackbar(msg, { variant: 'error' });
-    return Promise.reject(err);
+    return Promise.reject(new Error(`:( ${msg}`));
   }
 );
