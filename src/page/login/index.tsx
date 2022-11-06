@@ -6,6 +6,7 @@ import logo from 'src/assets/image/login-logo.png';
 import { login } from 'src/api/auth';
 import { useMutation } from '@tanstack/react-query';
 import { auth } from 'src/auth/auth';
+import { queryClient } from 'src/queryClient';
 import { AccountPassword } from './AccountPassword';
 import { VerificationCode } from './VerificationCode';
 
@@ -18,6 +19,7 @@ export function LoginPage() {
   const loginMutation = useMutation(login, {
     onSuccess(data) {
       auth.set(data);
+      queryClient.clear();
       const from = (location.state as any)?.from || '/';
       navigate(from, { replace: true });
     },
