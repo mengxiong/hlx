@@ -17,7 +17,6 @@ export interface TextbookListProps {
 export function TextbookList({ data }: TextbookListProps) {
   const [type] = useTextbookType();
   const location = useLocation();
-  console.log(location);
   return (
     <List>
       {data.map((value, index) => (

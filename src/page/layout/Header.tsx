@@ -13,8 +13,11 @@ import logo from 'src/assets/image/logo.png';
 import { Notifications } from '@mui/icons-material';
 import { useState } from 'react';
 import { auth } from 'src/auth/auth';
+import { useUser } from 'src/auth/AuthContext';
 
 export function Header({ children }: { children?: React.ReactNode }) {
+  const user = useUser()!;
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -49,7 +52,7 @@ export function Header({ children }: { children?: React.ReactNode }) {
         ></Link>
         <span style={{ flex: '1 1 0%' }}></span>
         <IconButton size="large" color="inherit">
-          <Badge badgeContent={7} color="error">
+          <Badge badgeContent={0} color="error">
             <Notifications />
           </Badge>
         </IconButton>
@@ -59,7 +62,7 @@ export function Header({ children }: { children?: React.ReactNode }) {
           onClick={handleProfileMenuOpen}
           color="inherit"
         >
-          <Avatar>H</Avatar>
+          <Avatar>{user.realName[0]}</Avatar>
         </IconButton>
         <Menu
           anchorEl={anchorEl}
@@ -75,7 +78,7 @@ export function Header({ children }: { children?: React.ReactNode }) {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem dense>15623530290</MenuItem>
+          <MenuItem dense>{user.username}</MenuItem>
           <Divider />
           <MenuItem dense onClick={() => auth.clear()}>
             退出
