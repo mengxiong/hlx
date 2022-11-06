@@ -11,9 +11,11 @@ export function Textbook() {
   const navigate = useNavigate();
   const { textbookId, unitId, type } = useParams();
 
+  const prefix = location.pathname.match(/^\/\w+/)![0];
+
   const replaceBreadcrumbs = () => {
     return [
-      { path: `/textbooks?type=${type}`, name: '已选课程' },
+      { path: `${prefix}?type=${type}`, name: prefix === '/textbook' ? '已选课程' : '全部课程' },
       { path: location.pathname, name: isObject(location.state) ? location.state.title : '' },
     ];
   };

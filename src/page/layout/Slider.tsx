@@ -1,5 +1,6 @@
 // import PersonIcon from '@mui/icons-material/Person';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import HistoryIcon from '@mui/icons-material/History';
 import ArticleIcon from '@mui/icons-material/Article';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
@@ -14,11 +15,15 @@ interface Item {
 
 export const navList: Item[] = [
   {
-    key: '/textbooks',
+    key: '/alltextbook',
+    label: '全部课程',
+    icon: <LibraryBooksIcon />,
+  },
+  {
+    key: '/textbook',
     label: '已选课程',
     icon: <MenuBookIcon />,
   },
-
   {
     key: '/history',
     label: '学习记录',

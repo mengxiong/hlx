@@ -1,4 +1,5 @@
 import { request } from 'src/request';
+import { ListPageSize } from './record';
 
 export interface TextBooks {
   textBooks: TextBook[];
@@ -10,7 +11,7 @@ export interface TextBook {
   label: string;
   imageUrl: string;
   totalUnit: string;
-  selected: string;
+  selected?: string;
   desc: string;
   subType: string;
 }
@@ -38,11 +39,15 @@ export const enum TextbookType {
   English = '001002',
 }
 
+export function getAllTextbooks(params: { subType: TextbookType; page: number; size: number }) {
+  return request.post<any, ListPageSize<TextBook>>('/study/textbook', { ...params, authType: '2' });
+}
+
 /**
- * 获取课程
+ * 获取已选课程
  * @param type '001001' 是汉语 '001002' 是英语
  */
-export function getTextbooks(subType = TextbookType.English) {
+export function getOwnTextbooks(subType = TextbookType.English) {
   return request.post<any, TextBooks>('/study/authtextbook', { subType });
 }
 

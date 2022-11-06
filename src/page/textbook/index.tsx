@@ -1,59 +1,65 @@
-import {
-  Avatar,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemText,
-  Tab,
-  Tabs,
-} from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useSearchParams } from 'react-router-dom';
-import { getTextbooks, TextbookType } from 'src/api/textbook';
+import { getOwnTextbooks, getAllTextbooks } from 'src/api/textbook';
 import { QueryContainer } from 'src/component/QueryContainer';
 import { PageContainer } from 'src/page/layout/PageContainer';
+import { useState } from 'react';
+import { Pagination } from '@mui/material';
+import { TextbookTabs } from './TextbookTabs';
+import { TextbookList } from './TextbookList';
+import { useTextbookType } from './useTextbookType';
 
-export function TextbookList() {
-  const [searchParams, setSearchParams] = useSearchParams();
+export function OwnTextbook() {
+  const [type] = useTextbookType();
 
-  const type = (searchParams.get('type') as TextbookType) || TextbookType.English;
-
-  const result = useQuery(['textbooks', type], () => getTextbooks(type));
-
-  const handleChange = (evt: React.SyntheticEvent, value: TextbookType) => {
-    setSearchParams({ type: value });
-  };
+  const result = useQuery(['owntextbooks', type], () => getOwnTextbooks(type));
 
   const items = result.data?.textBooks || [];
 
   return (
     <PageContainer>
-      <Tabs variant="scrollable" value={type} onChange={handleChange}>
-        <Tab label="英语课程" value={TextbookType.English} />
-        <Tab label="汉语课程" value={TextbookType.Chinese} />
-      </Tabs>
+      <TextbookTabs></TextbookTabs>
       <QueryContainer sx={{ flex: 1, overflow: 'auto' }} isEmpty={items.length === 0} {...result}>
-        <List>
-          {items.map((value, index) => (
-            <ListItem divider={index !== items.length - 1} disablePadding key={value.id}>
-              <ListItemButton
-                component={Link}
-                to={`/textbook/${type}/${value.id}`}
-                state={{ title: value.label }}
-              >
-                <ListItemAvatar>
-                  <Avatar variant="square" src={value.imageUrl}></Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={value.label}
-                  secondary={`共 ${value.totalUnit} 课`}
-                ></ListItemText>
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <TextbookList data={items}></TextbookList>
       </QueryContainer>
+    </PageContainer>
+  );
+}
+
+export function AllTextbook() {
+  const [type] = useTextbookType();
+  const [page, setPage] = useState(0);
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value - 1);
+  };
+
+  const size = 10;
+
+  const result = useQuery(['alltextbooks', type, page], () =>
+    getAllTextbooks({ subType: type, page, size })
+  );
+
+  const items = result.data?.content || [];
+
+  const total = result.data?.totalElements || 0;
+
+  const pageCount = Math.floor(total / size) || 1;
+
+  return (
+    <PageContainer>
+      <TextbookTabs></TextbookTabs>
+      <QueryContainer sx={{ flex: 1, overflow: 'auto' }} isEmpty={items.length === 0} {...result}>
+        <TextbookList data={items}></TextbookList>
+      </QueryContainer>
+      <Pagination
+        sx={{ display: 'flex', justifyContent: 'flex-end', m: 1 }}
+        color="primary"
+        variant="outlined"
+        shape="rounded"
+        count={pageCount}
+        page={page + 1}
+        onChange={handleChange}
+      />
     </PageContainer>
   );
 }
