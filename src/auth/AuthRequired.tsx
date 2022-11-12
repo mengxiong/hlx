@@ -9,5 +9,9 @@ export function AuthRequired({ children }: { children: JSX.Element }) {
     return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
+  if (!user.registerFlag) {
+    return <Navigate to="/register" state={{ from: location.pathname }} replace />;
+  }
+
   return children;
 }

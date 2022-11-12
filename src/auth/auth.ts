@@ -1,4 +1,4 @@
-import { AuthInfo } from 'src/api/auth';
+import { AuthInfo, UserInfo } from 'src/api/auth';
 
 type DataCallback = (data: AuthInfo | undefined) => void;
 
@@ -28,6 +28,11 @@ class Auth {
 
   public getUser() {
     return this.data?.userInfo;
+  }
+
+  public updateUser(user: Partial<UserInfo>) {
+    const userInfo = { ...this.data!.userInfo, ...user };
+    this.set({ ...this.data!, userInfo });
   }
 
   public clear() {

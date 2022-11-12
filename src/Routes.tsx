@@ -12,6 +12,7 @@ import { Feedback } from './page/feedback';
 import { ExamList } from './page/examList';
 import { ExamDetail } from './page/exam';
 import { ExamRecord } from './page/examRecord';
+import { RegisterPage } from './page/login/Register';
 
 declare module 'react-router-dom' {
   interface RouteObject {
@@ -25,6 +26,7 @@ export const generateStudyPath = ({ stepId, stepValue }: { stepId: string; stepV
 
 export const routesConfig: RouteObject[] = [
   { path: '/login', element: <LoginPage /> },
+  { path: '/register', element: <RegisterPage /> },
   {
     path: '/',
     element: (

@@ -11,6 +11,7 @@ export interface UserInfo {
   realName: string;
   username: string; // phone
   phone: string;
+  registerFlag: 0 | 1;
 }
 
 export interface AuthInfo {
@@ -41,4 +42,16 @@ export function login(params: LoginByPassParams | LoginByCodeParams) {
     return request.post<any, AuthInfo>('/login/sms', params);
   }
   return request.post<any, AuthInfo>('/login/username', params);
+}
+
+export interface RegisterParams {
+  realName: string;
+  gander: string; // '1' | '2' 男 1 女 2
+}
+
+export function registerUser(params: RegisterParams) {
+  const data = { ...params, grade: '13', deptId: 29 };
+  return request.post('/student/register', data).then(() => {
+    return { ...data, registerFlag: 1 as const };
+  });
 }
